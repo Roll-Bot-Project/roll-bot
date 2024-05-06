@@ -1,7 +1,15 @@
 {
   "name": "koishi-plugin-roll-bot",
-  "description": "A A versatile lottery robot",
-  "version": "0.0.1",
+  "description": "A versatile lottery robot",
+  "version": "1.0.0",
+  "contributors": [
+    "Logthm <logthm@outlook.com>"
+  ],
+  "homepage": "https://docs.logthm.com/roll-bot-project",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/logthm/koishi-plugin-roll-bot.git"
+  },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -9,14 +17,38 @@
     "dist"
   ],
   "license": "MIT",
-  "scripts": {},
   "keywords": [
     "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "lottery"
   ],
-  "devDependencies": {},
   "peerDependencies": {
-    "koishi": "^4.17.3"
+    "koishi": "^4.17.5"
+  },
+  "dependencies": {
+    "luxon": "^3.4.4",
+    "node-schedule": "^2.1.1"
+  },
+  "devDependencies": {
+    "@koishijs/plugin-database-memory": "^3.2.0",
+    "@types/luxon": "^3",
+    "@types/node-schedule": "^2"
+  },
+  "koishi": {
+    "description": {
+      "en": "Provide lottery function",
+      "zh": "提供抽奖功能"
+    },
+    "service": {
+      "required": [
+        "database"
+      ]
+    },
+    "locales": [
+      "en",
+      "zh"
+    ],
+    "preview": true
   }
 }

@@ -1,11 +1,33 @@
-import { Context, Schema } from 'koishi'
+import { Context, Logger } from 'koishi'
+import { Config } from "./config";
+import * as Database from './database'
+import * as Command from './command'
+import * as Listener from './listener'
+import * as Scheduler from './schedule'
 
 export const name = 'roll-bot'
 
-export interface Config {}
+export const inject = ['database']
 
-export const Config: Schema<Config> = Schema.object({})
+export * from './config'
 
-export function apply(ctx: Context) {
-  // write your plugin here
+export const logger = new Logger('Roll Bot')
+export let rollKeyCache = {
+  content: []
 }
+export let bots
+
+export async function apply(ctx: Context, config: Config) {
+  // localization
+  ctx.i18n.define('en-US', require('./locales/en-US'))
+  ctx.i18n.define('zh-CN', require('./locales/zh-CN'))
+  // initialization
+  bots = ctx.bots
+  ctx.plugin(Database)
+  ctx.plugin(Listener, config)
+  ctx.plugin(Scheduler, config)
+  ctx.plugin(Command, config)
+
+}
+
+

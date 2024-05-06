@@ -2,4 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/koishi-plugin-roll-bot?style=flat-square)](https://www.npmjs.com/package/koishi-plugin-roll-bot)
 
-A A versatile lottery robot
+一个多功能的抽奖机器人
+
+A versatile lottery robot

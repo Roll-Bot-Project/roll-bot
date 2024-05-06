@@ -1,0 +1,25 @@
+_config:
+    adminUsers: "**Roll Bot 管理员** 的用户id (使用 inspect 指令获取)"
+    allowGuildAdminDelete: "允许 **群管理员** 对群内抽奖进行删除"
+    allowGuildAdminEnd: "允许 **群管理员** 对群内抽奖进行手动开奖"
+    allowNormalUserAdd: "允许 **普通群员** 创建抽奖"
+
+commands:
+  roll:
+    description: "抽奖功能"
+  roll.add:
+    description: "交互式地创建一个抽奖"
+  roll.delete:
+    description: "手动删除一个抽奖"
+  roll.end:
+    description: "手动进行开奖"
+  roll.list:
+    description: "查询指定群聊内的抽奖"
+  roll.detail:
+    description: "查询指定抽奖的详细描述"
+  roll.member:
+    description: "查询指定抽奖的参与成员"
+  roll.join:
+    description: "加入指定的抽奖"
+  roll.quit:
+    description: "退出指定的抽奖"
