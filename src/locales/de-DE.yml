@@ -96,7 +96,7 @@ commands:
         没有找到该抽奖
   roll.list:
     description: |-
-      查询指定群聊内的抽奖
+      查询指定频道内的抽奖
   roll.detail:
     description: |-
       查询指定抽奖的详细描述
