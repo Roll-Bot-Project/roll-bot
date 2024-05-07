@@ -2,6 +2,8 @@ import { Context } from 'koishi'
 import { Config } from "./config";
 
 import {help} from './command/help'
+import {channel} from './command/channel'
+
 import {addRoll} from './command/add'
 import {deleteRoll} from './command/delete'
 import {detailRoll} from './command/detail'
@@ -29,4 +31,5 @@ export function apply(ctx: Context, config: Config) {
   memberRoll(ctx, config)
   locale(ctx, config)
   time(ctx, config)
+  channel(ctx, config)
 }

@@ -4,6 +4,7 @@ import {hasPermission, isGuildAdmin, isPluginAdmin, isRollCreator} from "../util
 
 export function endRoll(ctx: Context, config: Config) {
   ctx.command("roll.end [rollCode]")
+    .alias('roll.draw')
     .alias('开奖')
     .userFields(['id'])
     .channelFields(['id'])
