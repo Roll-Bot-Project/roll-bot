@@ -1,204 +1,204 @@
 _config:
   basic:
     adminUsers: |-
-      **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
+      **Roll Bot Administrator** Benutzer-ID (Verwenden Sie den Inspektionsbefehl, um sie zu erhalten)
     cacheHours: |-
-      抽奖开奖后，记录保留的时间（小时）
+      Zeitraum, in dem die Aufzeichnung nach der Verlosung aufbewahrt wird (Stunden)
     timeoutSeconds: |-
-      所有交互式操作等待回复的时长（秒）
+      Die Wartezeit für alle interaktiven Aktionen (in Sekunden)
     defaultTimeOffset: |-
-      未设置时区的用户默认所在的时区（偏移量）<br />填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`
+      Standard-Zeitversatz für Benutzer ohne festgelegte Zeitzone<br />Geben Sie die Differenz zwischen lokaler Zeit und UTC an, z. B. `+5` `-9:30` `−00:25:21`
   permission:
     $description: |-
-      权限设置
+      Berechtigungseinstellungen
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对群内抽奖进行删除
+      Erlauben Sie **Kanaladministratoren**, Gewinnspiele in der Gruppe zu löschen
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对群内抽奖进行手动开奖
+      Erlauben Sie **Kanaladministratoren**, Gewinnspiele in der Gruppe manuell zu beenden
     allowNormalUserAdd: |-
-      允许 **普通成员** 创建抽奖
+      Erlauben Sie **normale Benutzer**, Gewinnspiele zu erstellen
   remind:
     $description: |-
-      提醒设置
+      Erinnerungseinstellungen
     defaultReminders: |-
-      设置默认提醒
+      Standarderinnerungen festlegen
 commands:
   timeout: |-
-    输入超时
+    Eingabezeitüberschreitung
   roll:
     description: |-
-      抽奖功能
+      Gewinnspiel-Funktion
   roll.help:
     description: |-
-      帮助信息
+      Hilfeinformationen
     messages:
       help: |-
-        <p>帮助文档：</p>
+        <p>Hilfsdokument:</p>
         <a>https://docs.logthm.com/roll-bot-project</a>
   roll.add:
     description: |-
-      交互式地创建一个抽奖
+      Interaktive Erstellung einer Verlosung
     messages:
       noAuth: |-
-        你没有权限创建抽奖
+        Sie haben keine Berechtigung, ein Gewinnspiel zu erstellen
       defaultTitle: |-
-        {0} 的抽奖
+        {0}'s Gewinnspiel
       defaultDescription: |-
-        {0} 的抽奖
+        {0}'s Gewinnspiel
       success: |-
-        创建抽奖成功，编号为 {0}
+        Gewinnspiel erfolgreich erstellt, Nummer: {0}
       title: |-
-        <p>请输入抽奖的标题：</p>
-        <p>（回复 n 使用默认内容： {0} 的抽奖）</p>
+        <p>Geben Sie den Titel des Gewinnspiels ein:</p>
+        <p>(Antworten Sie mit n, um den Standardinhalt zu verwenden: {0}'s Gewinnspiel)</p>
       description: |-
-        <p>请输入抽奖的描述：</p>
-        <p>（回复 n 使用默认内容： {0} 的抽奖）</p>
+        <p>Geben Sie die Beschreibung des Gewinnspiels ein:</p>
+        <p>(Antworten Sie mit n, um den Standardinhalt zu verwenden: {0}'s Gewinnspiel)</p>
       prize: |-
-        <p>请输入你要抽的奖品：</p>
-        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品</p>
+        <p>Geben Sie den Preis ein, der verlost werden soll:</p>
+        <p>Format: Preis*Anzahl (leer lassen für 1), jede Zeile wird als separater Preis betrachtet</p>
       autoEnd: |-
-        <p>请输入自动开奖的时间：</p>
-        <p>格式：年-月-日-时-分</p>
-        <p>当前时区： {0}</p>
-        <p>（回复 n 则不使用自动开奖）</p>
+        <p>Geben Sie die Zeit für die automatische Auslosung ein:</p>
+        <p>Format: Jahr-Monat-Tag-Stunde-Minute</p>
+        <p>Aktuelle Zeitzone: {0}</p>
+        <p>(Antworten Sie mit n, um die automatische Auslosung nicht zu verwenden)</p>
       timeError: |-
-        时间格式错误，请重新创建
+        Falsches Zeitformat, bitte erstellen Sie erneut
       pollType: |-
-        <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
-        <p>0：中奖人可重复</p>
-        <p>1：中奖人不可重复</p>
-        <p>（回复 n 使用默认类型：1）</p>
+        <p>Wählen Sie den Typ der automatischen Auslosung aus, geben Sie einfach die Nummer an:</p>
+        <p>0: Gewinner können wiederholt werden</p>
+        <p>1: Gewinner können nicht wiederholt werden</p>
+        <p>(Antworten Sie mit n, um den Standardtyp zu verwenden: 1)</p>
       pollTypeError: |-
-        抽奖类型错误，请重新创建
+        Falscher Gewinnspieltyp, bitte erstellen Sie erneut
       joinKey: |-
-        <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
-        <p>（回复 n 则不使用加入口令）</p>
+        <p>Geben Sie das Passwort ein, das zum Teilnehmen am Gewinnspiel verwendet werden soll. Benutzer können das Passwort direkt senden, um am Gewinnspiel teilzunehmen:</p>
+        <p>(Antworten Sie mit n, um das Teilnahmepasswort nicht zu verwenden)</p>
   roll.delete:
     description: |-
-      手动删除一个抽奖
+      Manuelles Löschen eines Gewinnspiels
   roll.end:
     description: |-
-      手动进行开奖
+      Manuelle Ziehung durchführen
     messages:
       wait:
         header: |-
-          <p>当前你创建的抽奖如下：</p>
+          <p>Die von Ihnen erstellten Gewinnspiele lauten wie folgt:</p>
         body:
           rollList: |-
             <p>[{roll_code}] {title}</p>
         footer: |-
-          <p>请输入要开奖的抽奖编号：</p>
+          <p>Geben Sie die Nummer des Gewinnspiels ein, das Sie öffnen möchten:</p>
       noAuth: |-
-        你没有权限进行开奖
+        Sie haben keine Berechtigung, das Gewinnspiel zu öffnen
       isEnd: |-
-        该抽奖已开奖
+        Dieses Gewinnspiel wurde bereits geöffnet
       notFound: |-
-        没有找到该抽奖
+        Das Gewinnspiel wurde nicht gefunden
   roll.list:
     description: |-
-      查询指定频道内的抽奖
+      Suche nach einer Verlosung in einem bestimmten Kanal
   roll.detail:
     description: |-
-      查询指定抽奖的详细描述
+      Überprüfen Sie die detaillierte Beschreibung der angegebenen Lotterie
     messages:
       empty: |-
-        请输入抽奖编号！
+        Bitte geben Sie die Lotterienummer ein!
       notFound: |-
-        没有找到该抽奖！
+        Die Lotterie wurde nicht gefunden!
   roll.member:
     description: |-
-      查询指定抽奖的参与成员
+      Abfragen der Teilnehmer für eine bestimmte Verlosung
     messages:
       empty: |-
-        请输入抽奖编号！
+        Bitte geben Sie die Lotterienummer ein!
       notFound: |-
-        没有找到该抽奖！
+        Die Lotterie wurde nicht gefunden!
   roll.join:
     description: |-
-      加入指定的抽奖
+      Treten Sie dem angegebenen Gewinnspiel bei
     messages:
       failed: |-
-        找不到此抽奖！
+        Die Lotterie wurde nicht gefunden!
       empty: |-
-        请输入抽奖编号！
+        Bitte geben Sie die Lotterienummer ein!
   roll.quit:
     description: |-
-      退出指定的抽奖
+      Verlassen Sie die angegebene Lotterie
     messages:
       failed: |-
-        找不到此抽奖！
+        Die Lotterie wurde nicht gefunden!
       empty: |-
-        请输入抽奖编号！
+        Bitte geben Sie die Lotterienummer ein!
   roll.time:
     description: |-
 
     messages:
       inValidFormat: |-
-        请输入正确的时区偏移值格式！
+        Bitte geben Sie das richtige Format für die Zeitzonenverschiebung ein!
       noAuth: |-
-        你没有修改的权限！
+        Sie haben keine Berechtigung zur Änderung!
       empty: |-
-        无
+        Keine
       selected: |-
-        使用此时区
+        Verwenden Sie diese Zeitzone
       result: |-
-        <p>当前时区设置：</p>
-        <p> - 群组时区：{0}</p>
-        <p> - 你的时区：{1}</p>
-        <p> - 默认时区：{2}</p>
+        <p>Aktuelle Zeitzoneneinstellung:</p>
+        <p> - Gruppenzeitzone: {0}</p>
+        <p> - Ihre Zeitzone: {1}</p>
+        <p> - Standardzeitzone: {2}</p>
       success:
         channel: |-
-          修改成功，群组当前的时区为 UTC{0}
+          Erfolgreich geändert, die Gruppenzeitzone ist jetzt UTC{0}
         user: |-
-          修改成功，你当前的时区为 UTC{0}
+          Erfolgreich geändert, Ihre Zeitzone ist jetzt UTC{0}
   roll.locale:
     description: |-
 
     messages:
       inValidFormat: |-
-        请输入正确的语言偏好格式！
+        Bitte geben Sie das richtige Format für die Sprachpräferenz ein!
       noAuth: |-
-        你没有修改的权限！
+        Sie haben keine Berechtigung zur Änderung!
       empty: |-
-        无
+        Keine
       selected: |-
-        使用此语言偏好
+        Verwenden Sie diese Sprachpräferenz
       result: |-
-        <p>当前语言偏好设置：</p>
-        <p> - 群组语言偏好：{0}</p>
-        <p> - 你的语言偏好：{1}</p>
-        <p> - 默认语言偏好：{2}</p>
+        <p>Aktuelle Sprachpräferenzeinstellung:</p>
+        <p> - Gruppensprachpräferenz: {0}</p>
+        <p> - Ihre Sprachpräferenz: {1}</p>
+        <p> - Standardsprachpräferenz: {2}</p>
       success:
         channel: |-
-          修改成功，群组当前的语言偏好为 {0}
+          Erfolgreich geändert, die Gruppensprachpräferenz ist jetzt {0}
         user: |-
-          修改成功，你当前的语言偏好为 {0}
+          Erfolgreich geändert, Ihre Sprachpräferenz ist jetzt {0}
 events:
   roll.add:
     success: |-
-      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> Erfolgreich dem Lotteriecode {rollCode} beigetreten
     failed: |-
-      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入
+      <quote id={messageId}/> Sie haben bereits am Lotteriecode {rollCode} teilgenommen, eine erneute Teilnahme ist nicht erforderlich
   roll.end:
     success: |-
-      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> Erfolgreich aus der Lotterie mit dem Code {rollCode} ausgetreten
     failed: |-
-      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> Sie haben nicht am Lotteriecode {rollCode} teilgenommen
 messageBuilder:
   marks:
     open: |-
-      [进行中]
+      [In Progress]
     end: |-
-      [已结束]
+      [Abgeschlossen]
     enable: |-
-      [启用中]
+      [Aktiviert]
     disable: |-
-      [已禁用]
+      [Deaktiviert]
   roll.list:
     error: |-
-      没有找到抽奖
+      Keine Lotterie gefunden
     header: |-
-      <p>抽奖列表：</p>
+      <p>Lotterie Liste：</p>
     listItem: |-
       <p>[{roll_code}] {title}</p>
   roll.detail:
@@ -206,33 +206,33 @@ messageBuilder:
       <p>---------</p>
     header: |-
       <p>{mark} [{roll_code}] {title}</p>
-      <p>截止时间：{endTime}</p>
-      <p>描述：{description}</p>
+      <p>Endzeit：{endTime}</p>
+      <p>Beschreibung：{description}</p>
     body:
       prizeTitle: |-
-        <p>奖品列表：</p>
+        <p>Preisliste：</p>
       prizeListItem: |-
         <p>{name} * {amount}</p>
       winnerTitle: |-
-        <p>中奖名单：</p>
+        <p>Gewinnerliste：</p>
       winner: |-
-        <p>{userName} ({userId}) 获得了：</p>
+        <p>{userName} ({userId}) hat gewonnen：</p>
       winList: |-
         <p> - {name} * {amount}</p>
   roll.member:
     empty: |-
-      当前抽奖没有参与成员
+      Es gibt keine teilnehmenden Mitglieder für diese Lotterie
     header: |-
-      <p>抽奖 {0} 的参与成员：</p>
+      <p>Teilnehmende Mitglieder für Lotterie {0}：</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      抽奖 {0} 开奖啦！<br />
-      <p>恭喜以下用户：</p>
+      Lotterie {0} wurde gezogen!<br />
+      <p>Herzlichen Glückwunsch an folgende Benutzer：</p>
     body:
       winner: |-
-        <p>{userName} ({userId}) 获得了：</p>
+        <p>{userName} ({userId}) hat gewonnen：</p>
       winList: |-
         <p> - {name} * {amount}</p>
