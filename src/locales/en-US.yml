@@ -35,12 +35,18 @@ commands:
       help: |-
         <p>Help document：</p>
         <a>https://docs.logthm.com/roll-bot-project</a>
+  roll.channel:
+    description: |-
+      获取当前频道的频道id
+    messages:
+      result: |-
+        当前频道id为：{0}
   roll.add:
     description: |-
       Interactive creation of a drawing
     messages:
       noAuth: |-
-        You do not have permission to create prizes
+        你没有权限创建抽奖！
       defaultTitle: |-
         {0} Pickup Award
       defaultDescription: |-
@@ -48,28 +54,28 @@ commands:
       success: |-
         Pickup successfully created with {0}
       title: |-
-        <p>Please enter the title of the lottery:</p>
-        <p>(Reply n to use default content: {0}'s lottery)</p>
+        <p>请输入抽奖的标题：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
       description: |-
-        <p>Please enter a drawing description of：</p>
-        <p>(reply to n/use the default drawing of： {0} )</p>
+        <p>请输入抽奖的描述：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
       prize: |-
-        <p>Please enter the prize：</p>
-        <p>the number of prizes in the format * (empty to 1) and each line is a separate prize</p>
+        <p>请输入你要抽的奖品：</p>
+        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
       autoEnd: |-
-        <p>Please enter：</p>
-        <p>format：years-month-time-hour-minutes</p>
-        <p>current timezone： {0}</p>
-        <p>(reply to n/do not use auto-open prizes)</p>
+        <p>请输入自动开奖的时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+        <p>（回复 n 则不使用自动开奖）</p>
       timeError: |-
-        Time format error, please recreate
+        时间格式错误，请重新创建！
       pollType: |-
         <p>Please select the type of automatic lottery, just reply with a number:</p>
         <p>0: Winners can repeat</p>
         <p>1: Winners cannot repeat</p>
         <p>(Reply n to use default type: 1)</p>
       pollTypeError: |-
-        Incorrect drawing type. Please recreate
+        抽奖类型错误，请重新创建！
       joinKey: |-
         <p>Please enter the passphrase to join the lottery. Users can send a password directly to add the premium：Aformat@@1</p>
         <p>(reply n instead of joining the password)</p>
@@ -89,11 +95,11 @@ commands:
         footer: |-
           <p>Please enter the drawing number：</p> for the Award
       noAuth: |-
-        You do not have permission to award
+        你没有权限进行开奖！
       isEnd: |-
-        The drawing has been awarded
+        该抽奖已开奖！
       notFound: |-
-        No prizes found
+        没有找到该抽奖！
   roll.list:
     description: |-
       Queries about selected awards within a specified channel
@@ -148,9 +154,9 @@ commands:
         <p> - Default timezone：{2}</p>
       success:
         channel: |-
-          Successfully modified, the current time zone for the group is UTC{0}
+          修改成功，群组当前的时区为 UTC{0}。
         user: |-
-          Successfully modified, your current time zone is UTC{0}
+          修改成功，你当前的时区为 UTC{0}。
   roll.locale:
     description: |-
 
@@ -170,20 +176,20 @@ commands:
         <p> - Default language preference: {2}</p>
       success:
         channel: |-
-          Modified successfully, group current language preferences are {0}
+          修改成功，群组当前的语言偏好为 {0}。
         user: |-
-          Modified successfully, your current language preference is {0}
+          修改成功，你当前的语言偏好为 {0}。
 events:
   roll.add:
     success: |-
-      <quote id={messageId}/> Successfully joined lottery with code {rollCode}
+      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖。
     failed: |-
-      <quote id={messageId}/> You have already joined lottery with code {rollCode}, no need to join again
+      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入。
   roll.end:
     success: |-
-      <quote id={messageId}/> Successfully exited lottery with code {rollCode}
+      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖。
     failed: |-
-      <quote id={messageId}/> You have not joined lottery with code {rollCode}
+      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖。
 messageBuilder:
   marks:
     open: |-
@@ -196,7 +202,7 @@ messageBuilder:
       [已禁用]
   roll.list:
     error: |-
-      No prizes were found
+      没有找到抽奖！
     header: |-
       <p>Pick-up list：</p>
     listItem: |-
@@ -221,7 +227,7 @@ messageBuilder:
         <p> - {name} * {amount}</p>
   roll.member:
     empty: |-
-      There are currently no participants in the drawing
+      当前抽奖没有参与成员！
     header: |-
       <p>Award {0} participant：</p>
     body:
