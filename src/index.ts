@@ -7,7 +7,7 @@ import * as Scheduler from './schedule'
 
 export const name = 'roll-bot'
 
-export const inject = ['database']
+export const inject = ['database', 'assets']
 
 export * from './config'
 

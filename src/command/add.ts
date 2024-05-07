@@ -72,7 +72,7 @@ export function addRoll(ctx: Context, config: Config) {
         if (!prize) return session.text('commands.timeout')
 
         let endTime
-        await session.send(session.text('.autoEnd', [offset]))
+        await session.send(session.text('.autoEnd', [await offset]))
         let endTimeInput = await session.prompt()
         if (!endTimeInput) return session.text('commands.timeout')
         if (endTimeInput === 'n') endTime = ''
@@ -115,8 +115,8 @@ export function addRoll(ctx: Context, config: Config) {
           rollType: rollType,
           endTime: endTime,
           isEnd: false,
-          title: title != 'n'? title : session.text('.defaultTitle', [session.author.name]),
-          description: description != 'n'? description : session.text('.defaultDescription', [session.author.name]),
+          title: title != 'n'? await ctx.assets.transform(title) : session.text('.defaultTitle', [session.author.name]),
+          description: description != 'n'? await ctx.assets.transform(description) : session.text('.defaultDescription', [session.author.name]),
         }
 
         const prizeList = prize.split(/\r\n|\r|\n/).map(s => {

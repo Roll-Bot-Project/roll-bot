@@ -1,25 +1,245 @@
 _config:
-    adminUsers: "**Roll Bot 管理员** 的用户id (使用 inspect 指令获取)"
-    allowGuildAdminDelete: "允许 **群管理员** 对群内抽奖进行删除"
-    allowGuildAdminEnd: "允许 **群管理员** 对群内抽奖进行手动开奖"
-    allowNormalUserAdd: "允许 **普通群员** 创建抽奖"
+  basic:
+    adminUsers: |-
+      **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
+    cacheHours: |-
+      抽奖开奖后，记录保留的时间（小时）
+    timeoutSeconds: |-
+      所有交互式操作等待回复的时长（秒）
+    defaultTimeOffset: |-
+      未设置时区的用户默认所在的时区（偏移量）<br />填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`
+  permission:
+    $description: |-
+      权限设置
+    allowGuildAdminDelete: |-
+      允许 **频道管理员** 对群内抽奖进行删除
+    allowGuildAdminEnd: |-
+      允许 **频道管理员** 对群内抽奖进行手动开奖
+    allowNormalUserAdd: |-
+      允许 **普通成员** 创建抽奖
+  remind:
+    $description: |-
+      提醒设置
+    defaultReminders: |-
+      设置默认提醒
 
 commands:
+  timeout: |-
+    输入超时
   roll:
-    description: "抽奖功能"
+    description: |-
+      抽奖功能
+  roll.help:
+    description: |-
+      帮助信息
+    messages:
+      help: |-
+        <p>帮助文档：</p>
+        <a>https://docs.logthm.com/roll-bot-project</a>
+  roll.channel:
+    description: |-
+      获取当前频道的频道id
+    messages:
+      result: |-
+        当前频道id为：{0}
   roll.add:
-    description: "交互式地创建一个抽奖"
+    description: |-
+      交互式地创建一个抽奖
+    messages:
+      noAuth: |-
+        你没有权限创建抽奖！
+      defaultTitle: |-
+        {0} 的抽奖
+      defaultDescription: |-
+        {0} 的抽奖
+      success: |-
+        创建抽奖成功，编号为 {0}
+      title: |-
+        <p>请输入抽奖的标题：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
+      description: |-
+        <p>请输入抽奖的描述：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
+      prize: |-
+        <p>请输入你要抽的奖品：</p>
+        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+      autoEnd: |-
+        <p>请输入自动开奖的时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+        <p>（回复 n 则不使用自动开奖）</p>
+      timeError: |-
+        时间格式错误，请重新创建！
+      pollType: |-
+        <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
+        <p>0：中奖人可重复</p>
+        <p>1：中奖人不可重复</p>
+        <p>（回复 n 使用默认类型：1）</p>
+      pollTypeError: |-
+        抽奖类型错误，请重新创建！
+      joinKey: |-
+        <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
+        <p>（回复 n 则不使用加入口令）</p>
   roll.delete:
-    description: "手动删除一个抽奖"
+    description: |-
+      手动删除一个抽奖
   roll.end:
-    description: "手动进行开奖"
+    description: |-
+      手动进行开奖
+    messages:
+      wait:
+        header: |-
+          <p>当前你创建的抽奖如下：</p>
+        body:
+          rollList: |-
+            <p>[{roll_code}] {title}</p>
+        footer: |-
+          <p>请输入要开奖的抽奖编号：</p>
+      noAuth: |-
+        你没有权限进行开奖！
+      isEnd: |-
+        该抽奖已开奖！
+      notFound: |-
+        没有找到该抽奖！
   roll.list:
-    description: "查询指定群聊内的抽奖"
+    description: |-
+      查询指定频道内的抽奖
   roll.detail:
-    description: "查询指定抽奖的详细描述"
+    description: |-
+      查询指定抽奖的详细描述
+    messages:
+      empty: |-
+        请输入抽奖编号！
+      notFound: |-
+        没有找到该抽奖！
   roll.member:
-    description: "查询指定抽奖的参与成员"
+    description: |-
+      查询指定抽奖的参与成员
+    messages:
+      empty: |-
+        请输入抽奖编号！
+      notFound: |-
+        没有找到该抽奖！
   roll.join:
-    description: "加入指定的抽奖"
+    description: |-
+      加入指定的抽奖
+    messages:
+      failed: |-
+        找不到此抽奖！
+      empty: |-
+        请输入抽奖编号！
   roll.quit:
-    description: "退出指定的抽奖"
+    description: |-
+      退出指定的抽奖
+    messages:
+      failed: |-
+        找不到此抽奖！
+      empty: |-
+        请输入抽奖编号！
+  roll.time:
+    description: |-
+    messages:
+      inValidFormat: |-
+        请输入正确的时区偏移值格式！
+      noAuth: |-
+        你没有修改的权限！
+      empty: |-
+        无
+      selected: |-
+        使用此时区
+      result: |-
+        <p>当前时区设置：</p>
+        <p> - 群组时区：{0}</p>
+        <p> - 你的时区：{1}</p>
+        <p> - 默认时区：{2}</p>
+      success:
+        channel: |-
+          修改成功，群组当前的时区为 UTC{0}。
+        user: |-
+          修改成功，你当前的时区为 UTC{0}。
+  roll.locale:
+    description: |-
+    messages:
+      inValidFormat: |-
+        请输入正确的语言偏好格式！
+      noAuth: |-
+        你没有修改的权限！
+      empty: |-
+        无
+      selected: |-
+        使用此语言偏好
+      result: |-
+        <p>当前语言偏好设置：</p>
+        <p> - 群组语言偏好：{0}</p>
+        <p> - 你的语言偏好：{1}</p>
+        <p> - 默认语言偏好：{2}</p>
+      success:
+        channel: |-
+          修改成功，群组当前的语言偏好为 {0}。
+        user: |-
+          修改成功，你当前的语言偏好为 {0}。
+
+events:
+  roll.add:
+    success: |-
+      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖。
+    failed: |-
+      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入。
+  roll.end:
+    success: |-
+      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖。
+    failed: |-
+      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖。
+
+messageBuilder:
+  marks:
+    open: |-
+      [进行中]
+    end: |-
+      [已结束]
+    enable: |-
+      [启用中]
+    disable: |-
+      [已禁用]
+  roll.list:
+    error: |-
+      没有找到抽奖！
+    header: |-
+      <p>抽奖列表：</p>
+    listItem: |-
+      <p>[{roll_code}] {title}</p>
+  roll.detail:
+    divider: |-
+      <p>---------</p>
+    header: |-
+      <p>{mark} [{roll_code}] {title}</p>
+      <p>截止时间：{endTime}</p>
+      <p>描述：{description}</p>
+    body:
+      prizeTitle: |-
+        <p>奖品列表：</p>
+      prizeListItem: |-
+        <p>{name} * {amount}</p>
+      winnerTitle: |-
+        <p>中奖名单：</p>
+      winner: |-
+        <p>{userName} ({userId}) 获得了：</p>
+      winList: |-
+        <p> - {name} * {amount}</p>
+  roll.member:
+    empty: |-
+      当前抽奖没有参与成员！
+    header: |-
+      <p>抽奖 {0} 的参与成员：</p>
+    body:
+      memberListItem: |-
+        <p>{userName} ({userId})</p>
+  roll.end:
+    header: |-
+      抽奖 {0} 开奖啦！<br />
+      <p>恭喜以下用户：</p>
+    body:
+      winner: |-
+        <p>{userName} ({userId}) 获得了：</p>
+      winList: |-
+        <p> - {name} * {amount}</p>

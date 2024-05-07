@@ -42,10 +42,12 @@
     },
     "service": {
       "required": [
-        "database"
+        "database",
+        "assets"
       ]
     },
     "locales": [
+      "de",
       "en",
       "zh"
     ],

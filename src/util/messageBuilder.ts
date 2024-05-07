@@ -1,4 +1,4 @@
-import {Context, $, Session} from 'koishi'
+import {Context, $, Session, h} from 'koishi'
 import { Config } from "../config";
 import {DateTime} from 'luxon';
 import {bots} from '../index'
@@ -30,19 +30,20 @@ export async function rollListMsgFromChannelId(session: Session, cid: string, pl
   }
   if (!isNotEndListEmpty) msg += notEndList
   if (!isEndListEmpty) msg += endList
-  return msg
+  return h.unescape(msg)
 }
 
 export async function rollDetailMsgFromRoll(session: Session, roll: any, currentOffset: string, currentLocale: string) {
   const dt = DateTime.fromObject(roll.endTime, { zone: 'UTC' }).setZone(currentOffset)
-  let msgList, msg
-  msgList[0] = session.text('messageBuilder.roll.detail.header', {
+  let msgList = []
+  let msg = ""
+  msgList.push(session.text('messageBuilder.roll.detail.header', {
     mark: roll.isEnd ? session.text('messageBuilder.marks.end') : session.text('messageBuilder.marks.open'),
     roll_code: roll.roll_code,
     title: roll.title,
     description: roll.description,
     endTime: dt.setLocale(currentLocale).toLocaleString(DateTime.DATETIME_FULL)
-  })
+  }))
   // prize list
   msgList.push(session.text('messageBuilder.roll.detail.divider'))
   msgList.push(session.text('messageBuilder.roll.detail.body.prizeTitle'))
@@ -70,7 +71,7 @@ export async function rollDetailMsgFromRoll(session: Session, roll: any, current
       }
       msgList.push(session.text('messageBuilder.roll.detail.body.winner', {userName: user.name, userId: userPlatformId[0].pid}))
       for (const e of r) {
-        if (e.roll_prize.roll_id === roll.id.toString() && e.user_prize.user_id === userId) {
+        if (e.roll_prize.roll_id === roll.id && e.user_prize.user_id === userId) {
           isWinner = true
           const prizeDetail = await session.app.database.get('prize', {id: e.roll_prize.prize_id})
           msgList.push(session.text('messageBuilder.roll.detail.body.winList', {
@@ -85,7 +86,7 @@ export async function rollDetailMsgFromRoll(session: Session, roll: any, current
       isWinner = false
     }
   }
-  msgList.forEach((str) => msg += str)
+  msgList.forEach((str) => msg += h.unescape(str))
   return msg
 }
 
@@ -121,7 +122,8 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
   } else {
     locales = currentChannel[0].locales
   }
-  let msgList, msg
+  let msgList = []
+  let msg = ""
   msgList[0] = ctx.i18n.render(locales, ['messageBuilder.roll.end.header'], [roll.roll_code])
   const res = await ctx.database.get('roll_member', {roll_id: roll.id}, ['user_id'])
   const r = await ctx.database.join(['roll_prize', 'user_prize'], (roll_prize, user_prize) => $.eq(roll_prize.prize_id, user_prize.prize_id)).execute()
@@ -153,5 +155,5 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
     isWinner = false
   }
   msgList.forEach((str) => msg += str)
-  return msg
+  return h.unescape(msg)
 }
