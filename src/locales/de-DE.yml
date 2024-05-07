@@ -35,12 +35,18 @@ commands:
       help: |-
         <p>Hilfsdokument:</p>
         <a>https://docs.logthm.com/roll-bot-project</a>
+  roll.channel:
+    description: |-
+      获取当前频道的频道id
+    messages:
+      result: |-
+        当前频道id为：{0}
   roll.add:
     description: |-
       Interaktive Erstellung einer Verlosung
     messages:
       noAuth: |-
-        Sie haben keine Berechtigung, ein Gewinnspiel zu erstellen
+        你没有权限创建抽奖！
       defaultTitle: |-
         {0}'s Gewinnspiel
       defaultDescription: |-
@@ -48,28 +54,28 @@ commands:
       success: |-
         Gewinnspiel erfolgreich erstellt, Nummer: {0}
       title: |-
-        <p>Geben Sie den Titel des Gewinnspiels ein:</p>
-        <p>(Antworten Sie mit n, um den Standardinhalt zu verwenden: {0}'s Gewinnspiel)</p>
+        <p>请输入抽奖的标题：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
       description: |-
-        <p>Geben Sie die Beschreibung des Gewinnspiels ein:</p>
-        <p>(Antworten Sie mit n, um den Standardinhalt zu verwenden: {0}'s Gewinnspiel)</p>
+        <p>请输入抽奖的描述：</p>
+        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
       prize: |-
-        <p>Geben Sie den Preis ein, der verlost werden soll:</p>
-        <p>Format: Preis*Anzahl (leer lassen für 1), jede Zeile wird als separater Preis betrachtet</p>
+        <p>请输入你要抽的奖品：</p>
+        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
       autoEnd: |-
-        <p>Geben Sie die Zeit für die automatische Auslosung ein:</p>
-        <p>Format: Jahr-Monat-Tag-Stunde-Minute</p>
-        <p>Aktuelle Zeitzone: {0}</p>
-        <p>(Antworten Sie mit n, um die automatische Auslosung nicht zu verwenden)</p>
+        <p>请输入自动开奖的时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+        <p>（回复 n 则不使用自动开奖）</p>
       timeError: |-
-        Falsches Zeitformat, bitte erstellen Sie erneut
+        时间格式错误，请重新创建！
       pollType: |-
         <p>Wählen Sie den Typ der automatischen Auslosung aus, geben Sie einfach die Nummer an:</p>
         <p>0: Gewinner können wiederholt werden</p>
         <p>1: Gewinner können nicht wiederholt werden</p>
         <p>(Antworten Sie mit n, um den Standardtyp zu verwenden: 1)</p>
       pollTypeError: |-
-        Falscher Gewinnspieltyp, bitte erstellen Sie erneut
+        抽奖类型错误，请重新创建！
       joinKey: |-
         <p>Geben Sie das Passwort ein, das zum Teilnehmen am Gewinnspiel verwendet werden soll. Benutzer können das Passwort direkt senden, um am Gewinnspiel teilzunehmen:</p>
         <p>(Antworten Sie mit n, um das Teilnahmepasswort nicht zu verwenden)</p>
@@ -89,11 +95,11 @@ commands:
         footer: |-
           <p>Geben Sie die Nummer des Gewinnspiels ein, das Sie öffnen möchten:</p>
       noAuth: |-
-        Sie haben keine Berechtigung, das Gewinnspiel zu öffnen
+        你没有权限进行开奖！
       isEnd: |-
-        Dieses Gewinnspiel wurde bereits geöffnet
+        该抽奖已开奖！
       notFound: |-
-        Das Gewinnspiel wurde nicht gefunden
+        没有找到该抽奖！
   roll.list:
     description: |-
       Suche nach einer Verlosung in einem bestimmten Kanal
@@ -148,9 +154,9 @@ commands:
         <p> - Standardzeitzone: {2}</p>
       success:
         channel: |-
-          Erfolgreich geändert, die Gruppenzeitzone ist jetzt UTC{0}
+          修改成功，群组当前的时区为 UTC{0}。
         user: |-
-          Erfolgreich geändert, Ihre Zeitzone ist jetzt UTC{0}
+          修改成功，你当前的时区为 UTC{0}。
   roll.locale:
     description: |-
 
@@ -170,20 +176,20 @@ commands:
         <p> - Standardsprachpräferenz: {2}</p>
       success:
         channel: |-
-          Erfolgreich geändert, die Gruppensprachpräferenz ist jetzt {0}
+          修改成功，群组当前的语言偏好为 {0}。
         user: |-
-          Erfolgreich geändert, Ihre Sprachpräferenz ist jetzt {0}
+          修改成功，你当前的语言偏好为 {0}。
 events:
   roll.add:
     success: |-
-      <quote id={messageId}/> Erfolgreich dem Lotteriecode {rollCode} beigetreten
+      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖。
     failed: |-
-      <quote id={messageId}/> Sie haben bereits am Lotteriecode {rollCode} teilgenommen, eine erneute Teilnahme ist nicht erforderlich
+      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入。
   roll.end:
     success: |-
-      <quote id={messageId}/> Erfolgreich aus der Lotterie mit dem Code {rollCode} ausgetreten
+      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖。
     failed: |-
-      <quote id={messageId}/> Sie haben nicht am Lotteriecode {rollCode} teilgenommen
+      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖。
 messageBuilder:
   marks:
     open: |-
@@ -196,7 +202,7 @@ messageBuilder:
       [Deaktiviert]
   roll.list:
     error: |-
-      Keine Lotterie gefunden
+      没有找到抽奖！
     header: |-
       <p>Lotterie Liste：</p>
     listItem: |-
@@ -221,7 +227,7 @@ messageBuilder:
         <p> - {name} * {amount}</p>
   roll.member:
     empty: |-
-      Es gibt keine teilnehmenden Mitglieder für diese Lotterie
+      当前抽奖没有参与成员！
     header: |-
       <p>Teilnehmende Mitglieder für Lotterie {0}：</p>
     body:
