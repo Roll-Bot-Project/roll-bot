@@ -19,6 +19,7 @@ export let bots
 
 export async function apply(ctx: Context, config: Config) {
   // localization
+  ctx.i18n.define('de-DE', require('./locales/de-DE'))
   ctx.i18n.define('en-US', require('./locales/en-US'))
   ctx.i18n.define('zh-CN', require('./locales/zh-CN'))
   // initialization

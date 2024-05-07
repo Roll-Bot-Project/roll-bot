@@ -58,6 +58,7 @@ export const Config: Schema<Config> = Schema.object({
   permission: permissionConfig,
   remind: remindConfig
 }).i18n({
+  "de-DE": require("./locales/de-DE")._config,
   "en-US": require("./locales/en-US")._config,
   "zh-CN": require("./locales/zh-CN")._config,
 })
