@@ -1,189 +1,189 @@
 _config:
   basic:
     adminUsers: |-
-      **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
+      User ID of **Roll Bot Administrator** (obtained using the inspect command)
     cacheHours: |-
-      抽奖开奖后，记录保留的时间（小时）
+      Record retention time (hours) after the prize is drawn
     timeoutSeconds: |-
-      所有交互式操作等待回复的时长（秒）
+      Duration of all interactive actions waiting for replies (in seconds)
     defaultTimeOffset: |-
-      未设置时区的用户默认所在的时区（偏移量）<br />填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`
+      Default time zone (offset) for the user of the timezone<br />to fill out the difference between local time and UTC, e.g. `+5` ``-9:30`` - 00:25:21`
   permission:
     $description: |-
-      权限设置
+      Permission Settings
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对群内抽奖进行删除
+      Allow **Channel Administrator** to delete the selected group
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对群内抽奖进行手动开奖
+      Allow **Channel Manager** to take a manual award for a group drawing
     allowNormalUserAdd: |-
-      允许 **普通成员** 创建抽奖
+      Allow **ordinary members** to create a drawing award
   remind:
     $description: |-
-      提醒设置
+      Reminder Settings
     defaultReminders: |-
-      设置默认提醒
+      Set default reminder
 commands:
   timeout: |-
-    输入超时
+    Input Timeout
   roll:
     description: |-
-      抽奖功能
+      Pickup features
   roll.help:
     description: |-
-      帮助信息
+      Help Info
     messages:
       help: |-
-        <p>帮助文档：</p>
+        <p>Help document：</p>
         <a>https://docs.logthm.com/roll-bot-project</a>
   roll.add:
     description: |-
-      交互式地创建一个抽奖
+      Interactive creation of a drawing
     messages:
       noAuth: |-
-        你没有权限创建抽奖
+        You do not have permission to create prizes
       defaultTitle: |-
-        {0} 的抽奖
+        {0} Pickup Award
       defaultDescription: |-
-        {0} 的抽奖
+        {0} Pickup Award
       success: |-
-        创建抽奖成功，编号为 {0}
+        Pickup successfully created with {0}
       title: |-
-        <p>请输入抽奖的标题：</p>
-        <p>（回复 n 使用默认内容： {0} 的抽奖）</p>
+        <p>Please enter the title of the lottery:</p>
+        <p>(Reply n to use default content: {0}'s lottery)</p>
       description: |-
-        <p>请输入抽奖的描述：</p>
-        <p>（回复 n 使用默认内容： {0} 的抽奖）</p>
+        <p>Please enter a drawing description of：</p>
+        <p>(reply to n/use the default drawing of： {0} )</p>
       prize: |-
-        <p>请输入你要抽的奖品：</p>
-        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品</p>
+        <p>Please enter the prize：</p>
+        <p>the number of prizes in the format * (empty to 1) and each line is a separate prize</p>
       autoEnd: |-
-        <p>请输入自动开奖的时间：</p>
-        <p>格式：年-月-日-时-分</p>
-        <p>当前时区： {0}</p>
-        <p>（回复 n 则不使用自动开奖）</p>
+        <p>Please enter：</p>
+        <p>format：years-month-time-hour-minutes</p>
+        <p>current timezone： {0}</p>
+        <p>(reply to n/do not use auto-open prizes)</p>
       timeError: |-
-        时间格式错误，请重新创建
+        Time format error, please recreate
       pollType: |-
-        <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
-        <p>0：中奖人可重复</p>
-        <p>1：中奖人不可重复</p>
-        <p>（回复 n 使用默认类型：1）</p>
+        <p>Please select the type of automatic lottery, just reply with a number:</p>
+        <p>0: Winners can repeat</p>
+        <p>1: Winners cannot repeat</p>
+        <p>(Reply n to use default type: 1)</p>
       pollTypeError: |-
-        抽奖类型错误，请重新创建
+        Incorrect drawing type. Please recreate
       joinKey: |-
-        <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
-        <p>（回复 n 则不使用加入口令）</p>
+        <p>Please enter the passphrase to join the lottery. Users can send a password directly to add the premium：Aformat@@1</p>
+        <p>(reply n instead of joining the password)</p>
   roll.delete:
     description: |-
-      手动删除一个抽奖
+      Manually delete a drawing prize
   roll.end:
     description: |-
-      手动进行开奖
+      Manual award
     messages:
       wait:
         header: |-
-          <p>当前你创建的抽奖如下：</p>
+          <p>You are currently creating the following：</p>
         body:
           rollList: |-
             <p>[{roll_code}] {title}</p>
         footer: |-
-          <p>请输入要开奖的抽奖编号：</p>
+          <p>Please enter the drawing number：</p> for the Award
       noAuth: |-
-        你没有权限进行开奖
+        You do not have permission to award
       isEnd: |-
-        该抽奖已开奖
+        The drawing has been awarded
       notFound: |-
-        没有找到该抽奖
+        No prizes found
   roll.list:
     description: |-
-      查询指定群聊内的抽奖
+      Queries about selected awards within a specified channel
   roll.detail:
     description: |-
-      查询指定抽奖的详细描述
+      Query a description of the selected prize
     messages:
       empty: |-
-        请输入抽奖编号！
+        Please enter a draw number!
       notFound: |-
-        没有找到该抽奖！
+        No such drawing found!
   roll.member:
     description: |-
-      查询指定抽奖的参与成员
+      Query participants for the selected lottery
     messages:
       empty: |-
-        请输入抽奖编号！
+        Please enter a draw number!
       notFound: |-
-        没有找到该抽奖！
+        No such drawing found!
   roll.join:
     description: |-
-      加入指定的抽奖
+      Add selected prizes
     messages:
       failed: |-
-        找不到此抽奖！
+        No such drawing found!
       empty: |-
-        请输入抽奖编号！
+        Please enter a draw number!
   roll.quit:
     description: |-
-      退出指定的抽奖
+      Exit selected prizes
     messages:
       failed: |-
-        找不到此抽奖！
+        No such drawing found!
       empty: |-
-        请输入抽奖编号！
+        Please enter a draw number!
   roll.time:
     description: |-
 
     messages:
       inValidFormat: |-
-        请输入正确的时区偏移值格式！
+        Please enter the correct timezone offset value!
       noAuth: |-
-        你没有修改的权限！
+        You do not have permission to modify!
       empty: |-
-        无
+        None
       selected: |-
-        使用此时区
+        Use this timezone
       result: |-
-        <p>当前时区设置：</p>
-        <p> - 群组时区：{0}</p>
-        <p> - 你的时区：{1}</p>
-        <p> - 默认时区：{2}</p>
+        <p>Set：</p>
+        <p> - Group timezone：{0}</p>
+        <p> - Your timezone：{1}</p>
+        <p> - Default timezone：{2}</p>
       success:
         channel: |-
-          修改成功，群组当前的时区为 UTC{0}
+          Successfully modified, the current time zone for the group is UTC{0}
         user: |-
-          修改成功，你当前的时区为 UTC{0}
+          Successfully modified, your current time zone is UTC{0}
   roll.locale:
     description: |-
 
     messages:
       inValidFormat: |-
-        请输入正确的语言偏好格式！
+        Please enter the correct language preference format!
       noAuth: |-
-        你没有修改的权限！
+        You do not have permission to modify!
       empty: |-
-        无
+        None
       selected: |-
-        使用此语言偏好
+        Use this language preference
       result: |-
-        <p>当前语言偏好设置：</p>
-        <p> - 群组语言偏好：{0}</p>
-        <p> - 你的语言偏好：{1}</p>
-        <p> - 默认语言偏好：{2}</p>
+        <p>Current language preference settings:</p>
+        <p> - Group language preference: {0}</p>
+        <p> - Your language preference: {1}</p>
+        <p> - Default language preference: {2}</p>
       success:
         channel: |-
-          修改成功，群组当前的语言偏好为 {0}
+          Modified successfully, group current language preferences are {0}
         user: |-
-          修改成功，你当前的语言偏好为 {0}
+          Modified successfully, your current language preference is {0}
 events:
   roll.add:
     success: |-
-      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> Successfully joined lottery with code {rollCode}
     failed: |-
-      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入
+      <quote id={messageId}/> You have already joined lottery with code {rollCode}, no need to join again
   roll.end:
     success: |-
-      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> Successfully exited lottery with code {rollCode}
     failed: |-
-      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖
+      <quote id={messageId}/> You have not joined lottery with code {rollCode}
 messageBuilder:
   marks:
     open: |-
@@ -196,43 +196,43 @@ messageBuilder:
       [已禁用]
   roll.list:
     error: |-
-      没有找到抽奖
+      No prizes were found
     header: |-
-      <p>抽奖列表：</p>
+      <p>Pick-up list：</p>
     listItem: |-
       <p>[{roll_code}] {title}</p>
   roll.detail:
     divider: |-
-      <p>---------</p>
+      <p>-----</p>
     header: |-
       <p>{mark} [{roll_code}] {title}</p>
-      <p>截止时间：{endTime}</p>
-      <p>描述：{description}</p>
+      <p>Deadline: {endTime}</p>
+      <p>Description: {description}</p>
     body:
       prizeTitle: |-
-        <p>奖品列表：</p>
+        <p>Awards list：</p>
       prizeListItem: |-
         <p>{name} * {amount}</p>
       winnerTitle: |-
-        <p>中奖名单：</p>
+        <p>Award list：</p>
       winner: |-
-        <p>{userName} ({userId}) 获得了：</p>
+        <p>{userName} ({userId}) obtained:</p>
       winList: |-
         <p> - {name} * {amount}</p>
   roll.member:
     empty: |-
-      当前抽奖没有参与成员
+      There are currently no participants in the drawing
     header: |-
-      <p>抽奖 {0} 的参与成员：</p>
+      <p>Award {0} participant：</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      抽奖 {0} 开奖啦！<br />
-      <p>恭喜以下用户：</p>
+      {0} prizes!<br />
+      <p>Congratulates：</p>
     body:
       winner: |-
-        <p>{userName} ({userId}) 获得了：</p>
+        <p>{userName} ({userId}) obtained:</p>
       winList: |-
         <p> - {name} * {amount}</p>
