@@ -37,7 +37,7 @@ commands:
         <a>https://docs.logthm.com/roll-bot-project</a>
   roll.channel:
     description: |-
-      获取当前频道的频道id
+      Holen Sie die Kanal-ID des aktuellen Kanals
     messages:
       result: |-
         当前频道id为：{0}
@@ -99,7 +99,7 @@ commands:
       isEnd: |-
         该抽奖已开奖！
       notFound: |-
-        没有找到该抽奖！
+        Die Lotterie wurde nicht gefunden!
   roll.list:
     description: |-
       Suche nach einer Verlosung in einem bestimmten Kanal
@@ -154,9 +154,9 @@ commands:
         <p> - Standardzeitzone: {2}</p>
       success:
         channel: |-
-          修改成功，群组当前的时区为 UTC{0}。
+          修改成功, Gruppe aktuelle Zeitzone ist UTC{0}.
         user: |-
-          修改成功，你当前的时区为 UTC{0}。
+          修改成功, deine aktuelle Zeitzone ist UTC{0}.
   roll.locale:
     description: |-
 
@@ -176,20 +176,20 @@ commands:
         <p> - Standardsprachpräferenz: {2}</p>
       success:
         channel: |-
-          修改成功，群组当前的语言偏好为 {0}。
+          修改成功, Gruppe aktuelle Spracheinstellung ist {0}.
         user: |-
-          修改成功，你当前的语言偏好为 {0}。
+          Änderung erfolgreich, deine aktuelle Spracheinstellung ist {0}.
 events:
   roll.add:
     success: |-
-      <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖。
+      <quote id={messageId}/> Erfolgreich dem Losungscode {rollCode} beigetreten.
     failed: |-
-      <quote id={messageId}/> 您已加入编号为 {rollCode} 的抽奖，无需重复加入。
+      <quote id={messageId}/> Sie haben bereits am Losungscode {rollCode} teilgenommen, wiederholte Teilnahme ist nicht erforderlich.
   roll.end:
     success: |-
-      <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖。
+      <quote id={messageId}/> Erfolgreich aus dem Losungscode {rollCode} ausgetreten.
     failed: |-
-      <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖。
+      <quote id={messageId}/> Sie haben nicht am Losungscode {rollCode} teilgenommen.
 messageBuilder:
   marks:
     open: |-
@@ -202,7 +202,7 @@ messageBuilder:
       [Deaktiviert]
   roll.list:
     error: |-
-      没有找到抽奖！
+      Keine Verlosung gefunden!
     header: |-
       <p>Lotterie Liste：</p>
     listItem: |-
@@ -227,7 +227,7 @@ messageBuilder:
         <p> - {name} * {amount}</p>
   roll.member:
     empty: |-
-      当前抽奖没有参与成员！
+      Aktuelle Verlosung hat keine Teilnehmer!
     header: |-
       <p>Teilnehmende Mitglieder für Lotterie {0}：</p>
     body:
