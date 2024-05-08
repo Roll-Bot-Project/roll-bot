@@ -3,7 +3,7 @@ import {Config} from '../config';
 import {rollKeyCache} from "../index";
 
 export function rollJoinListener(ctx: Context, config: Config) {
-  ctx.on('message', async (session) => {
+  ctx.middleware(async (session, next) => {
     const content = session.content
     const channelId = session.channelId
     for (const roll of rollKeyCache.content) {
@@ -14,10 +14,10 @@ export function rollJoinListener(ctx: Context, config: Config) {
             const bind = await ctx.database.get('binding', {platform: session.platform, pid: session.userId})
             ctx.emit('roll-bot/roll-join', session, bind[0].aid, roll.id, roll.roll_code)
           }
-
         }
       }
     }
+    return next()
   })
   ctx.on('roll-bot/roll-join', async (
     session,
