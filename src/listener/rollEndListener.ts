@@ -1,4 +1,4 @@
-import {Context, $, h} from 'koishi';
+import {Context, $} from 'koishi';
 import {DateTime} from 'luxon'
 import {Config} from '../config';
 import {getWinnerList} from "../util/winnerGenerator";
@@ -38,5 +38,7 @@ export function rollEndListener(ctx: Context, config: Config) {
         }
       }
     }
+    // remove join key listener
+    ctx.emit('roll-bot/roll-key-update')
   })
 }
