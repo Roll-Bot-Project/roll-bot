@@ -24,7 +24,7 @@ export function rollEndListener(ctx: Context, config: Config) {
     // Change roll status
     await ctx.database.set('roll', roll.id, {
       isEnd: 1,
-      endTime: DateTime.now().toUTC().toJSDate()
+      endTime: roll.endTime? roll.endTime : DateTime.now().toUTC().toJSDate()
     })
     // Broadcast roll end message
     // TODO: Support diverse messages such as countdowns, result pictures, etc

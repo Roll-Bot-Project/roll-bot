@@ -1,7 +1,7 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
-import {hasPermission, isGuildAdmin, isPluginAdmin} from '../util/role'
-import { validateTimeFormat, offsetToUTCOffset } from '../util/time'
+import {Config} from '../../config';
+import {hasPermission, isGuildAdmin, isPluginAdmin} from '../../util/role'
+import {getTimeOffset, offsetToUTCOffset, validateTimeOffsetFormat} from '../../util/time'
 
 export function time(ctx: Context, config: Config) {
   ctx.command("roll.time [offset]")
@@ -10,6 +10,12 @@ export function time(ctx: Context, config: Config) {
     .userFields(['offset'])
     .channelFields(['offset'])
     .action(async ({session, options}, offset) => {
+      // solve the problem that the time offset starting with - is regarded as a command option
+      if (!offset) {
+        const input = session.event.message.content
+        const match = getTimeOffset(input)
+        if (match != '') offset = match
+      }
       // if offset is empty, return current offset
       if (!offset) {
         const preferUser = ctx.root.options.i18n.output === 'prefer-user'
@@ -36,7 +42,12 @@ export function time(ctx: Context, config: Config) {
         return session.text('.result', [currentChannelOffset, currentUserOffset, currentDefaultOffset])
       }
 
-      if (!validateTimeFormat(offset)) return session.text('.inValidFormat')
+      // if the time zone offset value does not start with + or -, it defaults to +
+      if (!(offset.startsWith('+') || offset.startsWith('-'))) {
+        offset = '+' + offset
+      }
+
+      if (!validateTimeOffsetFormat(offset)) return session.text('.inValidFormat')
 
       if (options.channel) {
         if (!hasPermission(isPluginAdmin(session, config), isGuildAdmin(session))) return session.text('.noAuth')

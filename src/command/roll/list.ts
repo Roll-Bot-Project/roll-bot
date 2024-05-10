@@ -1,6 +1,6 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
-import {rollListMsgFromChannelId} from "../util/messageBuilder";
+import {Config} from '../../config';
+import {rollListMsgFromChannelId} from "../../util/messageBuilder";
 
 export function listRoll(ctx: Context, config: Config) {
   ctx.command("roll.list [platform] [channelId]")

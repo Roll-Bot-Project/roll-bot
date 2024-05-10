@@ -1,9 +1,9 @@
 import { Context } from 'koishi';
-import { Config } from '../config';
+import { Config } from '../../config';
 import { DateTime } from 'luxon';
-import { stringToPrize, generateUniqueCode } from "../util/general";
-import {hasPermission, isGuildAdmin, isPluginAdmin} from "../util/role";
-import {getCurrentUTCOffset} from "../util/time";
+import { stringToPrize, generateUniqueCode } from "../../util/general";
+import {hasPermission, isGuildAdmin, isPluginAdmin} from "../../util/role";
+import {getCurrentUTCOffset} from "../../util/time";
 
 export function addRoll(ctx: Context, config: Config) {
   ctx.command("roll.add")
@@ -30,14 +30,14 @@ export function addRoll(ctx: Context, config: Config) {
         const prizeList = prize.split(/\r\n|\r|\n/).map(s => {
           return stringToPrize(s)
         })
-        const roll_code_res = await ctx.database.get('roll', {}, ['roll_code'])
-        const existingCodes = roll_code_res.map((item) => item.roll_code)
-        const roll_code = await generateUniqueCode(existingCodes)
+        const rollCodeRes = await ctx.database.get('roll', {}, ['roll_code'])
+        const existingCodes = rollCodeRes.map((item) => item.roll_code)
+        const rollCode = await generateUniqueCode(existingCodes)
 
         const platform = session.event.platform
 
         const roll = {
-          roll_code: roll_code,
+          roll_code: rollCode,
           platform: platform,
           joinKey: '',
           isAutoEnd: false,
@@ -89,11 +89,11 @@ export function addRoll(ctx: Context, config: Config) {
         let rollType = '1'
         if (endTime != '') {
           isAutoEnd = true
-          await session.send(session.text('.pollType'))
+          await session.send(session.text('.type'))
           let RollTypeInput = await session.prompt()
           if (!RollTypeInput) return session.text('commands.timeout')
           if (RollTypeInput === 'n') RollTypeInput = '1'
-          if (RollTypeInput != '0' && RollTypeInput != '1') return session.text('.pollTypeError')
+          if (RollTypeInput != '0' && RollTypeInput != '1') return session.text('.typeError')
           rollType = RollTypeInput
         }
 
@@ -142,6 +142,7 @@ function isValidDateInput(input: string): boolean {
 }
 
 function dateInputToDateTime(input: string, offset: string): DateTime {
+  // year - month - day - hour - minutes
   const timeArray = input.split('-')
   let t
   if (timeArray.length === 4) {

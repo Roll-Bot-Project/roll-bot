@@ -1,6 +1,6 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
-import {hasPermission, isGuildAdmin, isPluginAdmin} from "../util/role";
+import {Config} from '../../config';
+import {hasPermission, isGuildAdmin, isPluginAdmin} from "../../util/role";
 
 export function locale(ctx: Context, config: Config) {
   ctx.command("roll.locale [lang]")

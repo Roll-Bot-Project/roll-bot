@@ -1,10 +1,17 @@
 import {Context} from 'koishi';
 import {Config} from '../config';
 
-export function validateTimeFormat(input: string): boolean {
+export function validateTimeOffsetFormat(input: string): boolean {
   // offset from -12:00 to +14:00, minutes and seconds are optional
   const regex = /^[+-](0?[0-9])(?::([0-5]?[0-9])(?::([0-5]?[0-9]))?)?$/;
   return regex.test(input);
+}
+
+export function getTimeOffset(input: string): boolean {
+  // offset from -12:00 to +14:00, minutes and seconds are optional
+  const regex = /[+-](0?[0-9])(?::([0-5]?[0-9])(?::([0-5]?[0-9]))?)?/
+  const res = input.match(regex)
+  return res? res[0] : ""
 }
 
 export async function getCurrentUTCOffset(ctx: Context, session: any, config: Config) {

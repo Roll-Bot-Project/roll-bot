@@ -1,5 +1,5 @@
-import {Context} from 'koishi';
-import {Config} from '../config';
+import {Context} from 'koishi'
+import {Config} from '../config'
 
 export function rollAddListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-add', async (
@@ -31,13 +31,9 @@ export function rollAddListener(ctx: Context, config: Config) {
       channel_platform: session.event.platform
     })
 
-
-
-    //await ctx.database.create('roll_reminder', )
-
-    // Register reminders
-
-    // Register auto end if true
+    // Create default reminds
+    ctx.emit('roll-bot/remind-add',session)
+    // Create auto end if true
 
   })
 }

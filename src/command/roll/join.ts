@@ -1,5 +1,5 @@
 import { Context } from 'koishi';
-import { Config } from '../config';
+import { Config } from '../../config';
 
 export function joinRoll(ctx: Context, config: Config) {
   ctx.command("roll.join <rollCode>")

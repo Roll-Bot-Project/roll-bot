@@ -1,6 +1,6 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
-import {hasPermission, isGuildAdmin, isPluginAdmin, isRollCreator} from "../util/role";
+import {Config} from '../../config';
+import {hasPermission, isGuildAdmin, isPluginAdmin, isRollCreator} from "../../util/role";
 
 export function endRoll(ctx: Context, config: Config) {
   ctx.command("roll.end [rollCode]")

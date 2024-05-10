@@ -16,6 +16,7 @@ export let rollKeyCache = {
   content: []
 }
 export let bots
+export const schedule = require('node-schedule')
 
 export async function apply(ctx: Context, config: Config) {
   // localization
@@ -23,12 +24,16 @@ export async function apply(ctx: Context, config: Config) {
   ctx.i18n.define('en-US', require('./locales/en-US'))
   ctx.i18n.define('zh-CN', require('./locales/zh-CN'))
   // initialization
-  bots = ctx.bots
+  ctx.on('ready', () => {
+    bots = ctx.bots
+  })
+  ctx.on('login-updated', () => {
+    bots = ctx.bots
+  })
   ctx.plugin(Database)
   ctx.plugin(Listener, config)
   ctx.plugin(Scheduler, config)
   ctx.plugin(Command, config)
-
 }
 
 
