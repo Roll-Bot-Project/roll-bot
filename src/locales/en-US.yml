@@ -182,50 +182,54 @@ commands:
   remind:
     description: |-
       Reminder functions
-    remind.add:
-      description: |-
-        Create a reminder
-      messages:
-        timeError: |-
-          Time format error, please recreate!
-        typeError: |-
-          Reminder type error, please recreate!
-        type: |-
-          <p>Please select the type of reminder, just reply with a number:</p>
-          <p>0: Remind once at a specified time</p>
-          <p>1: Remind a certain time before the draw ends</p>
-          <p>2: Remind at a certain interval</p>
-        specified: |-
-          <p>Please enter the specific time of the reminder：</p>
-          <p>format：years-month-days-hour-minutes</p>
-          <p>current timezone：{0}</p>
-        before-end: |-
-          <p>Please enter the interval between：</p>
-          <p>format：years-month-days-time-minutes</p>
-          <p>eg:：0-1-30</p>
-        interval:
-          select: |-
-            <p>How often do you want to be reminded?</p>
-            <p>0: On a specific month, day, hour, and minute every year</p>
-            <p>1: On a specific day, hour, and minute every month</p>
-            <p>2: At a specific hour and minute every day</p>
-            <p>3: At a specific minute every hour</p>
-          per-year: |-
-            <p>When do you want to remind you every year?</p>
-            <p>Format：Month - Day - Time - Mined</p>
-            <p>Current timezone：{0}</p>
-          per-month: |-
-            <p>When do you want to remind you every month?</p>
-            <p>Format：- hours - minutes</p>
-            <p>Current timezone：{0}</p>
-          per-day: |-
-            <p>When do you want to remind you every day?</p>
-            <p>Time in format：- minutes</p>
-            <p>Current timezone：{0}</p>
-          per-hours: |-
-            <p>When do you want to remind you every hour?</p>
-            <p>Format：minutes</p>
-            <p>Current timezone：{0}</p>
+  remind.add:
+    description: |-
+      创建一个提醒器
+    messages:
+      success: |-
+        创建提醒器成功，编号为 {0}
+      timeError: |-
+        时间格式错误，请重新创建！
+      typeError: |-
+        提醒器类型错误，请重新创建！
+      type: |-
+        <p>请选择提醒器的类型，仅需回复数字：</p>
+        <p>0：在指定时间提醒一次</p>
+        <p>1：抽奖结束前一定时间提醒一次</p>
+        <p>2：每隔一定时间提醒一次</p>
+      specified: |-
+        <p>请输入提醒的具体时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+      before-end: |-
+        <p>请输入提醒距离抽奖结束的时间间隔：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>例如：0-0-0-1-30</p>
+      interval:
+        error: |-
+          无效的选项！
+        select: |-
+          <p>你希望每过多久提醒一次？</p>
+          <p>0：在 每年 的 某月某日某时某分</p>
+          <p>1：在 每月 的 某日某时某分</p>
+          <p>2：在 每天 的 某时某分</p>
+          <p>3：在 每小时 的 某分</p>
+        per-year: |-
+          <p>你希望每年的什么时候提醒？</p>
+          <p>格式：月-日-时-分</p>
+          <p>当前时区：{0}</p>
+        per-month: |-
+          <p>你希望每月的什么时候提醒？</p>
+          <p>格式：日-时-分</p>
+          <p>当前时区：{0}</p>
+        per-day: |-
+          <p>你希望每天的什么时候提醒？</p>
+          <p>格式：时-分</p>
+          <p>当前时区：{0}</p>
+        per-hour: |-
+          <p>你希望每小时的什么时候提醒？</p>
+          <p>格式：分</p>
+          <p>当前时区：{0}</p>
 events:
   roll.add:
     success: |-
