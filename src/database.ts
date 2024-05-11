@@ -50,8 +50,9 @@ export interface Remind {
 export interface Reminder {
   id: number
   reminder_code: string
-  time: Date,
-  last_call: Date,
+  type: string
+  time: Date
+  last_call: Date
   duration: object
   recurrence_rule: object
 }
@@ -146,6 +147,7 @@ export function apply(ctx: Context) {
   ctx.model.extend('reminder', {
     id: 'unsigned',
     reminder_code: 'string',
+    type: 'string',
     time: 'timestamp',
     lastCall: 'timestamp',
     recurrence_rule: 'json',

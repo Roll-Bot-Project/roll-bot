@@ -33,5 +33,5 @@ export function apply(ctx: Context, config: Config) {
   rollExpiredListener(ctx, config)
   rollJoinListener(ctx, config)
   rollQuitListener(ctx, config)
-  remindListener(ctx, config)
+  //remindListener(ctx, config)
 }

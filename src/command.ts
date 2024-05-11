@@ -16,6 +16,8 @@ import {memberRoll} from './command/roll/member'
 import {locale} from './command/i18n/locale'
 import {time} from './command/i18n/time'
 
+import {addRemind} from './command/remind/add'
+
 export const name = 'Command'
 
 export function apply(ctx: Context, config: Config) {
@@ -34,7 +36,7 @@ export function apply(ctx: Context, config: Config) {
   channel(ctx, config)
   //remind(ctx, config)
   ctx.command('remind').alias('rd')
-  //addRemind(ctx, config)
+  addRemind(ctx, config)
   //enableRemind(ctx, config)
   //disableRemind(ctx, config)
   //deleteRemind(ctx, config)
