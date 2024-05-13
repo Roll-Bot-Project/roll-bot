@@ -20,7 +20,7 @@ export function addRoll(ctx: Context, config: Config) {
       )) return session.text('.noAuth')
 
       // time offset
-      const offset = getCurrentUTCOffset(ctx, session, config)
+      const offset = await getCurrentUTCOffset(ctx, session, config)
 
       if (options.n) {
         // Fast add
@@ -72,14 +72,14 @@ export function addRoll(ctx: Context, config: Config) {
         if (!prize) return session.text('commands.timeout')
 
         let endTime
-        await session.send(session.text('.autoEnd', [await offset]))
+        await session.send(session.text('.autoEnd', [offset]))
         let endTimeInput = await session.prompt()
         if (!endTimeInput) return session.text('commands.timeout')
         if (endTimeInput === 'n') endTime = ''
         else if (!isValidDateInput(endTimeInput)) return session.text('.timeError')
         else {
           try {
-            endTime = await dateInputToDateTime(endTimeInput, await offset).toUTC()
+            endTime = dateInputToDateTime(endTimeInput, offset).toUTC().toJSDate()
           } catch (e) {
             return session.text('.timeError')
           }

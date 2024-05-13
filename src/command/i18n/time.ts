@@ -12,7 +12,7 @@ export function time(ctx: Context, config: Config) {
     .action(async ({session, options}, offset) => {
       // solve the problem that the time offset starting with - is regarded as a command option
       if (!offset) {
-        const input = session.event.message.content
+        const input = session.event.message.content? session.event.message.content : ''
         const match = getTimeOffset(input)
         if (match != '') offset = match
       }

@@ -11,8 +11,19 @@ export function addRemind(ctx: Context, config: Config) {
     .channelFields(['offset'])
     .action(async ({session}) => {
       const offset = await getCurrentUTCOffset(ctx, session, config)
-      const rule = new schedule.RecurrenceRule()
-      let time, duration
+      let time: DateTime
+      let duration: Duration
+      let rule = {
+        recurs: true,
+        year: null,
+        month: null,
+        date: null,
+        hour: null,
+        minute: '0',
+        second: '0',
+        tz: 'Etc/UTC'
+      }
+
       await session.send(session.text('.type'))
       const type = await session.prompt()
       if (!type) return session.text('commands.timeout')
@@ -30,9 +41,12 @@ export function addRemind(ctx: Context, config: Config) {
         let t
         if (timeArray.length === 4) {
           t = {year: timeArray[0], month: timeArray[1],day: timeArray[2], hour: timeArray[3]}
-        } else {
+        } else if (timeArray.length === 5) {
           t = {year: timeArray[0], month: timeArray[1],day: timeArray[2], hour: timeArray[3], minute: timeArray[4]}
+        } else {
+          return session.text('.timeError')
         }
+
         time = DateTime.fromObject(t, { zone: offset }).toUTC()
       } else if (type === '1') {
         // before end
@@ -46,9 +60,9 @@ export function addRemind(ctx: Context, config: Config) {
         const timeArray = input.split('-')
         let t
         if (timeArray.length === 4) {
-          t = {years: timeArray[0], months: timeArray[1],days: timeArray[2], hours: timeArray[3]}
+          t = {years: timeArray[0], months: timeArray[1],day: timeArray[2], hours: timeArray[3]}
         } else {
-          t = {years: timeArray[0], months: timeArray[1],days: timeArray[2], hours: timeArray[3], minutes: timeArray[4]}
+          t = {years: timeArray[0], months: timeArray[1],day: timeArray[2], hours: timeArray[3], minutes: timeArray[4]}
         }
         duration = Duration.fromObject(t)
       } else if (type === '2') {
@@ -65,7 +79,7 @@ export function addRemind(ctx: Context, config: Config) {
 
           const ruleArray = input.split('-')
           rule.month = ruleArray[0]
-          rule.day = ruleArray[1]
+          rule.date = ruleArray[1]
           rule.hour = ruleArray[2]
           if (ruleArray.length === 4) rule.minute = ruleArray[3]
         } else if (select === '1') {
@@ -76,7 +90,7 @@ export function addRemind(ctx: Context, config: Config) {
           else if (!regex.test(input)) return session.text('.timeError')
 
           const ruleArray = input.split('-')
-          rule.day = ruleArray[0]
+          rule.date = ruleArray[0]
           rule.hour = ruleArray[1]
           if (ruleArray.length === 3) rule.minute = ruleArray[2]
         } else if (select === '2') {
@@ -106,27 +120,26 @@ export function addRemind(ctx: Context, config: Config) {
         return session.text('.typeError')
       }
 
-      rule.tz = 'Etc/UTC'
-
       const reminderCodeRes = await ctx.database.get('reminder', {}, ['reminder_code'])
       const existingCodes = reminderCodeRes.map((item) => item.reminder_code)
       const reminderCode = await generateUniqueCode(existingCodes)
       const reminder = {
         reminder_code: reminderCode,
         type: type,
-        time: time? time : null,
+        time: time? time.toJSDate() : {},
         last_call: new Date(),
         recurrence_rule: rule,
-        duration: duration? duration : null
+        duration: duration? duration.toObject() : {}
       }
 
       // if exist in database, only add user_reminder
-      const checkDuplicate = await ctx.database.get('reminder', {
+      const check = {
         type: reminder.type,
         time: reminder.time,
-        duration: reminder.duration.toJSON(),
-        recurrence_rule: JSON.stringify(reminder.recurrence_rule)
-      })
+        duration: reminder.duration,
+        recurrence_rule: reminder.recurrence_rule
+      }
+      const checkDuplicate = await ctx.database.get('reminder', check)
       if (checkDuplicate.length > 0) {
         const res = await ctx.database.get('user_reminder', {user_id: session.user.id, reminder_id: checkDuplicate[0].id})
         if (res.length > 0) return session.text('.exist', [checkDuplicate[0].reminder_code])

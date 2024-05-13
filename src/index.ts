@@ -20,9 +20,8 @@ export const schedule = require('node-schedule')
 
 export async function apply(ctx: Context, config: Config) {
   // localization
-  ctx.i18n.define('de-DE', require('./locales/de-DE'))
-  ctx.i18n.define('en-US', require('./locales/en-US'))
-  ctx.i18n.define('zh-CN', require('./locales/zh-CN'))
+  ['de-DE', 'en-US', 'zh-CN']
+    .forEach(lang => ctx.i18n.define(lang, require(`./locales/${lang}`)))
   // initialization
   ctx.on('ready', () => {
     bots = ctx.bots

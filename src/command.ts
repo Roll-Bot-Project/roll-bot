@@ -17,6 +17,8 @@ import {locale} from './command/i18n/locale'
 import {time} from './command/i18n/time'
 
 import {addRemind} from './command/remind/add'
+import {deleteRemind} from "./command/remind/delete"
+import {listRemind} from "./command/remind/list"
 
 export const name = 'Command'
 
@@ -39,6 +41,6 @@ export function apply(ctx: Context, config: Config) {
   addRemind(ctx, config)
   //enableRemind(ctx, config)
   //disableRemind(ctx, config)
-  //deleteRemind(ctx, config)
-  //listRemind(ctx, config)
+  deleteRemind(ctx, config)
+  listRemind(ctx, config)
 }
