@@ -119,8 +119,22 @@ export function addRemind(ctx: Context, config: Config) {
         recurrence_rule: rule,
         duration: duration? duration : null
       }
-      console.log(reminder)
-      ctx.emit('roll-bot/remind-add', session, reminder)
+
+      // if exist in database, only add user_reminder
+      const checkDuplicate = await ctx.database.get('reminder', {
+        type: reminder.type,
+        time: reminder.time,
+        duration: reminder.duration.toJSON(),
+        recurrence_rule: JSON.stringify(reminder.recurrence_rule)
+      })
+      if (checkDuplicate.length > 0) {
+        const res = await ctx.database.get('user_reminder', {user_id: session.user.id, reminder_id: checkDuplicate[0].id})
+        if (res.length > 0) return session.text('.exist', [checkDuplicate[0].reminder_code])
+        await ctx.database.create('user_reminder', {user_id: session.user.id, reminder_id: checkDuplicate[0].id})
+        return session.text('.success', [checkDuplicate[0].reminder_code])
+      }
+
+      ctx.emit('roll-bot/reminder-add', session, reminder)
       return session.text('.success', [reminderCode])
     })
 }

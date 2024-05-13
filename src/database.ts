@@ -149,9 +149,9 @@ export function apply(ctx: Context) {
     reminder_code: 'string',
     type: 'string',
     time: 'timestamp',
-    lastCall: 'timestamp',
-    recurrence_rule: 'json',
-    duration: 'json'
+    last_call: 'timestamp',
+    duration: 'json',
+    recurrence_rule: 'json'
   }, {
     autoInc: true,
   })

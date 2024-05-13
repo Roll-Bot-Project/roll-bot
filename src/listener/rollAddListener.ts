@@ -19,8 +19,6 @@ export function rollAddListener(ctx: Context, config: Config) {
       })
     }
 
-    const reminderRes = await ctx.database.create('reminder', reminder)
-
     await ctx.database.create('roll_creator', {
       roll_id: rollRes.id,
       user_id: session.user.id
@@ -31,8 +29,8 @@ export function rollAddListener(ctx: Context, config: Config) {
       channel_platform: session.event.platform
     })
 
-    // Create default reminds
-    ctx.emit('roll-bot/remind-add',session)
+    // Apply default reminds
+    ctx.emit('roll-bot/reminder-add',session)
     // Create auto end if true
 
   })

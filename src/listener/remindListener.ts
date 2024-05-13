@@ -11,17 +11,6 @@ export function remindListener(ctx: Context, config: Config) {
     }
   })
 
-  ctx.on('roll-bot/remind-add', (
-    session,
-    reminder
-  ) => {
-
-  })
-
-  ctx.on('roll-bot/remind-delete', () => {
-
-  })
-
   ctx.on('roll-bot/remind-broadcast', () => {
 
   })

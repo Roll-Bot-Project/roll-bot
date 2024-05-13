@@ -6,7 +6,9 @@ import {rollEndListener} from "./listener/rollEndListener"
 import {rollExpiredListener} from "./listener/rollExpiredListener"
 import {keyCacheListener} from "./listener/keyCacheListener"
 import {rollJoinListener} from "./listener/rollJoinListener"
-import {rollQuitListener} from "./listener/rollQuitListener";
+import {rollQuitListener} from "./listener/rollQuitListener"
+import {reminderAddListener} from "./listener/reminderAddListener"
+import {reminderDeleteListener} from "./listener/reminderDeleteListener"
 import {remindListener} from "listener/remindListener"
 
 
@@ -20,8 +22,8 @@ declare module 'koishi' {
     'roll-bot/roll-expired'(...args: any[]): void
     'roll-bot/roll-join'(...args: any[]): void
     'roll-bot/roll-quit'(...args: any[]): void
-    'roll-bot/remind-add'(...args: any[]): void
-    'roll-bot/remind-delete'(...args: any[]): void
+    'roll-bot/reminder-add'(...args: any[]): void
+    'roll-bot/reminder-delete'(...args: any[]): void
     'roll-bot/remind-broadcast'(...args: any[]): void
   }
 }
@@ -33,5 +35,7 @@ export function apply(ctx: Context, config: Config) {
   rollExpiredListener(ctx, config)
   rollJoinListener(ctx, config)
   rollQuitListener(ctx, config)
+  reminderAddListener(ctx, config)
+  reminderDeleteListener(ctx, config)
   //remindListener(ctx, config)
 }
