@@ -189,7 +189,7 @@ commands:
       success: |-
         Erinnerungsersteller erfolgreich erstellt, Nummer {0}
       exist: |-
-        已有相同的提醒器，编号为 {0}
+        Es gibt bereits eine ähnliche Erinnerung mit der Nummer {0}
       timeError: |-
         时间格式错误，请重新创建！
       typeError: |-
