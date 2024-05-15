@@ -7,7 +7,8 @@ _config:
     timeoutSeconds: |-
       Die Wartezeit für alle interaktiven Aktionen (in Sekunden)
     defaultTimeOffset: |-
-      Standard-Zeitversatz für Benutzer ohne festgelegte Zeitzone<br />Geben Sie die Differenz zwischen lokaler Zeit und UTC an, z. B. `+5` `-9:30` `−00:25:21`
+      <p>未设置时区的用户默认所在的时区（偏移量）</p>
+      <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
   permission:
     $description: |-
       Berechtigungseinstellungen
@@ -20,17 +21,28 @@ _config:
   remind:
     $description: |-
       Erinnerungseinstellungen
-    defaultReminders: |-
-      Standarderinnerungen festlegen
+    defaultReminders:
+      $description: |-
+        <p>设置默认的提醒器</p>
+        <p><b>type:</b> 提醒器类型，包括如下二种：</p>
+        <ul>
+        <li><b>定时提醒器：</b>在指定时间提醒一次</li>
+        <li><b>结束前提醒器：</b>抽奖结束前一定时间提醒一次</li>
+        </ul>
+        <p><b>value:</b> 时间或间隔，格式为 <b>年-月-日-时-分</b></p>
+      type:
+        $inner:
+          - 定时提醒器
+          - 结束前提醒器
 commands:
   timeout: |-
     Eingabezeitüberschreitung
   roll:
     description: |-
-      Gewinnspiel-Funktion
+      Roll Bot 抽奖功能
   roll.help:
     description: |-
-      Hilfeinformationen
+      显示 Roll Bot 帮助信息
     messages:
       help: |-
         <p>Hilfsdokument:</p>
@@ -137,7 +149,7 @@ commands:
         Bitte geben Sie die Lotterienummer ein!
   roll.time:
     description: |-
-
+      修改时区
     messages:
       inValidFormat: |-
         Bitte geben Sie das richtige Format für die Zeitzonenverschiebung ein!
@@ -159,7 +171,7 @@ commands:
           修改成功, deine aktuelle Zeitzone ist UTC{0}.
   roll.locale:
     description: |-
-
+      修改语言偏好
     messages:
       inValidFormat: |-
         Bitte geben Sie das richtige Format für die Sprachpräferenz ein!
@@ -181,7 +193,7 @@ commands:
           Änderung erfolgreich, deine aktuelle Spracheinstellung ist {0}.
   remind:
     description: |-
-      Erinnerungsfunktion
+      Roll Bot 提醒功能
   remind.add:
     description: |-
       Erstellen eines Erinnerungsgeräts
@@ -232,6 +244,26 @@ commands:
           <p>Wann möchten Sie jede Stunde erinnert werden?</p>
           <p>Format: Minute</p>
           <p>Aktuelle Zeitzone: {0}</p>
+  remind.delete:
+    description: |-
+      删除一个提醒器
+  remind.list:
+    description: |-
+      查询提醒器列表
+  remind.enable:
+    description: |-
+      启用一个提醒器
+    messages:
+      emptyRoll: |-
+        未找到抽奖编号，请重新输入！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      rollEnd: |-
+        该抽奖已结束，无法启用提醒器！
+      noAuth: |-
+        你没有权限启用提醒器！
+      success: |-
+        启用提醒器成功！
 events:
   roll.add:
     success: |-
@@ -243,6 +275,11 @@ events:
       <quote id={messageId}/> Erfolgreich aus dem Losungscode {rollCode} ausgetreten.
     failed: |-
       <quote id={messageId}/> Sie haben nicht am Losungscode {rollCode} teilgenommen.
+  remind.broadcast:
+    message: |-
+      <p>编号为 {rollCode} 的抽奖正在进行中~</p>
+    messageWithDiff: |-
+      <p>编号为 {rollCode} 的抽奖还有 {diff} 就要结束啦~</p>
 messageBuilder:
   marks:
     open: |-
@@ -253,6 +290,12 @@ messageBuilder:
       [Aktiviert]
     disable: |-
       [Deaktiviert]
+    specified: |-
+      [定时提醒]
+    beforeEnd: |-
+      [结束前提醒]
+    interval: |-
+      [间隔提醒]
   roll.list:
     error: |-
       Keine Verlosung gefunden!
@@ -261,6 +304,8 @@ messageBuilder:
     listItem: |-
       <p>[{roll_code}] {title}</p>
   roll.detail:
+    noEndTime: |-
+      无
     divider: |-
       <p>---------</p>
     header: |-
@@ -288,10 +333,34 @@ messageBuilder:
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      Lotterie {0} wurde gezogen!<br />
-      <p>Herzlichen Glückwunsch an folgende Benutzer：</p>
+      <p>抽奖 {0} 开奖啦！</p>
+      <p>恭喜以下用户：</p>
     body:
       winner: |-
         <p>{userName} ({userId}) hat gewonnen：</p>
       winList: |-
         <p> - {name} * {amount}</p>
+  reminder.list:
+    error: |-
+      你还没有创建过提醒器！
+    header: |-
+      <p>你创建的提醒器列表：</p>
+    listItem: |-
+      <p>[{remind_code}] {description}</p>
+    description:
+      specified: |-
+        在 {timeDescription} 提醒一次
+      beforeEnd: |-
+        在抽奖结束前 {timeDescription} 提醒一次
+      interval: |-
+        在每个 {intervalDescription} 提醒一次
+      year: |-
+        {0} 年
+      month: |-
+        {0} 月
+      day: |-
+        {0} 日
+      hour: |-
+        {0} 时
+      minute: |-
+        {0} 分
