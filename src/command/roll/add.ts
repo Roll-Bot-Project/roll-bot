@@ -1,7 +1,7 @@
 import { Context } from 'koishi';
 import { Config } from '../../config';
 import { DateTime } from 'luxon';
-import { stringToPrize, generateUniqueCode } from "../../util/general";
+import {stringToPrize, generateUniqueCode, dateInputToDateTime, checkDateInput} from "../../util/general";
 import {hasPermission, isGuildAdmin, isPluginAdmin} from "../../util/role";
 import {getCurrentUTCOffset} from "../../util/time";
 
@@ -76,7 +76,7 @@ export function addRoll(ctx: Context, config: Config) {
         let endTimeInput = await session.prompt()
         if (!endTimeInput) return session.text('commands.timeout')
         if (endTimeInput === 'n') endTime = ''
-        else if (!isValidDateInput(endTimeInput)) return session.text('.timeError')
+        else if (!checkDateInput(endTimeInput, 5)) return session.text('.timeError')
         else {
           try {
             endTime = dateInputToDateTime(endTimeInput, offset).toUTC().toJSDate()
@@ -129,26 +129,10 @@ export function addRoll(ctx: Context, config: Config) {
           prizeList,
           {}
         )
-        ctx.emit('roll-bot/roll-key-update')
 
         return session.text(`.success`, [roll.roll_code])
       }
     })
 }
 
-function isValidDateInput(input: string): boolean {
-  const regex = /\d{4}-\d{1,2}-\d{1,2}-\d{1,2}(-\d{1,2})?/
-  return regex.test(input)
-}
 
-function dateInputToDateTime(input: string, offset: string): DateTime {
-  // year - month - day - hour - minutes
-  const timeArray = input.split('-')
-  let t
-  if (timeArray.length === 4) {
-    t = {year: timeArray[0], month: timeArray[1],day: timeArray[2], hour: timeArray[3]}
-  } else {
-    t = {year: timeArray[0], month: timeArray[1],day: timeArray[2], hour: timeArray[3], minute: timeArray[4]}
-  }
-  return DateTime.fromObject(t, { zone: offset })
-}

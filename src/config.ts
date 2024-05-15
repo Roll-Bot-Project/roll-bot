@@ -18,10 +18,11 @@ namespace PermissionConfig {
 
 namespace RemindConfig {
   export interface Config {
-    defaultReminders: {
+    defaultReminders?: Array<{
       type: string
-      cron: string
-    }
+      value: string
+    }>
+
   }
 }
 
@@ -47,10 +48,15 @@ const permissionConfig: Schema<PermissionConfig.Config> = Schema.object({
 })
 
 const remindConfig: Schema<RemindConfig.Config> = Schema.object({
-  defaultReminders: Schema.object({
-    type: Schema.string(),
-    cron: Schema.string()
-  })
+  defaultReminders: Schema.array(
+    Schema.object({
+      type: Schema.union([
+        Schema.const('0'),
+        Schema.const('1')
+      ]),
+      value: Schema.string().pattern(/^\d{1,4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/),
+    })
+  ).role('table'),
 })
 
 export const Config: Schema<Config> = Schema.object({

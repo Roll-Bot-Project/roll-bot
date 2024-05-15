@@ -1,12 +1,13 @@
 import { Context } from 'koishi';
 import { Config } from '../../config';
+import {reminderListMsgFromUserId} from "../../util/messageBuilder";
 
-export function listRemind(ctx: Context, config: Config) {
+export function listReminder(ctx: Context, config: Config) {
   ctx.command("remind.list")
     .userFields(['offset'])
     .channelFields(['offset'])
     .action(async ({session}) => {
-      const res = await ctx.database.get('reminder', {})
-      console.log(res)
+      const userId = session.user.id
+      return await reminderListMsgFromUserId(session, userId, config)
     })
 }

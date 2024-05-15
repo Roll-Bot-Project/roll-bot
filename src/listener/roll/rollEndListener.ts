@@ -1,9 +1,9 @@
 import {Context, $} from 'koishi';
 import {DateTime} from 'luxon'
-import {Config} from '../config';
-import {getWinnerList} from "../util/winnerGenerator";
-import {rollEndMsgFromRollId} from "../util/messageBuilder";
-import {bots} from "../index";
+import {Config} from '../../config';
+import {getWinnerList} from "../../util/winnerGenerator";
+import {rollEndMsgFromRollId} from "../../util/messageBuilder";
+import {bots} from "../../index";
 
 export function rollEndListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-end', async (rollId) => {

@@ -1,6 +1,6 @@
 import {Context} from 'koishi'
-import {Config} from '../config'
-import {rollKeyCache} from '../index'
+import {Config} from '../../config'
+import {rollKeyCache} from '../../index'
 
 export function keyCacheListener(ctx: Context, config: Config) {
   // init

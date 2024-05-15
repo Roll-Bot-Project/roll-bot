@@ -1,5 +1,5 @@
 import {Context, $} from 'koishi'
-import {Config} from '../config'
+import {Config} from '../../config'
 
 export function reminderAddListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/reminder-add', async (
@@ -7,7 +7,7 @@ export function reminderAddListener(ctx: Context, config: Config) {
     reminder
   ) => {
     const reminderRes = await ctx.database.create('reminder', reminder)
-    console.log(reminderRes)
+
     await ctx.database.create('user_reminder', {user_id: session.user.id, reminder_id: reminderRes.id})
   })
 }

@@ -1,5 +1,5 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
+import {Config} from '../../config';
 
 export function rollQuitListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-quit', async (

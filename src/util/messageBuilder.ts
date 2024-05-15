@@ -1,7 +1,9 @@
 import {Context, $, Session, h} from 'koishi'
-import { Config } from "../config";
+import {Config} from "../config";
 import {DateTime} from 'luxon';
 import {bots} from '../index'
+import {getCurrentUTCOffset} from "./time";
+import {getCurrentLocales} from "./locale";
 
 export async function rollListMsgFromChannelId(session: Session, cid: string, platform: string) {
   let msg = session.text('messageBuilder.roll.list.header')
@@ -34,15 +36,21 @@ export async function rollListMsgFromChannelId(session: Session, cid: string, pl
 }
 
 export async function rollDetailMsgFromRoll(session: Session, roll: any, currentOffset: string, currentLocale: string) {
-  const dt = DateTime.fromObject(roll.endTime, { zone: 'UTC' }).setZone(currentOffset)
+  const dt = DateTime.fromObject(roll.endTime, {zone: 'UTC'}).setZone(currentOffset)
   let msgList = []
   let msg = ""
+  let endTime
+  if ((!roll.isEnd) && (!roll.isAutoEnd)) {
+    endTime = session.text('messageBuilder.roll.detail.noEndTime')
+  } else {
+    endTime = dt.setLocale(currentLocale).toLocaleString(DateTime.DATETIME_FULL)
+  }
   msgList.push(session.text('messageBuilder.roll.detail.header', {
     mark: roll.isEnd ? session.text('messageBuilder.marks.end') : session.text('messageBuilder.marks.open'),
     roll_code: roll.roll_code,
     title: roll.title,
     description: roll.description,
-    endTime: dt.setLocale(currentLocale).toLocaleString(DateTime.DATETIME_FULL)
+    endTime: endTime
   }))
   // prize list
   msgList.push(session.text('messageBuilder.roll.detail.divider'))
@@ -50,7 +58,10 @@ export async function rollDetailMsgFromRoll(session: Session, roll: any, current
   const res = await session.app.database.get('roll_prize', {roll_id: roll.id})
   for (const e of res) {
     const prize = await session.app.database.get('prize', {id: e.prize_id})
-    msgList.push(session.text('messageBuilder.roll.detail.body.prizeListItem', {name: prize[0].name, amount: prize[0].amount}))
+    msgList.push(session.text('messageBuilder.roll.detail.body.prizeListItem', {
+      name: prize[0].name,
+      amount: prize[0].amount
+    }))
   }
   // if roll is end, show winner list
   if (roll.isEnd) {
@@ -69,7 +80,10 @@ export async function rollDetailMsgFromRoll(session: Session, roll: any, current
           user = await bot.getUser(userPlatformId[0].pid)
         }
       }
-      msgList.push(session.text('messageBuilder.roll.detail.body.winner', {userName: user.name, userId: userPlatformId[0].pid}))
+      msgList.push(session.text('messageBuilder.roll.detail.body.winner', {
+        userName: user.name,
+        userId: userPlatformId[0].pid
+      }))
       for (const e of r) {
         if (e.roll_prize.roll_id === roll.id && e.user_prize.user_id === userId) {
           isWinner = true
@@ -86,8 +100,8 @@ export async function rollDetailMsgFromRoll(session: Session, roll: any, current
       isWinner = false
     }
   }
-  msgList.forEach((str) => msg += h.unescape(str))
-  return msg
+  msgList.forEach((str) => msg += str)
+  return h.unescape(msg)
 }
 
 export async function rollMemberMsgFromRoll(session: Session, roll: any) {
@@ -123,8 +137,8 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
     locales = currentChannel[0].locales
   }
   let msgList = []
-  let msg = ""
-  msgList[0] = ctx.i18n.render(locales, ['messageBuilder.roll.end.header'], [roll.roll_code])
+  let msg = ''
+  msgList.push(ctx.i18n.render(locales, ['messageBuilder.roll.end.header'], [roll.roll_code])[0])
   const res = await ctx.database.get('roll_member', {roll_id: roll.id}, ['user_id'])
   const r = await ctx.database.join(['roll_prize', 'user_prize'], (roll_prize, user_prize) => $.eq(roll_prize.prize_id, user_prize.prize_id)).execute()
   // for every member
@@ -138,9 +152,12 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
         user = await bot.getUser(userPlatformId[0].pid)
       }
     }
-    msgList.push(ctx.i18n.render(locales, ['messageBuilder.roll.end.body.winner'], {userName: user.name, userId: userPlatformId[0].pid})[0])
+    msgList.push(ctx.i18n.render(locales, ['messageBuilder.roll.end.body.winner'], {
+      userName: user.name,
+      userId: userPlatformId[0].pid
+    })[0])
     for (const e of r) {
-      if (e.roll_prize.roll_id === roll.id.toString() && e.user_prize.user_id === userId) {
+      if (e.roll_prize.roll_id === roll.id && e.user_prize.user_id === userId) {
         isWinner = true
         const prizeDetail = await ctx.database.get('prize', {id: e.roll_prize.prize_id})
         msgList.push(ctx.i18n.render(locales, ['messageBuilder.roll.end.body.winList'], {
@@ -156,4 +173,130 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
   }
   msgList.forEach((str) => msg += str)
   return h.unescape(msg)
+}
+
+export async function reminderListMsgFromUserId(session: Session, userId: string, config: Config) {
+  const ctx = session.app
+  let msg = session.text('messageBuilder.reminder.list.header')
+  let specifedList = '<p>' + session.text('messageBuilder.marks.specified') + '</p>'
+  let beforeEndList = '<p>' + session.text('messageBuilder.marks.beforeEnd') + '</p>'
+  let intervalList = '<p>' + session.text('messageBuilder.marks.interval') + '</p>'
+  let isSpecifedListEmpty = true
+  let isBeforeEndListEmpty = true
+  let isIntervalListEmpty = true
+
+  const r = await ctx.database.get('user_reminder', {user_id: userId})
+  if (r.length === 0) return session.text('messageBuilder.reminder.list.error')
+  const res = r.map((item) => item.reminder_id)
+
+  let listItem
+  for (const reminderId of res) {
+    let listItemRes = await ctx.database.get('reminder', {id: reminderId})
+
+    if (listItemRes.length === 1) {
+      listItem = {
+        remind_code: listItemRes[0].reminder_code,
+        description: getReminderDescription(session, listItemRes[0], await getCurrentUTCOffset(ctx, session, config), getCurrentLocales(ctx, session, config)),
+      }
+      switch (listItemRes[0].type) {
+        case '0':
+          specifedList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isSpecifedListEmpty = false
+          break
+        case '1':
+          beforeEndList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isBeforeEndListEmpty = false
+          break
+        case '2':
+          intervalList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isIntervalListEmpty = false
+          break
+      }
+    }
+  }
+  if (!isSpecifedListEmpty) msg += specifedList
+  if (!isBeforeEndListEmpty) msg += beforeEndList
+  if (!isIntervalListEmpty) msg += intervalList
+  return h.unescape(msg)
+}
+
+export function getReminderDescription(session: Session, reminder: any, offset: string, locale: string) {
+  let description = ''
+  let needKeep = false
+  const timeList = []
+  const timeUnit = ['year', 'month', 'day', 'hour', 'minute']
+  switch (reminder.type) {
+    case '0':
+      // specified
+      const dt = DateTime.fromObject(reminder.time, {zone: 'UTC'}).setZone(offset)
+      description = session.text('messageBuilder.reminder.list.description.beforeEnd', {timeDescription: dt.setLocale(locale).toLocaleString(DateTime.DATETIME_FULL)})
+      break
+    case '1':
+      // before end
+      const duration = {
+        year: reminder.duration.years || undefined,
+        month: reminder.duration.months || undefined,
+        day: reminder.duration.days || undefined,
+        hour: reminder.duration.hours || undefined,
+        minute: reminder.duration.minutes
+      }
+
+      timeUnit
+        .forEach(unit => {
+          if (duration[unit]) {
+            timeList.push(session.text(`messageBuilder.reminder.list.description.${unit}`, [duration[unit]]))
+          }
+        })
+
+      needKeep = false
+      timeUnit
+        .forEach(unit => {
+          if ((!needKeep) && (duration[unit] === '0' || duration[unit] === '00')) {
+            timeList.unshift()
+          } else {
+            needKeep = true
+          }
+        })
+
+      description = session.text('messageBuilder.reminder.list.description.beforeEnd', {timeDescription: timeList.join(' ')})
+      break
+    case '2':
+      // interval
+      const rule = {
+        year: reminder.recurrence_rule.year || undefined,
+        month: reminder.recurrence_rule.month || undefined,
+        day: reminder.recurrence_rule.date || undefined,
+        hour: reminder.recurrence_rule.hour || undefined,
+        minute: reminder.recurrence_rule.minute
+      }
+      // apply offset
+      let d = DateTime.fromObject(rule, {zone: 'UTC'})
+      d = d.setZone(offset)
+      rule.year = rule.year? d.year : undefined
+      rule.month = rule.month? d.month : undefined
+      rule.day = rule.day? d.day : undefined
+      rule.hour = rule.hour? d.hour : undefined
+      rule.minute = rule.minute? d.minute : undefined
+
+      timeUnit
+        .forEach(unit => {
+          if (rule[unit]) {
+            timeList.push(session.text(`messageBuilder.reminder.list.description.${unit}`, [rule[unit]]))
+          }
+        })
+
+      needKeep = false
+      timeUnit
+        .forEach(unit => {
+          if ((!needKeep) && (rule[unit] === '0' || rule[unit] === '00')) {
+            timeList.unshift()
+          } else {
+            needKeep = true
+          }
+        })
+
+      description = session.text('messageBuilder.reminder.list.description.interval', {intervalDescription: timeList.join(' ')})
+      break
+  }
+  return description
 }

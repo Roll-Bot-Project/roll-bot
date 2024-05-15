@@ -1,23 +1,24 @@
 import {Context} from 'koishi';
-import {Config} from '../config';
-import {rollKeyCache} from "../index";
+import {Config} from '../../config';
+import {rollKeyCache} from "../../index";
 
 export function rollJoinListener(ctx: Context, config: Config) {
-  ctx.middleware(async (session, next) => {
+  ctx.on('message', async (session) => {
+    // TODO: Support img join key
     const content = session.content
     const channelId = session.channelId
     for (const roll of rollKeyCache.content) {
       if (content === roll.joinKey && !roll.isEnd) {
         const res = await ctx.database.get('roll_channel', {channel_id: channelId, channel_platform: session.event.platform})
         for (const rollChannel of res) {
-          if (rollChannel.roll_id === roll.id.toString()) {
+          if (rollChannel.roll_id === roll.id) {
             const bind = await ctx.database.get('binding', {platform: session.platform, pid: session.userId})
             ctx.emit('roll-bot/roll-join', session, bind[0].aid, roll.id, roll.roll_code)
           }
         }
       }
     }
-    return next()
+    //console.log(session.content, rollKeyCache.content)
   })
   ctx.on('roll-bot/roll-join', async (
     session,

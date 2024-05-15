@@ -8,7 +8,7 @@
   "homepage": "https://docs.logthm.com/roll-bot-project",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/logthm/koishi-plugin-roll-bot.git"
+    "url": "git+https://github.com/Roll-Bot-Project/roll-bot.git"
   },
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",

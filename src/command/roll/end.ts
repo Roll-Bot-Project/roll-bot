@@ -9,7 +9,7 @@ export function endRoll(ctx: Context, config: Config) {
     .userFields(['id'])
     .channelFields(['id'])
     .action(async ({session}, rollCode) => {
-      if (rollCode === undefined) {
+      if (!rollCode) {
         let msg = session.text('.wait.header')
         const resChannel = await ctx.database.get('roll_channel', {channel_id: session.channelId, channel_platform: session.platform})
         const resCreator = await ctx.database.get('roll_creator', {user_id: session.user.id})

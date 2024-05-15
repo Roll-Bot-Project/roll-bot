@@ -1,15 +1,20 @@
 import { Context } from "koishi"
 import { Config } from "./config";
 
-import {rollAddListener} from "./listener/rollAddListener"
-import {rollEndListener} from "./listener/rollEndListener"
-import {rollExpiredListener} from "./listener/rollExpiredListener"
-import {keyCacheListener} from "./listener/keyCacheListener"
-import {rollJoinListener} from "./listener/rollJoinListener"
-import {rollQuitListener} from "./listener/rollQuitListener"
-import {reminderAddListener} from "./listener/reminderAddListener"
-import {reminderDeleteListener} from "./listener/reminderDeleteListener"
-import {remindListener} from "listener/remindListener"
+import {rollAddListener} from "./listener/roll/rollAddListener"
+import {rollEndListener} from "./listener/roll/rollEndListener"
+import {rollAutoEndListener} from "./listener/roll/rollAutoEndListener"
+import {rollExpiredListener} from "./listener/roll/rollExpiredListener"
+import {keyCacheListener} from "./listener/roll/keyCacheListener"
+import {rollJoinListener} from "./listener/roll/rollJoinListener"
+import {rollQuitListener} from "./listener/roll/rollQuitListener"
+
+import {reminderAddListener} from "./listener/reminder/reminderAddListener"
+import {reminderDeleteListener} from "./listener/reminder/reminderDeleteListener"
+
+import {remindAddListener} from "./listener/remind/remindAddListener"
+import {remindDeleteListener} from "./listener/remind/remindDeleteListener"
+import {remindBroadcastListener} from "./listener/remind/remindBroadcastListener"
 
 
 export const name = 'Listener'
@@ -24,6 +29,8 @@ declare module 'koishi' {
     'roll-bot/roll-quit'(...args: any[]): void
     'roll-bot/reminder-add'(...args: any[]): void
     'roll-bot/reminder-delete'(...args: any[]): void
+    'roll-bot/remind-add'(...args: any[]): void
+    'roll-bot/remind-delete'(...args: any[]): void
     'roll-bot/remind-broadcast'(...args: any[]): void
   }
 }
@@ -32,10 +39,13 @@ export function apply(ctx: Context, config: Config) {
   keyCacheListener(ctx, config)
   rollAddListener(ctx, config)
   rollEndListener(ctx, config)
+  rollAutoEndListener(ctx, config)
   rollExpiredListener(ctx, config)
   rollJoinListener(ctx, config)
   rollQuitListener(ctx, config)
   reminderAddListener(ctx, config)
   reminderDeleteListener(ctx, config)
-  //remindListener(ctx, config)
+  remindAddListener(ctx, config)
+  remindDeleteListener(ctx, config)
+  remindBroadcastListener(ctx, config)
 }

@@ -29,5 +29,5 @@ export function isGuildAdmin(session: any): boolean {
 }
 
 export async function isRollCreator(session: any, rollCreatorId: number): Promise<boolean> {
-  return session.user.id.toString() === rollCreatorId
+  return session.user.id === rollCreatorId
 }
