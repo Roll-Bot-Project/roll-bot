@@ -23,26 +23,26 @@ _config:
       Erinnerungseinstellungen
     defaultReminders:
       $description: |-
-        <p>设置默认的提醒器</p>
+        <p>设置默认的 Verlosung,</p>
         <p><b>type:</b> 提醒器类型，包括如下二种：</p>
         <ul>
         <li><b>定时提醒器：</b>在指定时间提醒一次</li>
-        <li><b>结束前提醒器：</b>抽奖结束前一定时间提醒一次</li>
+        <li><b>结束前提醒器：</b> Verlosung结束前一定时间提醒一次</li>
         </ul>
         <p><b>value:</b> 时间或间隔，格式为 <b>年-月-日-时-分</b></p>
       type:
         $inner:
-          - 定时提醒器
-          - 结束前提醒器
+          - Zeitgesteuerter Erinnerungsgerät
+          - Endzeit-Erinnerungsgerät
 commands:
   timeout: |-
     Eingabezeitüberschreitung
   roll:
     description: |-
-      Roll Bot 抽奖功能
+      Roll Bot Verlosungsfunktion
   roll.help:
     description: |-
-      显示 Roll Bot 帮助信息
+      Zeige Roll Bot Hilfeinformationen
     messages:
       help: |-
         <p>Hilfsdokument:</p>
@@ -149,7 +149,7 @@ commands:
         Bitte geben Sie die Lotterienummer ein!
   roll.time:
     description: |-
-      修改时区
+      Ändern Sie die Zeitzone
     messages:
       inValidFormat: |-
         Bitte geben Sie das richtige Format für die Zeitzonenverschiebung ein!
@@ -171,7 +171,7 @@ commands:
           修改成功, deine aktuelle Zeitzone ist UTC{0}.
   roll.locale:
     description: |-
-      修改语言偏好
+      Ändern Sie die Sprachpräferenz
     messages:
       inValidFormat: |-
         Bitte geben Sie das richtige Format für die Sprachpräferenz ein!
@@ -193,7 +193,7 @@ commands:
           Änderung erfolgreich, deine aktuelle Spracheinstellung ist {0}.
   remind:
     description: |-
-      Roll Bot 提醒功能
+      Roll Bot Erinnerungsfunktion
   remind.add:
     description: |-
       Erstellen eines Erinnerungsgeräts
@@ -246,24 +246,24 @@ commands:
           <p>Aktuelle Zeitzone: {0}</p>
   remind.delete:
     description: |-
-      删除一个提醒器
+      Löschen eines Erinnerungers
   remind.list:
     description: |-
-      查询提醒器列表
+      查询 Erinnerung器列表
   remind.enable:
     description: |-
-      启用一个提醒器
+      Aktivieren eines Erinnerungers
     messages:
       emptyRoll: |-
-        未找到抽奖编号，请重新输入！
+        未找到 Verlosungsnummer, Bitte erneut eingeben！
       emptyReminder: |-
-        未找到提醒器编号，请重新输入！
+        未找到 Erinnerungsernummer, Bitte erneut eingeben！
       rollEnd: |-
-        该抽奖已结束，无法启用提醒器！
+        该 Verlosung 已结束，无法启用 Erinnerunger！
       noAuth: |-
-        你没有权限启用提醒器！
+        Sie haben keine Berechtigung, Erinnerunger zu aktivieren！
       success: |-
-        启用提醒器成功！
+        Erinnerunger erfolgreich aktiviert！
 events:
   roll.add:
     success: |-
@@ -277,9 +277,9 @@ events:
       <quote id={messageId}/> Sie haben nicht am Losungscode {rollCode} teilgenommen.
   remind.broadcast:
     message: |-
-      <p>编号为 {rollCode} 的抽奖正在进行中~</p>
+      <p>编号为 {rollCode} 的 Verlosung正在进行中~</p>
     messageWithDiff: |-
-      <p>编号为 {rollCode} 的抽奖还有 {diff} 就要结束啦~</p>
+      <p>编号为 {rollCode} 的 Verlosung noch {diff} gerade vor Ende~</p>
 messageBuilder:
   marks:
     open: |-
@@ -291,11 +291,11 @@ messageBuilder:
     disable: |-
       [Deaktiviert]
     specified: |-
-      [定时提醒]
+      [定时 Erinnerung]
     beforeEnd: |-
-      [结束前提醒]
+      [结束前 Erinnerung]
     interval: |-
-      [间隔提醒]
+      [间隔 Erinnerung]
   roll.list:
     error: |-
       Keine Verlosung gefunden!
@@ -305,7 +305,7 @@ messageBuilder:
       <p>[{roll_code}] {title}</p>
   roll.detail:
     noEndTime: |-
-      无
+      Keine
     divider: |-
       <p>---------</p>
     header: |-
@@ -333,8 +333,8 @@ messageBuilder:
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      <p>抽奖 {0} 开奖啦！</p>
-      <p>恭喜以下用户：</p>
+      <p>Verlosung {0} Gewinner bekannt gegeben~</p>
+      <p>Herzlichen Glückwunsch an die folgenden Benutzer:</p>
     body:
       winner: |-
         <p>{userName} ({userId}) hat gewonnen：</p>
@@ -342,25 +342,25 @@ messageBuilder:
         <p> - {name} * {amount}</p>
   reminder.list:
     error: |-
-      你还没有创建过提醒器！
+      Sie haben noch keine Erinnerunger erstellt！
     header: |-
-      <p>你创建的提醒器列表：</p>
+      <p>Die von Ihnen erstellte Erinnerungerliste:</p>
     listItem: |-
       <p>[{remind_code}] {description}</p>
     description:
       specified: |-
-        在 {timeDescription} 提醒一次
+        Bei {timeDescription} einmal erinnern
       beforeEnd: |-
-        在抽奖结束前 {timeDescription} 提醒一次
+        Bei Verlosungsende vor {timeDescription} einmal erinnern
       interval: |-
-        在每个 {intervalDescription} 提醒一次
+        Bei jedem {intervalDescription} einmal erinnern
       year: |-
-        {0} 年
+        {0} Jahr
       month: |-
-        {0} 月
+        {0} Monat
       day: |-
-        {0} 日
+        {0} Tag
       hour: |-
-        {0} 时
+        {0} Stunde
       minute: |-
-        {0} 分
+        {0} Minuten
