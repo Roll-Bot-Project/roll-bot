@@ -7,7 +7,8 @@ _config:
     timeoutSeconds: |-
       Duration of all interactive actions waiting for replies (in seconds)
     defaultTimeOffset: |-
-      Default time zone (offset) for the user of the timezone<br />to fill out the difference between local time and UTC, e.g. `+5` ``-9:30`` - 00:25:21`
+      <p>未设置时区的用户默认所在的时区（偏移量）</p>
+      <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
   permission:
     $description: |-
       Permission Settings
@@ -20,17 +21,28 @@ _config:
   remind:
     $description: |-
       Reminder Settings
-    defaultReminders: |-
-      Set default reminder
+    defaultReminders:
+      $description: |-
+        <p>设置默认的提醒器</p>
+        <p><b>type:</b> 提醒器类型，包括如下二种：</p>
+        <ul>
+        <li><b>定时提醒器：</b>在指定时间提醒一次</li>
+        <li><b>结束前提醒器：</b>抽奖结束前一定时间提醒一次</li>
+        </ul>
+        <p><b>value:</b> 时间或间隔，格式为 <b>年-月-日-时-分</b></p>
+      type:
+        $inner:
+          - 定时提醒器
+          - 结束前提醒器
 commands:
   timeout: |-
     Input Timeout
   roll:
     description: |-
-      Pickup features
+      Roll Bot 抽奖功能
   roll.help:
     description: |-
-      Help Info
+      显示 Roll Bot 帮助信息
     messages:
       help: |-
         <p>Help document：</p>
@@ -137,7 +149,7 @@ commands:
         Please enter a draw number!
   roll.time:
     description: |-
-
+      修改时区
     messages:
       inValidFormat: |-
         Please enter the correct timezone offset value!
@@ -159,7 +171,7 @@ commands:
           Modified successfully. Your current time zone is UTC{0}.
   roll.locale:
     description: |-
-
+      修改语言偏好
     messages:
       inValidFormat: |-
         Please enter the correct language preference format!
@@ -181,7 +193,7 @@ commands:
           Successfully modified, your current language preference is {0}.
   remind:
     description: |-
-      Reminder functions
+      Roll Bot 提醒功能
   remind.add:
     description: |-
       Create a reminder
@@ -232,6 +244,26 @@ commands:
           <p>When do you want to remind you every hour?</p>
           <p>Format：minutes</p>
           <p>Current timezone：{0}</p>
+  remind.delete:
+    description: |-
+      删除一个提醒器
+  remind.list:
+    description: |-
+      查询提醒器列表
+  remind.enable:
+    description: |-
+      启用一个提醒器
+    messages:
+      emptyRoll: |-
+        未找到抽奖编号，请重新输入！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      rollEnd: |-
+        该抽奖已结束，无法启用提醒器！
+      noAuth: |-
+        你没有权限启用提醒器！
+      success: |-
+        启用提醒器成功！
 events:
   roll.add:
     success: |-
@@ -243,6 +275,11 @@ events:
       <quote id={messageId}/> Successfully exited the Roll with code {rollCode}.
     failed: |-
       <quote id={messageId}/> You have not joined the Roll with code {rollCode}.
+  remind.broadcast:
+    message: |-
+      <p>编号为 {rollCode} 的抽奖正在进行中~</p>
+    messageWithDiff: |-
+      <p>编号为 {rollCode} 的抽奖还有 {diff} 就要结束啦~</p>
 messageBuilder:
   marks:
     open: |-
@@ -253,6 +290,12 @@ messageBuilder:
       [启用中]
     disable: |-
       [已禁用]
+    specified: |-
+      [定时提醒]
+    beforeEnd: |-
+      [结束前提醒]
+    interval: |-
+      [间隔提醒]
   roll.list:
     error: |-
       No Pickups found!
@@ -261,6 +304,8 @@ messageBuilder:
     listItem: |-
       <p>[{roll_code}] {title}</p>
   roll.detail:
+    noEndTime: |-
+      无
     divider: |-
       <p>-----</p>
     header: |-
@@ -288,10 +333,34 @@ messageBuilder:
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      {0} prizes!<br />
-      <p>Congratulates：</p>
+      <p>抽奖 {0} 开奖啦！</p>
+      <p>恭喜以下用户：</p>
     body:
       winner: |-
         <p>{userName} ({userId}) obtained:</p>
       winList: |-
         <p> - {name} * {amount}</p>
+  reminder.list:
+    error: |-
+      你还没有创建过提醒器！
+    header: |-
+      <p>你创建的提醒器列表：</p>
+    listItem: |-
+      <p>[{remind_code}] {description}</p>
+    description:
+      specified: |-
+        在 {timeDescription} 提醒一次
+      beforeEnd: |-
+        在抽奖结束前 {timeDescription} 提醒一次
+      interval: |-
+        在每个 {intervalDescription} 提醒一次
+      year: |-
+        {0} 年
+      month: |-
+        {0} 月
+      day: |-
+        {0} 日
+      hour: |-
+        {0} 时
+      minute: |-
+        {0} 分
