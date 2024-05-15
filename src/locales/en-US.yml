@@ -7,8 +7,8 @@ _config:
     timeoutSeconds: |-
       Duration of all interactive actions waiting for replies (in seconds)
     defaultTimeOffset: |-
-      <p>未设置时区的用户默认所在的时区（偏移量）</p>
-      <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
+      <p>Default time zone (offset)</p>
+      <p>Fill out the difference between local time and UTC time, eg: `+5` ``-9:30` - 00:25:21`</p>
   permission:
     $description: |-
       Permission Settings
@@ -23,26 +23,26 @@ _config:
       Reminder Settings
     defaultReminders:
       $description: |-
-        <p>设置默认的提醒器</p>
-        <p><b>type:</b> 提醒器类型，包括如下二种：</p>
+        <p>Set default reminder</p>
+        <p><b>type:</b> Reminder type, including the following two types:</p>
         <ul>
-        <li><b>定时提醒器：</b>在指定时间提醒一次</li>
-        <li><b>结束前提醒器：</b>抽奖结束前一定时间提醒一次</li>
+        <li><b>Scheduled Reminder:</b> Remind once at a specified time</li>
+        <li><b>Pre-End Reminder:</b> Remind a certain time before the end of the Roll</li>
         </ul>
-        <p><b>value:</b> 时间或间隔，格式为 <b>年-月-日-时-分</b></p>
+        <p><b>value:</b> Time or interval, format is <b>year-month-day-hour-minute</b></p>
       type:
         $inner:
-          - 定时提醒器
-          - 结束前提醒器
+          - Timed Alarm
+          - Reminder Before End
 commands:
   timeout: |-
     Input Timeout
   roll:
     description: |-
-      Roll Bot 抽奖功能
+      Roll Bot Pickup
   roll.help:
     description: |-
-      显示 Roll Bot 帮助信息
+      Show Roll Bot help information
     messages:
       help: |-
         <p>Help document：</p>
@@ -149,7 +149,7 @@ commands:
         Please enter a draw number!
   roll.time:
     description: |-
-      修改时区
+      Modify timezone
     messages:
       inValidFormat: |-
         Please enter the correct timezone offset value!
@@ -171,7 +171,7 @@ commands:
           Modified successfully. Your current time zone is UTC{0}.
   roll.locale:
     description: |-
-      修改语言偏好
+      Change language preferences
     messages:
       inValidFormat: |-
         Please enter the correct language preference format!
@@ -193,7 +193,7 @@ commands:
           Successfully modified, your current language preference is {0}.
   remind:
     description: |-
-      Roll Bot 提醒功能
+      Roll Bot Reminder
   remind.add:
     description: |-
       Create a reminder
@@ -246,24 +246,24 @@ commands:
           <p>Current timezone：{0}</p>
   remind.delete:
     description: |-
-      删除一个提醒器
+      Delete a reminder
   remind.list:
     description: |-
-      查询提醒器列表
+      Reminder list
   remind.enable:
     description: |-
-      启用一个提醒器
+      Enable a reminder
     messages:
       emptyRoll: |-
-        未找到抽奖编号，请重新输入！
+        Pickup number not found, please try again!
       emptyReminder: |-
-        未找到提醒器编号，请重新输入！
+        Reminder ID not found, please try again!
       rollEnd: |-
-        该抽奖已结束，无法启用提醒器！
+        The drawing has ended, the Reminder cannot be enabled!
       noAuth: |-
-        你没有权限启用提醒器！
+        You do not have permission to enable reminder!
       success: |-
-        启用提醒器成功！
+        Notifier enabled successfully!
 events:
   roll.add:
     success: |-
@@ -277,9 +277,9 @@ events:
       <quote id={messageId}/> You have not joined the Roll with code {rollCode}.
   remind.broadcast:
     message: |-
-      <p>编号为 {rollCode} 的抽奖正在进行中~</p>
+      <p>Roll with code {rollCode} is currently ongoing~</p>
     messageWithDiff: |-
-      <p>编号为 {rollCode} 的抽奖还有 {diff} 就要结束啦~</p>
+      <p>Roll with code {rollCode} will end in {diff}~</p>
 messageBuilder:
   marks:
     open: |-
@@ -305,7 +305,7 @@ messageBuilder:
       <p>[{roll_code}] {title}</p>
   roll.detail:
     noEndTime: |-
-      无
+      None
     divider: |-
       <p>-----</p>
     header: |-
@@ -333,8 +333,8 @@ messageBuilder:
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      <p>抽奖 {0} 开奖啦！</p>
-      <p>恭喜以下用户：</p>
+      <p>Award {0} for</p>
+      <p>Congratulations on：</p>
     body:
       winner: |-
         <p>{userName} ({userId}) obtained:</p>
@@ -342,25 +342,25 @@ messageBuilder:
         <p> - {name} * {amount}</p>
   reminder.list:
     error: |-
-      你还没有创建过提醒器！
+      You have not created a reminder!
     header: |-
-      <p>你创建的提醒器列表：</p>
+      <p>Reminder list：</p>
     listItem: |-
       <p>[{remind_code}] {description}</p>
     description:
       specified: |-
-        在 {timeDescription} 提醒一次
+        Remind once at {timeDescription}
       beforeEnd: |-
-        在抽奖结束前 {timeDescription} 提醒一次
+        Remind before the end of Roll at {timeDescription}
       interval: |-
-        在每个 {intervalDescription} 提醒一次
+        Remind every {intervalDescription}
       year: |-
-        {0} 年
+        {0} years
       month: |-
-        {0} 月
+        {0} month
       day: |-
-        {0} 日
+        {0}
       hour: |-
-        {0} 时
+        {0} hour
       minute: |-
-        {0} 分
+        {0} points
