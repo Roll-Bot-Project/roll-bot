@@ -192,6 +192,13 @@ commands:
           修改成功，群组当前的语言偏好为 {0}。
         user: |-
           修改成功，你当前的语言偏好为 {0}。
+  roll.remind:
+    description: |-
+      查询抽奖启用的提醒
+    messages:
+      notFound: |-
+        找不到此抽奖！
+
   remind:
     description: |-
       Roll Bot 提醒功能
@@ -248,6 +255,13 @@ commands:
   remind.delete:
     description: |-
       删除一个提醒器
+    messages:
+      success: |-
+        删除提醒器成功！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      notYourReminder: |-
+        你没有权限删除该提醒器！
   remind.list:
     description: |-
       查询提醒器列表
@@ -265,7 +279,20 @@ commands:
         你没有权限启用提醒器！
       success: |-
         启用提醒器成功！
-
+  remind.disable:
+    description: |-
+      禁用一个提醒
+    messages:
+      emptyRoll: |-
+        未找到抽奖编号，请重新输入！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      rollEnd: |-
+        该抽奖已结束，无需禁用提醒。
+      noAuth: |-
+        你没有权限禁用提醒器！
+      success: |-
+        禁用提醒器成功！
 events:
   roll.add:
     success: |-
@@ -343,13 +370,39 @@ messageBuilder:
         <p>{userName} ({userId}) 获得了：</p>
       winList: |-
         <p> - {name} * {amount}</p>
+  roll.remind:
+    defaultReminder: |-
+      默认
+    empty: |-
+      当前抽奖没有启用的提醒！
+    header: |-
+      <p>启用的提醒：</p>
+    listItem: |-
+      <p>[{reminder_code}] {description}</p>
+    description:
+      specified: |-
+        在 {timeDescription} 提醒一次
+      beforeEnd: |-
+        在抽奖结束前 {timeDescription} 提醒一次
+      interval: |-
+        在每个 {intervalDescription} 提醒一次
+      year: |-
+        {0} 年
+      month: |-
+        {0} 月
+      day: |-
+        {0} 日
+      hour: |-
+        {0} 时
+      minute: |-
+        {0} 分
   reminder.list:
     error: |-
       你还没有创建过提醒器！
     header: |-
       <p>你创建的提醒器列表：</p>
     listItem: |-
-      <p>[{remind_code}] {description}</p>
+      <p>[{reminder_code}] {description}</p>
     description:
       specified: |-
         在 {timeDescription} 提醒一次

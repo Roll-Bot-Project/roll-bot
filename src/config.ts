@@ -19,7 +19,7 @@ namespace PermissionConfig {
 namespace RemindConfig {
   export interface Config {
     defaultReminders?: Array<{
-      type: string
+      type: "0" | "1"
       value: string
     }>
 
@@ -52,11 +52,11 @@ const remindConfig: Schema<RemindConfig.Config> = Schema.object({
     Schema.object({
       type: Schema.union([
         Schema.const('0'),
-        Schema.const('1')
+        Schema.const('1'),
       ]),
       value: Schema.string().pattern(/^\d{1,4}-\d{1,2}-\d{1,2}-\d{1,2}-\d{1,2}$/),
     })
-  ).role('table'),
+  ).role('table').default([{type: '1', value: '0-0-0-1-0'}])
 })
 
 export const Config: Schema<Config> = Schema.object({

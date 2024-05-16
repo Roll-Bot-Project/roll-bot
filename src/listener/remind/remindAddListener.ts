@@ -1,7 +1,7 @@
 import {Context, $} from 'koishi'
 import {Config} from '../../config'
-import {globalState, initialId, remindManager} from "../../index";
-import {getRemindValueFromDefaultReminder, getRemindValueFromReminder, getValueFromReminder} from "../../util/general";
+import {globalState, remindManager} from "../../index";
+import {getRemindValueFromDefaultReminder, getRemindValueFromReminder} from "../../util/general";
 
 export function remindAddListener(ctx: Context, config: Config) {
   ctx.on('ready', async () => {
@@ -10,15 +10,17 @@ export function remindAddListener(ctx: Context, config: Config) {
       .execute()
     // remind from database
     for (const r of remindRes) {
-      const rollRes = await ctx.database.get('roll', {id: r.remind.roll_id})
+      const rollRes = await ctx.database.get('roll', {id: r.remind.roll_id, isEnd: 0})
       const reminderRes = await ctx.database.get('reminder', {id: r.remind.reminder_id})
-      remindManager.addJob(r.remind.id, getRemindValueFromReminder(rollRes[0].endTime, reminderRes[0]), function() {
-        ctx.emit('roll-bot/remind-broadcast', r.remind.roll_id, r.remind.id)
-      })
+      if (rollRes.length != 0) {
+        remindManager.addJob(r.remind.id, getRemindValueFromReminder(rollRes[0].endTime, reminderRes[0]), function () {
+          ctx.emit('roll-bot/remind-broadcast', r.remind.roll_id, r.remind.id)
+        })
+      }
     }
     // default remind from config
     for (const defaultRemind of config.remind.defaultReminders) {
-      const rollRes = await ctx.database.get('roll', {isEnd: false})
+      const rollRes = await ctx.database.get('roll', {isEnd: 0})
       for (const roll of rollRes) {
         if (roll.endTime || defaultRemind.type != '1') {
           remindManager.addJob(globalState.remindInitialId, getRemindValueFromDefaultReminder(roll.endTime, defaultRemind, config), function () {

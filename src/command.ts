@@ -28,6 +28,11 @@ export const name = 'Command'
 export function apply(ctx: Context, config: Config) {
   ctx.command('roll').alias('r')
   help(ctx, config)
+  channel(ctx, config)
+
+  locale(ctx, config)
+  time(ctx, config)
+
   addRoll(ctx, config)
   //deleteRoll(ctx, config)
   detailRoll(ctx, config)
@@ -37,13 +42,12 @@ export function apply(ctx: Context, config: Config) {
   listRoll(ctx, config)
   memberRoll(ctx, config)
   remindRoll(ctx, config)
-  locale(ctx, config)
-  time(ctx, config)
-  channel(ctx, config)
+
   ctx.command('remind').alias('rd')
   addReminder(ctx, config)
-  enableRemind(ctx, config)
-  //disableRemind(ctx, config)
-  //deleteRemind(ctx, config)
+  deleteReminder(ctx, config)
   listReminder(ctx, config)
+
+  enableRemind(ctx, config)
+  disableRemind(ctx, config)
 }

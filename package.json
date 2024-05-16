@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-roll-bot",
   "description": "A versatile lottery robot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "contributors": [
     "Logthm <logthm@outlook.com>"
   ],
@@ -21,7 +21,9 @@
     "chatbot",
     "koishi",
     "plugin",
-    "lottery"
+    "lottery",
+    "draw",
+    "roll"
   ],
   "peerDependencies": {
     "koishi": "^4.17.6"
@@ -37,8 +39,8 @@
   },
   "koishi": {
     "description": {
-      "en": "Provide lottery function",
-      "zh": "提供抽奖功能"
+      "en": "Provide lottery function, including auto draw and scheduled reminder",
+      "zh": "提供抽奖功能，包括自动开奖与定时提醒。"
     },
     "service": {
       "required": [

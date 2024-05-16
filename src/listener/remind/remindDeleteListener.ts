@@ -8,7 +8,9 @@ export function remindDeleteListener(ctx: Context, config: Config) {
     schedule.gracefulShutdown()
   })
 
-  ctx.on('roll-bot/remind-delete', (remindId) => {
+  ctx.on('roll-bot/remind-delete', async (remindId) => {
+    ctx.database.remove('remind', {id: remindId})
+    ctx.database.remove('remind_channel', {remind_id: remindId})
     remindManager.deleteJob(remindId)
   })
 }

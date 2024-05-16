@@ -1,5 +1,6 @@
 import { Context, Logger } from 'koishi'
 import { Config } from "./config";
+import {} from 'koishi-plugin-assets-local'
 import * as Database from './database'
 import * as Command from './command'
 import * as Listener from './listener'

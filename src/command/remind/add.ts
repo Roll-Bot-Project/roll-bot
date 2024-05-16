@@ -7,8 +7,8 @@ import {checkDateInput, dateInputToDateTime, dateInputToDuration, generateUnique
 
 export function addReminder(ctx: Context, config: Config) {
   ctx.command("remind.add")
-    .userFields(['offset'])
-    .channelFields(['offset'])
+    .userFields(['id', 'offset'])
+    .channelFields(['id', 'offset'])
     .action(async ({session}) => {
       const offset = await getCurrentUTCOffset(ctx, session, config)
       let time: DateTime
@@ -159,17 +159,31 @@ export function addReminder(ctx: Context, config: Config) {
       const reminder = {
         reminder_code: reminderCode,
         type: type,
-        time: time? time.toJSDate() : {},
+        time: time? time.toJSDate() : undefined,
         last_call: new Date(),
         recurrence_rule: rule,
-        duration: duration? duration.toObject() : {}
+        duration: duration? duration.toObject() : undefined
       }
       // if exist in database, only add user_reminder
-      const s = {
-        type: reminder.type,
-        time: reminder.time,
-        duration: JSON.stringify(reminder.duration),
-        recurrence_rule: JSON.stringify(reminder.recurrence_rule)
+      let s
+      switch (reminder.type) {
+        case '0':
+          s = {
+            type: reminder.type,
+            time: time.toJSDate()
+          }
+          break
+        case '1':
+          s = {
+            type: reminder.type,
+            duration: duration.toObject(),
+          }
+          break
+        case '2':
+          s = {
+            type: reminder.type,
+            recurrence_rule: rule,
+          }
       }
       const checkDuplicate = await ctx.database.get('reminder', s)
       if (checkDuplicate.length > 0) {

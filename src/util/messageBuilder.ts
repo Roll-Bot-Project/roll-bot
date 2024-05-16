@@ -2,8 +2,9 @@ import {Context, $, Session, h} from 'koishi'
 import {Config} from "../config";
 import {DateTime} from 'luxon';
 import {bots} from '../index'
-import {getCurrentUTCOffset} from "./time";
+import {getCurrentUTCOffset, offsetToUTCOffset} from "./time";
 import {getCurrentLocales} from "./locale";
+import {dateInputToDateTime, dateInputToDuration} from "./general";
 
 export async function rollListMsgFromChannelId(session: Session, cid: string, platform: string) {
   let msg = session.text('messageBuilder.roll.list.header')
@@ -175,7 +176,88 @@ export async function rollEndMsgFromRollId(ctx: Context, config: Config, roll: a
   return h.unescape(msg)
 }
 
-export async function reminderListMsgFromUserId(session: Session, userId: string, config: Config) {
+export async function rollRemindMsgFromRollId(session: Session, config: Config, rollId: number) {
+  const ctx = session.app
+  const offset = offsetToUTCOffset(config.basic.defaultTimeOffset)
+  let msg = session.text('messageBuilder.roll.remind.header')
+  let specifedList = '<p>' + session.text('messageBuilder.marks.specified') + '</p>'
+  let beforeEndList = '<p>' + session.text('messageBuilder.marks.beforeEnd') + '</p>'
+  let intervalList = '<p>' + session.text('messageBuilder.marks.interval') + '</p>'
+  let isSpecifedListEmpty = true
+  let isBeforeEndListEmpty = true
+  let isIntervalListEmpty = true
+
+  const r = await ctx.database.get('remind', {roll_id: rollId})
+  if (r.length === 0 && config.remind.defaultReminders.length === 0) return session.text('messageBuilder.roll.remind.empty')
+  const res = r.map((item) => item.reminder_id)
+
+  let listItem
+  for (const reminderId of res) {
+    let listItemRes = await ctx.database.get('reminder', {id: reminderId})
+    // from database
+    if (listItemRes.length === 1) {
+      listItem = {
+        reminder_code: listItemRes[0].reminder_code,
+        description: getReminderDescription(session, listItemRes[0], await getCurrentUTCOffset(ctx, session, config), getCurrentLocales(ctx, session, config)),
+      }
+      switch (listItemRes[0].type) {
+        case '0':
+          specifedList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isSpecifedListEmpty = false
+          break
+        case '1':
+          beforeEndList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isBeforeEndListEmpty = false
+          break
+        case '2':
+          intervalList += session.text('messageBuilder.reminder.list.listItem', listItem)
+          isIntervalListEmpty = false
+          break
+      }
+    }
+  }
+
+  // from config
+  for (const remind of config.remind.defaultReminders) {
+    let reminder
+    switch (remind.type) {
+      case '0':
+        reminder = {
+          type: remind.type,
+          time: dateInputToDateTime(remind.value, offset).toJSDate()
+        }
+        break
+      case '1':
+        reminder = {
+          type: remind.type,
+          duration: dateInputToDuration(remind.value)
+        }
+        break
+    }
+
+    listItem = {
+      reminder_code: session.text('messageBuilder.roll.remind.defaultReminder'),
+      description: getReminderDescription(session, reminder, await getCurrentUTCOffset(ctx, session, config), getCurrentLocales(ctx, session, config)),
+    }
+    switch (remind.type) {
+      case '0':
+        specifedList += session.text('messageBuilder.reminder.list.listItem', listItem)
+        isSpecifedListEmpty = false
+        break
+      case '1':
+        beforeEndList += session.text('messageBuilder.reminder.list.listItem', listItem)
+        isBeforeEndListEmpty = false
+        break
+    }
+  }
+
+  if (!isSpecifedListEmpty) msg += specifedList
+  if (!isBeforeEndListEmpty) msg += beforeEndList
+  if (!isIntervalListEmpty) msg += intervalList
+  return h.unescape(msg)
+}
+
+export async function reminderListMsgFromUserId(session: Session, userId: number, config: Config) {
   const ctx = session.app
   let msg = session.text('messageBuilder.reminder.list.header')
   let specifedList = '<p>' + session.text('messageBuilder.marks.specified') + '</p>'
@@ -195,7 +277,7 @@ export async function reminderListMsgFromUserId(session: Session, userId: string
 
     if (listItemRes.length === 1) {
       listItem = {
-        remind_code: listItemRes[0].reminder_code,
+        reminder_code: listItemRes[0].reminder_code,
         description: getReminderDescription(session, listItemRes[0], await getCurrentUTCOffset(ctx, session, config), getCurrentLocales(ctx, session, config)),
       }
       switch (listItemRes[0].type) {
@@ -228,8 +310,8 @@ export function getReminderDescription(session: Session, reminder: any, offset: 
   switch (reminder.type) {
     case '0':
       // specified
-      const dt = DateTime.fromObject(reminder.time, {zone: 'UTC'}).setZone(offset)
-      description = session.text('messageBuilder.reminder.list.description.beforeEnd', {timeDescription: dt.setLocale(locale).toLocaleString(DateTime.DATETIME_FULL)})
+      const dt = DateTime.fromJSDate(reminder.time, {zone: 'UTC'}).setZone(offset)
+      description = session.text('messageBuilder.reminder.list.description.specified', {timeDescription: dt.setLocale(locale).toLocaleString(DateTime.DATETIME_FULL)})
       break
     case '1':
       // before end
@@ -272,11 +354,11 @@ export function getReminderDescription(session: Session, reminder: any, offset: 
       // apply offset
       let d = DateTime.fromObject(rule, {zone: 'UTC'})
       d = d.setZone(offset)
-      rule.year = rule.year? d.year : undefined
-      rule.month = rule.month? d.month : undefined
-      rule.day = rule.day? d.day : undefined
-      rule.hour = rule.hour? d.hour : undefined
-      rule.minute = rule.minute? d.minute : undefined
+      rule.year = rule.year ? d.year : undefined
+      rule.month = rule.month ? d.month : undefined
+      rule.day = rule.day ? d.day : undefined
+      rule.hour = rule.hour ? d.hour : undefined
+      rule.minute = rule.minute ? d.minute : undefined
 
       timeUnit
         .forEach(unit => {

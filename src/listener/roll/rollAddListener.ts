@@ -1,6 +1,6 @@
 import {Context} from 'koishi'
 import {Config} from '../../config'
-import {autoEndManager, globalState, initialId, remindManager} from "../../index";
+import {autoEndManager, globalState} from "../../index";
 import {getRemindValueFromDefaultReminder} from "../../util/general";
 
 export function rollAddListener(ctx: Context, config: Config) {

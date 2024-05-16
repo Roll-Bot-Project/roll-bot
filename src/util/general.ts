@@ -61,11 +61,11 @@ export function checkDateInput(input: string, length: number): boolean {
 export function dateInputToDateTime(input: string, offset: string): DateTime {
   const timeArray = input.split('-')
   const t = {
-    year: timeArray[0],
-    month: timeArray[1],
-    day: timeArray[2],
-    hour: timeArray[3],
-    minute: timeArray[4] || undefined
+    year: parseInt(timeArray[0]),
+    month: parseInt(timeArray[1]),
+    day: parseInt(timeArray[2]),
+    hour: parseInt(timeArray[3]),
+    minute: parseInt(timeArray[4]) || undefined
   }
   return DateTime.fromObject(t, { zone: offset })
 }
@@ -73,11 +73,11 @@ export function dateInputToDateTime(input: string, offset: string): DateTime {
 export function dateInputToDuration(input: string): Duration {
   const timeArray = input.split('-')
   const t = {
-    years: timeArray[0],
-    months: timeArray[1],
-    days: timeArray[2],
-    hours: timeArray[3],
-    minutes: timeArray[4] || undefined
+    years: parseInt(timeArray[0]),
+    months: parseInt(timeArray[1]),
+    days: parseInt(timeArray[2]),
+    hours: parseInt(timeArray[3]),
+    minutes: parseInt(timeArray[4]) || undefined
   }
   return Duration.fromObject(t)
 }

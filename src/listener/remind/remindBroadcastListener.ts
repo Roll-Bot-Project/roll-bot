@@ -17,9 +17,9 @@ export function remindBroadcastListener(ctx: Context, config: Config) {
     const rollRes = await ctx.database.get('roll', {id: rollId})
     const rollCode = rollRes[0].roll_code
     if (rollRes[0].endTime) {
-      const end = DateTime.fromObject(rollRes[0].endTime, {zone: 'UTC'})
+      const end = DateTime.fromJSDate(rollRes[0].endTime, {zone: 'UTC'})
       const start = DateTime.utc()
-      const d = end.diff(start, ['months', 'days', 'hours', 'minutes']).toObject()
+      d = end.diff(start, ['months', 'days', 'hours', 'minutes']).toObject()
     }
 
     if (rollRes[0].isEnd) return

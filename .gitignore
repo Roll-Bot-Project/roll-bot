@@ -16,4 +16,4 @@ tsconfig.tsbuildinfo
 *.ntvs*
 *.njsproj
 *.sln
-/src/tests/
+/tests/

@@ -7,11 +7,11 @@ import {bots} from "../../index";
 
 export function rollEndListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-end', async (rollId) => {
-    const res = await ctx.database.get('roll', {id: rollId})
+    const res = await ctx.database.get('roll', {id: rollId, isEnd: 0})
+    if (res.length === 0) return
     const roll = res[0]
-    if (roll.isEnd) return
     // Generate winner
-    const winnerList = await getWinnerList(ctx, rollId)
+    const winnerList = await getWinnerList(ctx, roll.id)
     // Write to user_prize
     for (const winnerPrize of winnerList) {
       const r = await ctx.database.get('user_prize', {user_id: winnerPrize.userId, prize_id: winnerPrize.prizeId})
@@ -40,5 +40,10 @@ export function rollEndListener(ctx: Context, config: Config) {
     }
     // remove join key listener
     ctx.emit('roll-bot/roll-key-update')
+    // disable all reminds
+    const remindRes = await ctx.database.get('remind', {roll_id: roll.id})
+    for (const remind of remindRes) {
+      ctx.emit('roll-bot/remind-delete', remind.id)
+    }
   })
 }

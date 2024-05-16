@@ -6,7 +6,7 @@ import {DateTime} from "luxon"
 export function rollAutoEndListener(ctx: Context, config: Config) {
   // init
   ctx.on('ready', async () => {
-    const rollRes = await ctx.database.get('roll', {isEnd: false})
+    const rollRes = await ctx.database.get('roll', {isEnd: 0})
     for (const roll of rollRes) {
       if (roll.endTime) {
         if (DateTime.fromJSDate(roll.endTime) < DateTime.now()) {

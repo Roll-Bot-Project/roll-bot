@@ -6,7 +6,7 @@ export function deleteRoll(ctx: Context, config: Config) {
   ctx.command("roll.delete <rollCode>")
     .alias('删除抽奖')
     .action(async ({session}, rollCode) => {
-      if (rollCode === undefined) return session.text('.empty')
+      if (!rollCode) return session.text('.empty')
       ctx.database.get('roll', {roll_code: rollCode})
         .then((res) => {
 
