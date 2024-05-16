@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-roll-bot",
   "description": "A versatile lottery robot",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "contributors": [
     "Logthm <logthm@outlook.com>"
   ],
