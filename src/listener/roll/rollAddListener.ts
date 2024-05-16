@@ -8,7 +8,6 @@ export function rollAddListener(ctx: Context, config: Config) {
     session,
     roll,
     prizes,
-    reminder
   ) => {
     // Write to database
     const rollRes = await ctx.database.create('roll', roll)
@@ -34,17 +33,17 @@ export function rollAddListener(ctx: Context, config: Config) {
     ctx.emit('roll-bot/roll-key-update')
     // Apply default reminds
     for (const defaultRemind of config.remind.defaultReminders) {
-      if (roll.endTime || defaultRemind.type != '1') {
-        autoEndManager.addJob(globalState.rollAutoEndInitialId, getRemindValueFromDefaultReminder(roll.endTime, defaultRemind, config), function () {
-          ctx.emit('roll-bot/remind-broadcast', roll.id)
+      if (rollRes.endTime || defaultRemind.type != '1') {
+        autoEndManager.addJob(globalState.rollAutoEndInitialId, getRemindValueFromDefaultReminder(rollRes.endTime, defaultRemind, config), function () {
+          ctx.emit('roll-bot/remind-broadcast', rollRes.id)
         })
         globalState.rollAutoEndInitialId++
       }
     }
     // Create auto end job
-    if (roll.endTime) {
-      autoEndManager.addJob(globalState.rollAutoEndInitialId, roll.endTime, function () {
-        ctx.emit('roll-bot/roll-end', roll.id)
+    if (rollRes.endTime) {
+      autoEndManager.addJob(globalState.rollAutoEndInitialId, rollRes.endTime, function () {
+        ctx.emit('roll-bot/roll-end', rollRes.id)
       })
     }
   })

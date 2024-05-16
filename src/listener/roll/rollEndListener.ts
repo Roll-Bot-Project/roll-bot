@@ -8,6 +8,7 @@ import {bots} from "../../index";
 export function rollEndListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-end', async (rollId) => {
     const res = await ctx.database.get('roll', {id: rollId, isEnd: 0})
+    console.log(rollId, res)
     if (res.length === 0) return
     const roll = res[0]
     // Generate winner
