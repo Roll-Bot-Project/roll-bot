@@ -191,6 +191,12 @@ commands:
           Modified successfully, group current language preferences are {0}.
         user: |-
           Successfully modified, your current language preference is {0}.
+  roll.remind:
+    description: |-
+      Query Reminder Enabled
+    messages:
+      notFound: |-
+        No such drawing found!
   remind:
     description: |-
       Roll Bot Reminder
@@ -247,6 +253,13 @@ commands:
   remind.delete:
     description: |-
       Delete a reminder
+    messages:
+      success: |-
+        Reminder deleted successfully!
+      emptyReminder: |-
+        Reminder ID not found, please try again!
+      notYourReminder: |-
+        You do not have permission to delete this reminder!
   remind.list:
     description: |-
       Reminder list
@@ -264,6 +277,20 @@ commands:
         You do not have permission to enable reminder!
       success: |-
         Notifier enabled successfully!
+  remind.disable:
+    description: |-
+      Disable a reminder
+    messages:
+      emptyRoll: |-
+        Pickup number not found, please try again!
+      emptyReminder: |-
+        Reminder ID not found, please try again!
+      rollEnd: |-
+        The drawing is over. No reminder disabled!
+      noAuth: |-
+        You do not have permission to disable the reminder!
+      success: |-
+        Notifier disabled successfully!
 events:
   roll.add:
     success: |-
@@ -340,13 +367,39 @@ messageBuilder:
         <p>{userName} ({userId}) obtained:</p>
       winList: |-
         <p> - {name} * {amount}</p>
+  roll.remind:
+    defaultReminder: |-
+      Default
+    empty: |-
+      Reminder not enabled!
+    header: |-
+      <p>Enable reminders：</p>
+    listItem: |-
+      <p>[{reminder_code}] {description}</p>
+    description:
+      specified: |-
+        Remind once at {timeDescription}
+      beforeEnd: |-
+        Remind before the end of Roll at {timeDescription}
+      interval: |-
+        Remind every {intervalDescription}
+      year: |-
+        {0} years
+      month: |-
+        {0} month
+      day: |-
+        {0}
+      hour: |-
+        {0} hour
+      minute: |-
+        {0} points
   reminder.list:
     error: |-
       You have not created a reminder!
     header: |-
       <p>Reminder list：</p>
     listItem: |-
-      <p>[{remind_code}] {description}</p>
+      <p>[{reminder_code}] {description}</p>
     description:
       specified: |-
         Remind once at {timeDescription}
