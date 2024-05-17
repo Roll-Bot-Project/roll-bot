@@ -1,5 +1,13 @@
 _config:
+  usage:
+    $description: |-
+      使用说明
+    docs: |-
+      <p><b>点击右侧打开 <a href="https://docs.logthm.com/roll-bot-project">帮助文档</a></b></p>
+      <p><b>你也可以通过 roll help 指令获取 Roll Bot 的帮助文档。</b></p>
   basic:
+    $description: |-
+      基本设置
     adminUsers: |-
       **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
     cacheHours: |-

@@ -1,5 +1,12 @@
 import { Schema } from "koishi"
 
+// support usage i18n
+namespace Usage {
+  export interface Config {
+    docs: string
+  }
+}
+
 namespace BasicConfig {
   export interface Config {
     adminUsers: string[]
@@ -27,10 +34,15 @@ namespace RemindConfig {
 }
 
 export interface Config {
+  usage: Usage.Config
   basic: BasicConfig.Config
   permission: PermissionConfig.Config
   remind: RemindConfig.Config
 }
+
+const usage: Schema<Usage.Config> = Schema.object({
+  docs: Schema.string().role('link').default('https://docs.logthm.com/roll-bot-project').disabled()
+});
 
 const basicConfig: Schema<BasicConfig.Config> = Schema.object({
   adminUsers: Schema.union([
@@ -60,6 +72,7 @@ const remindConfig: Schema<RemindConfig.Config> = Schema.object({
 })
 
 export const Config: Schema<Config> = Schema.object({
+  usage: usage,
   basic: basicConfig,
   permission: permissionConfig,
   remind: remindConfig
