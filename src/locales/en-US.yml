@@ -96,13 +96,13 @@ commands:
       Manually delete a drawing prize
     messages:
       empty: |-
-        请输入抽奖编号！
+        Please enter a draw number!
       notFound: |-
-        没有找到该抽奖！
+        No such drawing found!
       noAuth: |-
-        你没有权限删除该抽奖！
+        You do not have permission to delete this Pick!
       success: |-
-        删除了抽奖 {0} 。
+        Award {0} was deleted.
   roll.end:
     description: |-
       Manual award
