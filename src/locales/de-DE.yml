@@ -1,13 +1,13 @@
 _config:
   usage:
     $description: |-
-      使用说明
+      Anweisungen
     docs: |-
-      <p><b>点击右侧打开 <a href="https://docs.logthm.com/roll-bot-project">帮助文档</a></b></p>
-      <p><b>你也可以通过 roll help 指令获取 Roll Bot 的帮助文档。</b></p>
+      <p><b>Klicken Sie auf der rechten Seite, um das <a href="https://docs.logthm.com/roll-bot-project">Hilfedokument</a> zu öffnen</b></p>
+      <p><b>Sie können auch Roll Bot's Hilfedokument durch den Befehl roll help erhalten.</b></p>
   basic:
     $description: |-
-      基本设置
+      Grundeinstellungen
     adminUsers: |-
       **Roll Bot Administrator** Benutzer-ID (Verwenden Sie den Inspektionsbefehl, um sie zu erhalten)
     cacheHours: |-
