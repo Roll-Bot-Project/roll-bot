@@ -12,8 +12,6 @@ _config:
       **Roll Bot Administrator** Benutzer-ID (Verwenden Sie den Inspektionsbefehl, um sie zu erhalten)
     cacheHours: |-
       Zeitraum, in dem die Aufzeichnung nach der Verlosung aufbewahrt wird (Stunden)
-    timeoutSeconds: |-
-      Die Wartezeit für alle interaktiven Aktionen (in Sekunden)
     defaultTimeOffset: |-
       <p>未设置时区的用户默认所在的时区（偏移量）</p>
       <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
