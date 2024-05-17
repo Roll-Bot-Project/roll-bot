@@ -3,7 +3,7 @@ import {DateTime} from 'luxon'
 import {Config} from '../../config';
 import {getWinnerList} from "../../util/winnerGenerator";
 import {rollEndMsgFromRollId} from "../../util/messageBuilder";
-import {autoEndManager, bots, expireManager, globalState} from "../../index";
+import {bots, expireManager} from "../../index";
 
 export function rollEndListener(ctx: Context, config: Config) {
   ctx.on('roll-bot/roll-end', async (rollId) => {
