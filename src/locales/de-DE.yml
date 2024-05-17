@@ -96,13 +96,13 @@ commands:
       Manuelles Löschen eines Gewinnspiels
     messages:
       empty: |-
-        请输入抽奖编号！
+        Bitte geben Sie die Lotterienummer ein!
       notFound: |-
-        没有找到该抽奖！
+        Die Lotterie wurde nicht gefunden!
       noAuth: |-
-        你没有权限删除该抽奖！
+        Du hast nicht die Berechtigung, diese Verlosung zu löschen!
       success: |-
-        删除了抽奖 {0} 。
+        Verlosung {0} wurde gelöscht.
   roll.end:
     description: |-
       Manuelle Ziehung durchführen
