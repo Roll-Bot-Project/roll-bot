@@ -1,11 +1,15 @@
 {
   "name": "koishi-plugin-roll-bot",
-  "description": "A versatile lottery robot",
-  "version": "1.1.1",
+  "description": "Provides lottery function for Koishi bot, including automatic drawing and scheduled reminders, supporting multiple languages and time zones.",
+  "version": "1.1.2",
   "contributors": [
     "Logthm <logthm@outlook.com>"
   ],
   "homepage": "https://docs.logthm.com/roll-bot-project",
+  "bugs": {
+    "url": "https://github.com/Roll-Bot-Project/roll-bot/issues",
+    "email": "logthm@outlook.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Roll-Bot-Project/roll-bot.git"
@@ -39,8 +43,9 @@
   },
   "koishi": {
     "description": {
-      "en": "Provide lottery function, including auto draw and scheduled reminder",
-      "zh": "提供抽奖功能，包括自动开奖与定时提醒。"
+      "de": "Bietet eine Lotteriefunktion, einschließlich automatischer Ziehungen und geplanter Erinnerungen, und unterstützt mehrere Sprachen und Zeitzonen.",
+      "en": "Provides lottery function, including automatic drawing and scheduled reminders, supporting multiple languages and time zones.",
+      "zh": "提供抽奖功能，包括自动开奖和定时提醒，并提供多种语言和多时区支持。"
     },
     "service": {
       "required": [
@@ -52,7 +57,6 @@
       "de",
       "en",
       "zh"
-    ],
-    "preview": true
+    ]
   }
 }
