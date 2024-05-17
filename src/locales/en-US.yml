@@ -94,6 +94,15 @@ commands:
   roll.delete:
     description: |-
       Manually delete a drawing prize
+    messages:
+      empty: |-
+        请输入抽奖编号！
+      notFound: |-
+        没有找到该抽奖！
+      noAuth: |-
+        你没有权限删除该抽奖！
+      success: |-
+        删除了抽奖 {0} 。
   roll.end:
     description: |-
       Manual award
