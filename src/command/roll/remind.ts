@@ -5,6 +5,7 @@ import {rollRemindMsgFromRollId} from "../../util/messageBuilder";
 
 export function remindRoll(ctx: Context, config: Config) {
   ctx.command("roll.remind <rollCode>")
+    .alias('roll.rd')
     .alias('抽奖提醒')
     .action(async ({session}, rollCode) => {
       const rollRes = await ctx.database.get('roll', {roll_code: rollCode})

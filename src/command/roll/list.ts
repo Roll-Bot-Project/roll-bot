@@ -4,6 +4,7 @@ import {rollListMsgFromChannelId} from "../../util/messageBuilder";
 
 export function listRoll(ctx: Context, config: Config) {
   ctx.command("roll.list [platform] [channelId]")
+    .alias('roll.ls')
     .alias('抽奖列表')
     .alias('在抽啥')
     .action(async ({session}, platform, channelId) => {

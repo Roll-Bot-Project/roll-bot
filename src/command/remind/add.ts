@@ -7,6 +7,7 @@ import {checkDateInput, dateInputToDateTime, dateInputToDuration, generateUnique
 
 export function addReminder(ctx: Context, config: Config) {
   ctx.command("remind.add")
+    .alias('创建提醒器')
     .userFields(['id', 'offset'])
     .channelFields(['id', 'offset'])
     .action(async ({session}) => {

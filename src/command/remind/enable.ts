@@ -4,6 +4,8 @@ import {hasPermission, isPluginAdmin, isRollCreator} from "../../util/role";
 
 export function enableRemind(ctx: Context, config: Config) {
   ctx.command("remind.enable <rollCode> <reminderCode> [...rest]")
+    .alias('启用提醒器')
+    .alias('remind.on')
     .userFields(['offset'])
     .channelFields(['offset'])
     .action(async ({session}, rollCode, reminderCode, ...rest) => {

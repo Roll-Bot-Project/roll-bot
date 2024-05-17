@@ -4,6 +4,7 @@ import {rollMemberMsgFromRoll} from "../../util/messageBuilder";
 
 export function memberRoll(ctx: Context, config: Config) {
   ctx.command("roll.member <rollCode>")
+    .alias('roll.mem')
     .alias('抽奖成员')
     .action(async ({session}, rollCode) => {
       if (rollCode === undefined) return session.text('.empty')

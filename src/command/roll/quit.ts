@@ -3,6 +3,7 @@ import {Config} from '../../config';
 
 export function quitRoll(ctx: Context, config: Config) {
   ctx.command("roll.quit <rollCode>")
+    .alias('roll.q')
     .alias('退出抽奖')
     .action(async ({session}, rollCode) => {
       if (rollCode === undefined) return session.text('.empty')

@@ -3,6 +3,8 @@ import { Config } from '../../config';
 
 export function deleteReminder(ctx: Context, config: Config) {
   ctx.command("remind.delete <reminderCode> [...rest]")
+    .alias('删除提醒器')
+    .alias('remind.rm')
     .userFields(['id'])
     .action(async ({session}, reminderCode, ...rest) => {
       // check arg

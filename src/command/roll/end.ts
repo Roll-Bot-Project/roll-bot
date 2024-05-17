@@ -31,11 +31,12 @@ export function endRoll(ctx: Context, config: Config) {
         rollCode = input
       }
       let rollRes;
-      try {
-        rollRes = await ctx.database.get('roll', {roll_code: rollCode})
-      } catch (e) {
-        return session.text('.notFound')
-      }
+      rollRes = await ctx.database.get('roll', {roll_code: rollCode})
+      if (rollRes.length === 0) return session.text('.notFound')
+      // check range
+      const rollChannelRes = await ctx.database.get('roll_channel', {roll_id: rollRes[0].id, channel_id: session.channelId, channel_platform: session.platform})
+      if (rollChannelRes.length === 0) return session.text('.notFound')
+
       if (rollRes[0].isEnd) return session.text('.isEnd', [rollCode])
       const rollId = rollRes[0].id
       const creatorRes = await ctx.database.get('roll_creator', {roll_id: rollId})

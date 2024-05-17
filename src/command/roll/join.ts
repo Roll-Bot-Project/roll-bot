@@ -3,6 +3,7 @@ import { Config } from '../../config';
 
 export function joinRoll(ctx: Context, config: Config) {
   ctx.command("roll.join <rollCode>")
+    .alias('roll.j')
     .alias('加入抽奖')
     .action(async ({session}, rollCode) => {
       if (rollCode === undefined) return session.text('.empty')
