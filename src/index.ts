@@ -6,6 +6,7 @@ import * as Command from './command'
 import * as Listener from './listener'
 import RemindManager from './util/remindManager'
 import AutoEndManager from "./util/autoEndManager";
+import ExpireManager from "./util/expireManager";
 
 export const name = 'roll-bot'
 
@@ -16,13 +17,13 @@ export * from './config'
 export const logger = new Logger('Roll Bot')
 export const remindManager = new RemindManager()
 export const autoEndManager = new AutoEndManager()
+export const expireManager = new ExpireManager()
 export let rollKeyCache = {
   content: []
 }
 export let bots
 export let globalState = {
   remindInitialId: 10000,
-  rollAutoEndInitialId: 0
 }
 export const schedule = require('node-schedule')
 

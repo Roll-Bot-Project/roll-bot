@@ -1,6 +1,6 @@
 import {Context, $} from 'koishi'
 import {Config} from '../../config'
-import {autoEndManager, globalState} from "../../index"
+import {autoEndManager} from "../../index"
 import {DateTime} from "luxon"
 
 export function rollAutoEndListener(ctx: Context, config: Config) {
@@ -11,11 +11,11 @@ export function rollAutoEndListener(ctx: Context, config: Config) {
       if (roll.endTime) {
         if (DateTime.fromJSDate(roll.endTime) < DateTime.now()) {
           // if endTime is already passed, end the roll immediately
-          autoEndManager.addJob(globalState.rollAutoEndInitialId, DateTime.now().plus({seconds: 3}).toJSDate(), function () {
+          autoEndManager.addJob(roll.id, DateTime.now().plus({seconds: 3}).toJSDate(), function () {
             ctx.emit('roll-bot/roll-end', roll.id)
           })
         } else {
-          autoEndManager.addJob(globalState.rollAutoEndInitialId, roll.endTime, function () {
+          autoEndManager.addJob(roll.id, roll.endTime, function () {
             ctx.emit('roll-bot/roll-end', roll.id)
           })
         }

@@ -6,7 +6,7 @@ interface ScheduledRemind {
   job: Job
 }
 
-class AutoEndManager {
+class ExpireManager {
   private jobs: Map<number, ScheduledRemind>
 
   constructor() {
@@ -15,13 +15,13 @@ class AutoEndManager {
 
   addJob(id: number, rule: schedule.RecurrenceRule | string | Date, callback: () => void): boolean {
     if (this.jobs.has(id)) {
-      logger.warn(`Auto end job of roll ${id} already exists`)
+      logger.warn(`Expire task of roll ${id} already exists`)
       return false
     }
 
     const job = schedule.scheduleJob(rule, callback)
     this.jobs.set(id, { id, job })
-    logger.success(`Auto end of roll ${id} scheduled`)
+    logger.success(`Expire task of roll ${id} scheduled`)
     return true
   }
 
@@ -30,10 +30,10 @@ class AutoEndManager {
     if (scheduledJob) {
       scheduledJob.job.cancel()
       this.jobs.delete(id)
-      logger.success(`Auto end of roll ${id} deleted`)
+      logger.success(`Expire task of roll ${id} deleted`)
       return true
     } else {
-      logger.warn(`Auto end of roll ${id} does not exist`)
+      logger.warn(`Expire task of roll ${id} does not exist`)
       return false
     }
   }
@@ -48,4 +48,4 @@ class AutoEndManager {
   }
 }
 
-export default AutoEndManager
+export default ExpireManager

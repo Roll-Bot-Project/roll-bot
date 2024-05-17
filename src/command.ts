@@ -34,7 +34,7 @@ export function apply(ctx: Context, config: Config) {
   time(ctx, config)
 
   addRoll(ctx, config)
-  //deleteRoll(ctx, config)
+  deleteRoll(ctx, config)
   detailRoll(ctx, config)
   endRoll(ctx, config)
   joinRoll(ctx, config)
