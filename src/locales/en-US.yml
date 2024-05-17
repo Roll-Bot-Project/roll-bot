@@ -12,8 +12,6 @@ _config:
       User ID of **Roll Bot Administrator** (obtained using the inspect command)
     cacheHours: |-
       Record retention time (hours) after the prize is drawn
-    timeoutSeconds: |-
-      Duration of all interactive actions waiting for replies (in seconds)
     defaultTimeOffset: |-
       <p>Default time zone (offset)</p>
       <p>Fill out the difference between local time and UTC time, eg: `+5` ``-9:30` - 00:25:21`</p>
