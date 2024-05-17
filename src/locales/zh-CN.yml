@@ -12,8 +12,6 @@ _config:
       **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
     cacheHours: |-
       抽奖开奖后，记录保留的时间（小时）
-    timeoutSeconds: |-
-      所有交互式操作等待回复的时长（秒）
     defaultTimeOffset: |-
       <p>未设置时区的用户默认所在的时区（偏移量）</p>
       <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
