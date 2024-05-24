@@ -1,45 +1,45 @@
 _config:
   usage:
     $description: |-
-      Use Instructions
+      Guide
     docs: |-
       <p><b>Click on the right side to open <a href="https://docs.logthm.com/roll-bot-project">help document</a></b></p>
-      <p><b>You can also get help documentation from Roll Bot via roll help command.</b></p>
+      <p><b>You can also get guide via roll help command.</b></p>
   basic:
     $description: |-
       Basic Settings
     adminUsers: |-
       User ID of **Roll Bot Administrator** (obtained using the inspect command)
     cacheHours: |-
-      Record retention time (hours) after the prize is drawn
+      Record retention time (hours) after the roll is drawn
     defaultTimeOffset: |-
       <p>Default time zone (offset)</p>
-      <p>Fill out the difference between local time and UTC time, eg: `+5` ``-9:30` - 00:25:21`</p>
+      <p>Fill out the difference between local time and UTC time. e.g. `+5` ``-9:30` - 00:25:21`</p>
   permission:
     $description: |-
       Permission Settings
     allowGuildAdminDelete: |-
-      Allow **Channel Administrator** to delete the selected group
+      Allow **Channel Admin** to delete roll in their guild
     allowGuildAdminEnd: |-
-      Allow **Channel Manager** to take a manual award for a group drawing
+      Allow **Channel Admin** to manually drawing a roll in their guild
     allowNormalUserAdd: |-
-      Allow **ordinary members** to create a drawing award
+      Allow **Channel Member** to create a roll
   remind:
     $description: |-
-      Reminder Settings
+      Remind Settings
     defaultReminders:
       $description: |-
         <p>Set default reminder</p>
         <p><b>type:</b> Reminder type, including the following two types:</p>
         <ul>
-        <li><b>Scheduled Reminder:</b> Remind once at a specified time</li>
-        <li><b>Pre-End Reminder:</b> Remind a certain time before the end of the Roll</li>
+        <li><b>Specific Reminder:</b> Remind once at a specified time</li>
+        <li><b>Before-End Reminder:</b> Remind a certain time before the end of the Roll</li>
         </ul>
         <p><b>value:</b> Time or interval, format is <b>year-month-day-hour-minute</b></p>
       type:
         $inner:
-          - Timed Alarm
-          - Reminder Before End
+          - Specific Reminder
+          - Before-End Reminder
 commands:
   timeout: |-
     Input Timeout
