@@ -37,7 +37,7 @@ export async function rollListMsgFromChannelId(session: Session, cid: string, pl
 }
 
 export async function rollDetailMsgFromRoll(session: Session, roll: any, currentOffset: string, currentLocale: string) {
-  const dt = DateTime.fromObject(roll.endTime, {zone: 'UTC'}).setZone(currentOffset)
+  const dt = DateTime.fromJSDate(roll.endTime, {zone: 'UTC'}).setZone(currentOffset)
   let msgList = []
   let msg = ""
   let endTime

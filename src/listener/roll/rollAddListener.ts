@@ -1,6 +1,6 @@
 import {Context} from 'koishi'
 import {Config} from '../../config'
-import {autoEndManager} from "../../index";
+import {autoEndManager, remindManager} from "../../index";
 import {getRemindValueFromDefaultReminder} from "../../util/general";
 
 export function rollAddListener(ctx: Context, config: Config) {
@@ -34,7 +34,7 @@ export function rollAddListener(ctx: Context, config: Config) {
     // Apply default reminds
     for (const defaultRemind of config.remind.defaultReminders) {
       if (rollRes.endTime || defaultRemind.type != '1') {
-        autoEndManager.addJob(rollRes.id, getRemindValueFromDefaultReminder(rollRes.endTime, defaultRemind, config), function () {
+        remindManager.addJob(rollRes.id, getRemindValueFromDefaultReminder(rollRes.endTime, defaultRemind, config), function () {
           ctx.emit('roll-bot/remind-broadcast', rollRes.id)
         })
       }

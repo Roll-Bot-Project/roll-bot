@@ -109,7 +109,6 @@ export function addReminder(ctx: Context, config: Config) {
           rule.second = dt.second.toString()
 
         } else if (select === '2') {
-          const regex = /\d{1,2}(-\d{1,2})?/
           await session.send(session.text('.interval.per-day', [offset]))
           const input = await session.prompt()
 
@@ -177,13 +176,13 @@ export function addReminder(ctx: Context, config: Config) {
         case '1':
           s = {
             type: reminder.type,
-            duration: duration.toObject(),
+            duration: JSON.stringify(duration),
           }
           break
         case '2':
           s = {
             type: reminder.type,
-            recurrence_rule: rule,
+            recurrence_rule: JSON.stringify(rule),
           }
       }
       const checkDuplicate = await ctx.database.get('reminder', s)

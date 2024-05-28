@@ -109,7 +109,7 @@ commands:
       noAuth: |-
         你没有权限删除该抽奖！
       success: |-
-        删除了抽奖 {0} 。
+        删除了抽奖 {0}
   roll.end:
     description: |-
       手动进行开奖
@@ -212,7 +212,7 @@ commands:
       查询抽奖启用的提醒
     messages:
       notFound: |-
-        找不到此抽奖！
+        没有找到该抽奖！
 
   remind:
     description: |-
