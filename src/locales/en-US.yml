@@ -108,7 +108,7 @@ commands:
       noAuth: |-
         You do not have permission to delete this Pick!
       success: |-
-        删除了抽奖 {0}
+        Award {0} deleted
   roll.end:
     description: |-
       Manual award
@@ -211,7 +211,7 @@ commands:
       Query Reminder Enabled
     messages:
       notFound: |-
-        没有找到该抽奖！
+        No such drawing found!
   remind:
     description: |-
       Roll Bot Reminder
