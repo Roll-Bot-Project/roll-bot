@@ -211,7 +211,7 @@ commands:
       Abfrage der Erinnerung für aktiviertes Gewinnspiel
     messages:
       notFound: |-
-        没有找到该抽奖！
+        Die Lotterie wurde nicht gefunden!
   remind:
     description: |-
       Roll Bot Erinnerungsfunktion
