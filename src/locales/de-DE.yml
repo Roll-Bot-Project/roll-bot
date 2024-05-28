@@ -108,7 +108,7 @@ commands:
       noAuth: |-
         Du hast nicht die Berechtigung, diese Verlosung zu löschen!
       success: |-
-        Verlosung {0} wurde gelöscht.
+        删除了抽奖 {0}
   roll.end:
     description: |-
       Manuelle Ziehung durchführen
@@ -211,7 +211,7 @@ commands:
       Abfrage der Erinnerung für aktiviertes Gewinnspiel
     messages:
       notFound: |-
-        Die Lotterie wurde nicht gefunden!
+        没有找到该抽奖！
   remind:
     description: |-
       Roll Bot Erinnerungsfunktion
