@@ -19,9 +19,9 @@ _config:
     $description: |-
       Berechtigungseinstellungen
     allowGuildAdminDelete: |-
-      Erlauben Sie **Kanaladministratoren**, Gewinnspiele in der Gruppe zu löschen
+      允许 **频道管理员** 对频道内抽奖进行删除
     allowGuildAdminEnd: |-
-      Erlauben Sie **Kanaladministratoren**, Gewinnspiele in der Gruppe manuell zu beenden
+      允许 **频道管理员** 对频道内抽奖进行手动开奖
     allowNormalUserAdd: |-
       Erlauben Sie **normale Benutzer**, Gewinnspiele zu erstellen
   remind:
@@ -175,15 +175,19 @@ commands:
       selected: |-
         Verwenden Sie diese Zeitzone
       result: |-
-        <p>Aktuelle Zeitzoneneinstellung:</p>
-        <p> - Gruppenzeitzone: {0}</p>
-        <p> - Ihre Zeitzone: {1}</p>
-        <p> - Standardzeitzone: {2}</p>
+        <p>当前时区设置：</p>
+        <p> - 频道时区：{0}</p>
+        <p> - 你的时区：{1}</p>
+        <p> - 默认时区：{2}</p>
       success:
         channel: |-
-          修改成功, Gruppe aktuelle Zeitzone ist UTC{0}.
+          修改成功，频道当前的时区为 UTC{0}。
         user: |-
           修改成功, deine aktuelle Zeitzone ist UTC{0}.
+        defaultChannel: |-
+          已清除频道时区设置
+        defaultUser: |-
+          已清除你的时区设置
   roll.locale:
     description: |-
       Ändern Sie die Sprachpräferenz
@@ -197,15 +201,19 @@ commands:
       selected: |-
         Verwenden Sie diese Sprachpräferenz
       result: |-
-        <p>Aktuelle Sprachpräferenzeinstellung:</p>
-        <p> - Gruppensprachpräferenz: {0}</p>
-        <p> - Ihre Sprachpräferenz: {1}</p>
-        <p> - Standardsprachpräferenz: {2}</p>
+        <p>当前语言偏好设置：</p>
+        <p> - 频道语言偏好：{0}</p>
+        <p> - 你的语言偏好：{1}</p>
+        <p> - 默认语言偏好：{2}</p>
       success:
         channel: |-
-          修改成功, Gruppe aktuelle Spracheinstellung ist {0}.
+          修改成功，频道当前的语言偏好为 {0}。
         user: |-
           Änderung erfolgreich, deine aktuelle Spracheinstellung ist {0}.
+        defaultChannel: |-
+          已清除频道语言偏好设置
+        defaultUser: |-
+          已清除你的语言偏好设置
   roll.remind:
     description: |-
       Abfrage der Erinnerung für aktiviertes Gewinnspiel
@@ -369,7 +377,7 @@ messageBuilder:
     empty: |-
       Aktuelle Verlosung hat keine Teilnehmer!
     header: |-
-      <p>Teilnehmende Mitglieder für Lotterie {0}：</p>
+      <p>共有 {0} 人参与了抽奖 {1}：</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
