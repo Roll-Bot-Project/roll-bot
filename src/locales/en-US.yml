@@ -19,9 +19,9 @@ _config:
     $description: |-
       Permission Settings
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对频道内抽奖进行删除
+      Allow **Channel Administrator** to delete the drawing in the channel
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对频道内抽奖进行手动开奖
+      Allow **Channel Manager** to take a hand-held award for the on-channel prize.
     allowNormalUserAdd: |-
       Allow **Channel Member** to create a roll
   remind:
@@ -175,19 +175,19 @@ commands:
       selected: |-
         Use this timezone
       result: |-
-        <p>当前时区设置：</p>
-        <p> - 频道时区：{0}</p>
-        <p> - 你的时区：{1}</p>
-        <p> - 默认时区：{2}</p>
+        <p>Set：</p>
+        <p> - Channel timezone：{0}</p>
+        <p> - Your timezone：{1}</p>
+        <p> - Default timezone：{2}</p>
       success:
         channel: |-
-          修改成功，频道当前的时区为 UTC{0}。
+          Modified successfully. The current time zone of the channel is UTC{0}.
         user: |-
           Modified successfully. Your current time zone is UTC{0}.
         defaultChannel: |-
-          已清除频道时区设置
+          Channel time zone settings have been cleared
         defaultUser: |-
-          已清除你的时区设置
+          Your time zone settings have been cleared
   roll.locale:
     description: |-
       Change language preferences
@@ -201,19 +201,19 @@ commands:
       selected: |-
         Use this language preference
       result: |-
-        <p>当前语言偏好设置：</p>
-        <p> - 频道语言偏好：{0}</p>
-        <p> - 你的语言偏好：{1}</p>
-        <p> - 默认语言偏好：{2}</p>
+        <p>Current language preference settings:</p>
+        <p> - Channel language preference: {0}</p>
+        <p> - Your language preference: {1}</p>
+        <p> - Default language preference: {2}</p>
       success:
         channel: |-
-          修改成功，频道当前的语言偏好为 {0}。
+          Modified successfully, channel current language preference is {0}.
         user: |-
           Successfully modified, your current language preference is {0}.
         defaultChannel: |-
-          已清除频道语言偏好设置
+          Channel language preferences cleared
         defaultUser: |-
-          已清除你的语言偏好设置
+          Your language preferences have been cleared
   roll.remind:
     description: |-
       Query Reminder Enabled
@@ -377,7 +377,7 @@ messageBuilder:
     empty: |-
       There are currently no participants in the drawing of the prize!
     header: |-
-      <p>共有 {0} 人参与了抽奖 {1}：</p>
+      <p>A total of {0} people participated in the roll {1}:</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
