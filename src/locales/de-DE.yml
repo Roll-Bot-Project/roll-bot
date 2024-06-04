@@ -19,9 +19,9 @@ _config:
     $description: |-
       Berechtigungseinstellungen
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对频道内抽奖进行删除
+      Erlaube dem **Kanaladministrator**, Verlosungen im Kanal zu löschen
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对频道内抽奖进行手动开奖
+      Erlaube dem **Kanaladministrator**, Verlosungen im Kanal manuell zu beenden
     allowNormalUserAdd: |-
       Erlauben Sie **normale Benutzer**, Gewinnspiele zu erstellen
   remind:
@@ -175,19 +175,19 @@ commands:
       selected: |-
         Verwenden Sie diese Zeitzone
       result: |-
-        <p>当前时区设置：</p>
-        <p> - 频道时区：{0}</p>
-        <p> - 你的时区：{1}</p>
-        <p> - 默认时区：{2}</p>
+        <p>Aktuelle Zeitzoneneinstellung:</p>
+        <p> - Kanalzeitzoneneinstellung: {0}</p>
+        <p> - Ihre Zeitzoneneinstellung: {1}</p>
+        <p> - Standard-Zeitzoneneinstellung: {2}</p>
       success:
         channel: |-
-          修改成功，频道当前的时区为 UTC{0}。
+          Erfolgreich geändert, die aktuelle Kanalzeitzone beträgt UTC{0}.
         user: |-
           修改成功, deine aktuelle Zeitzone ist UTC{0}.
         defaultChannel: |-
-          已清除频道时区设置
+          Kanalzeitzoneneinstellung gelöscht
         defaultUser: |-
-          已清除你的时区设置
+          Ihre Zeitzoneneinstellung gelöscht
   roll.locale:
     description: |-
       Ändern Sie die Sprachpräferenz
@@ -201,19 +201,19 @@ commands:
       selected: |-
         Verwenden Sie diese Sprachpräferenz
       result: |-
-        <p>当前语言偏好设置：</p>
-        <p> - 频道语言偏好：{0}</p>
-        <p> - 你的语言偏好：{1}</p>
-        <p> - 默认语言偏好：{2}</p>
+        <p>Aktuelle Spracheinstellung:</p>
+        <p> - Kanalspracheinstellung: {0}</p>
+        <p> - Ihre Spracheinstellung: {1}</p>
+        <p> - Standard-Spracheinstellung: {2}</p>
       success:
         channel: |-
-          修改成功，频道当前的语言偏好为 {0}。
+          Erfolgreich geändert, die aktuelle Kanalspracheinstellung ist {0}.
         user: |-
           Änderung erfolgreich, deine aktuelle Spracheinstellung ist {0}.
         defaultChannel: |-
-          已清除频道语言偏好设置
+          Kanalspracheinstellung gelöscht
         defaultUser: |-
-          已清除你的语言偏好设置
+          Ihre Spracheinstellung gelöscht
   roll.remind:
     description: |-
       Abfrage der Erinnerung für aktiviertes Gewinnspiel
@@ -377,7 +377,7 @@ messageBuilder:
     empty: |-
       Aktuelle Verlosung hat keine Teilnehmer!
     header: |-
-      <p>共有 {0} 人参与了抽奖 {1}：</p>
+      <p>{0} Personen haben an der Verlosung {1} teilgenommen:</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
