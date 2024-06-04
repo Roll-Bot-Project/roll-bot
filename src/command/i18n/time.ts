@@ -7,12 +7,23 @@ export function time(ctx: Context, config: Config) {
   ctx.command("roll.time [offset]")
     .alias('时区')
     .option('channel', '-c')
+    .option('default', '-d')
     .userFields(['offset'])
     .channelFields(['offset'])
     .action(async ({session, options}, offset) => {
+      if (options.default) {
+        if (options.channel) {
+          if (!hasPermission(isPluginAdmin(session, config), isGuildAdmin(session))) return session.text('.noAuth')
+          session.channel.offset = ''
+          return session.text('.success.defaultChannel')
+        } else {
+          session.user.offset = ''
+          return session.text('.success.defaultUser')
+        }
+      }
       // solve the problem that the time offset starting with - is regarded as a command option
       if (!offset) {
-        const input = session.event.message.content? session.event.message.content : ''
+        const input = session.content
         const match = getTimeOffset(input)
         if (match != '') offset = match
       }

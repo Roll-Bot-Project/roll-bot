@@ -6,9 +6,20 @@ export function locale(ctx: Context, config: Config) {
   ctx.command("roll.locale [lang]")
     .alias('语言')
     .option('channel', '-c')
+    .option('default', '-d')
     .userFields(['locales'])
     .channelFields(['locales'])
     .action(({session, options}, lang) => {
+      if (options.default) {
+        if (options.channel) {
+          if (!hasPermission(isPluginAdmin(session, config), isGuildAdmin(session))) return session.text('.noAuth')
+          session.channel.locales = []
+          return session.text('.success.defaultChannel')
+        } else {
+          session.user.locales = []
+          return session.text('.success.defaultUser')
+        }
+      }
       // if lang is empty, return current language prefer
       if (!lang) {
         const preferUser = ctx.root.options.i18n.output === 'prefer-user'

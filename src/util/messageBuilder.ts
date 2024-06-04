@@ -109,8 +109,7 @@ export async function rollMemberMsgFromRoll(session: Session, roll: any) {
 
   let res = await session.app.database.get('roll_member', {roll_id: roll.id})
   if (res.length === 0) return session.text('messageBuilder.roll.member.empty')
-
-  let msg = session.text('messageBuilder.roll.member.header', [roll.roll_code])
+  let msg = session.text('messageBuilder.roll.member.header', [res.length, roll.roll_code])
   for (const member of res) {
     const userId = await session.app.database.get('binding', {aid: member.user_id})
     let user = null

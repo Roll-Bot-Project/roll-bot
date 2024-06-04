@@ -1,7 +1,6 @@
 import { Context } from 'koishi';
 import { Config } from '../../config';
 import { DateTime, Duration } from 'luxon';
-import {schedule} from "../../index";
 import {getCurrentUTCOffset} from "../../util/time";
 import {checkDateInput, dateInputToDateTime, dateInputToDuration, generateUniqueCode} from "../../util/general";
 

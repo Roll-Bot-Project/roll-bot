@@ -19,9 +19,9 @@ _config:
     $description: |-
       权限设置
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对群内抽奖进行删除
+      允许 **频道管理员** 对频道内抽奖进行删除
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对群内抽奖进行手动开奖
+      允许 **频道管理员** 对频道内抽奖进行手动开奖
     allowNormalUserAdd: |-
       允许 **普通成员** 创建抽奖
   remind:
@@ -177,14 +177,18 @@ commands:
         使用此时区
       result: |-
         <p>当前时区设置：</p>
-        <p> - 群组时区：{0}</p>
+        <p> - 频道时区：{0}</p>
         <p> - 你的时区：{1}</p>
         <p> - 默认时区：{2}</p>
       success:
         channel: |-
-          修改成功，群组当前的时区为 UTC{0}。
+          修改成功，频道当前的时区为 UTC{0}。
         user: |-
           修改成功，你当前的时区为 UTC{0}。
+        defaultChannel: |-
+          已清除频道时区设置
+        defaultUser: |-
+          已清除你的时区设置
   roll.locale:
     description: |-
       修改语言偏好
@@ -199,14 +203,18 @@ commands:
         使用此语言偏好
       result: |-
         <p>当前语言偏好设置：</p>
-        <p> - 群组语言偏好：{0}</p>
+        <p> - 频道语言偏好：{0}</p>
         <p> - 你的语言偏好：{1}</p>
         <p> - 默认语言偏好：{2}</p>
       success:
         channel: |-
-          修改成功，群组当前的语言偏好为 {0}。
+          修改成功，频道当前的语言偏好为 {0}。
         user: |-
           修改成功，你当前的语言偏好为 {0}。
+        defaultChannel: |-
+          已清除频道语言偏好设置
+        defaultUser: |-
+          已清除你的语言偏好设置
   roll.remind:
     description: |-
       查询抽奖启用的提醒
@@ -372,7 +380,7 @@ messageBuilder:
     empty: |-
       当前抽奖没有参与成员！
     header: |-
-      <p>抽奖 {0} 的参与成员：</p>
+      <p>共有 {0} 人参与了抽奖 {1}：</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>

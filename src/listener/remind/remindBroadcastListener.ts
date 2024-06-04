@@ -1,4 +1,4 @@
-import {Context, $} from 'koishi'
+import {Context} from 'koishi'
 import {Config} from '../../config'
 import {bots} from "../../index";
 import { DateTime, Duration } from 'luxon'
@@ -8,7 +8,7 @@ export function remindBroadcastListener(ctx: Context, config: Config) {
     rollId,
     remindId?
   ) => {
-    let remindRange, d
+    let remindRange, minutesDiff
     if (!remindId) {
       remindRange = await ctx.database.get('roll_channel', {roll_id: rollId})
     } else {
@@ -19,8 +19,9 @@ export function remindBroadcastListener(ctx: Context, config: Config) {
     if (rollRes[0].endTime) {
       const end = DateTime.fromJSDate(rollRes[0].endTime, {zone: 'UTC'})
       const start = DateTime.utc()
-      d = end.diff(start, ['minutes'])
+      minutesDiff = end.diff(start, ['minutes'])
     }
+    minutesDiff = minutesDiff.set({minutes: Math.ceil(minutesDiff.minutes)})
 
     if (rollRes[0].isEnd) return
 
@@ -35,7 +36,8 @@ export function remindBroadcastListener(ctx: Context, config: Config) {
             locales = currentChannel[0].locales
           }
           if (rollRes[0].endTime) {
-            const diff = d.set({minutes: Math.floor(d.minutes)}).reconfigure({locale: locales[0]}).rescale().toHuman()
+            let diff = minutesDiff.reconfigure({locale: locales[0]}).rescale().toHuman()
+            if (diff === '') diff = Duration.fromObject({minutes: 0}, {locale: locales[0]}).toHuman()
             const msg = ctx.i18n.render(locales, ['events.remind.broadcast.messageWithDiff'], {
               rollCode: rollCode,
               diff: diff
