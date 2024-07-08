@@ -8,7 +8,7 @@ export function hasPermission(...perms: boolean[]): boolean {
 }
 
 export function isPluginAdmin(session: any, config: Config): boolean {
-  return config.basic.adminUsers.includes(session.user.id)
+  return config.basic.adminUsers?.includes(session.userId) ?? false
 }
 
 export function isGuildAdmin(session: any): boolean {

@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-roll-bot",
   "description": "Provides lottery function for Koishi bot, including automatic drawing and scheduled reminders, supporting multiple languages and time zones.",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "contributors": [
     "Logthm <logthm@outlook.com>"
   ],
@@ -30,7 +30,7 @@
     "roll"
   ],
   "peerDependencies": {
-    "koishi": "^4.17.8"
+    "koishi": "^4.17.9"
   },
   "dependencies": {
     "luxon": "^3.4.4",
