@@ -315,6 +315,8 @@ commands:
       success: |-
         Erinnerungslöscherfolg!
 events:
+  join.error: |-
+    <quote id={messageId}/> 加入遇到错误，请再次发送口令。
   roll.add:
     success: |-
       <quote id={messageId}/> Erfolgreich dem Losungscode {rollCode} beigetreten.
