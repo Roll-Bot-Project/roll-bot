@@ -5,8 +5,11 @@ import * as Database from './database'
 import * as Command from './command'
 import * as Listener from './listener'
 import RemindManager from './util/remindManager'
-import AutoEndManager from "./util/autoEndManager";
-import ExpireManager from "./util/expireManager";
+import AutoEndManager from "./util/autoEndManager"
+import ExpireManager from "./util/expireManager"
+import zhCN from './locales/zh-CN.yml'
+import enUS from './locales/en-US.yml'
+import deDE from './locales/de-DE.yml'
 
 export const name = 'roll-bot'
 
@@ -29,8 +32,8 @@ export const schedule = require('node-schedule')
 
 export async function apply(ctx: Context, config: Config) {
   // localization
-  ['de-DE', 'en-US', 'zh-CN']
-    .forEach(lang => ctx.i18n.define(lang, require(`./locales/${lang}`)))
+  [['de-DE', deDE], ['en-US', enUS], ['zh-CN', zhCN]]
+    .forEach(([lang, file]) => ctx.i18n.define(lang, file))
   // initialization
   ctx.on('ready', () => {
     bots = ctx.bots

@@ -12,8 +12,18 @@ export function rollJoinListener(ctx: Context, config: Config) {
         const res = await ctx.database.get('roll_channel', {channel_id: channelId, channel_platform: session.event.platform})
         for (const rollChannel of res) {
           if (rollChannel.roll_id === roll.id) {
-            const bind = await ctx.database.get('binding', {platform: session.platform, pid: session.userId})
-            ctx.emit('roll-bot/roll-join', session, bind[0].aid, roll.id, roll.roll_code)
+            let bind = await ctx.database.get('binding', {platform: session.platform, pid: session.userId})
+            let attempts = 0
+            while (bind.length === 0 && attempts < 3) {
+              await new Promise(resolve => setTimeout(resolve, 1000))
+              bind = await ctx.database.get('binding', {platform: session.platform, pid: session.userId})
+              attempts++
+            }
+            if (bind.length > 0) {
+              ctx.emit('roll-bot/roll-join', session, bind[0].aid, roll.id, roll.roll_code)
+            } else {
+              session.sendQueued(session.text('events.join.error', {messageId: session.messageId}))
+            }
           }
         }
       }

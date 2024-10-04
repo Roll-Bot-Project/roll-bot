@@ -317,6 +317,8 @@ commands:
       success: |-
         禁用提醒器成功！
 events:
+  join.error: |-
+    <quote id={messageId}/> 加入遇到错误，请再次发送口令。
   roll.add:
     success: |-
       <quote id={messageId}/> 成功加入编号为 {rollCode} 的抽奖。

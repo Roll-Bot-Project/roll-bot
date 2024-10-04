@@ -1,37 +1,55 @@
 _config:
+  usage:
+    $description: |-
+      使用说明
+    docs: |-
+      <p><b>点击右侧打开 <a href="https://docs.logthm.com/roll-bot-project">帮助文档</a></b></p>
+      <p><b>你也可以通过 roll help 指令获取 Roll Bot 的帮助文档。</b></p>
   basic:
+    $description: |-
+      基本设置
     adminUsers: |-
       **Roll Bot 管理员** 的用户id (使用 inspect 指令获取)
     cacheHours: |-
       抽奖开奖后，记录保留的时间（小时）
-    timeoutSeconds: |-
-      所有交互式操作等待回复的时长（秒）
     defaultTimeOffset: |-
-      未设置时区的用户默认所在的时区（偏移量）<br />填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`
+      <p>未设置时区的用户默认所在的时区（偏移量）</p>
+      <p>填写本地时间与 UTC 时间之间的差异，例如 `+5` `-9:30` `−00:25:21`</p>
   permission:
     $description: |-
       权限设置
     allowGuildAdminDelete: |-
-      允许 **频道管理员** 对群内抽奖进行删除
+      允许 **频道管理员** 对频道内抽奖进行删除
     allowGuildAdminEnd: |-
-      允许 **频道管理员** 对群内抽奖进行手动开奖
+      允许 **频道管理员** 对频道内抽奖进行手动开奖
     allowNormalUserAdd: |-
       允许 **普通成员** 创建抽奖
   remind:
     $description: |-
       提醒设置
-    defaultReminders: |-
-      设置默认提醒
+    defaultReminders:
+      $description: |-
+        <p>设置默认的提醒器</p>
+        <p><b>type:</b> 提醒器类型，包括如下二种：</p>
+        <ul>
+          <li><b>定时提醒器：</b>在指定时间提醒一次</li>
+          <li><b>结束前提醒器：</b>抽奖结束前一定时间提醒一次</li>
+        </ul>
+        <p><b>value:</b> 时间或间隔，格式为 <b>年-月-日-时-分</b></p>
+      type:
+        $inner:
+          - 定时提醒器
+          - 结束前提醒器
 
 commands:
   timeout: |-
     输入超时
   roll:
     description: |-
-      抽奖功能
+      Roll Bot 抽奖功能
   roll.help:
     description: |-
-      帮助信息
+      显示 Roll Bot 帮助信息
     messages:
       help: |-
         <p>帮助文档：</p>
@@ -70,12 +88,12 @@ commands:
         <p>（回复 n 则不使用自动开奖）</p>
       timeError: |-
         时间格式错误，请重新创建！
-      pollType: |-
+      type: |-
         <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
         <p>0：中奖人可重复</p>
         <p>1：中奖人不可重复</p>
         <p>（回复 n 使用默认类型：1）</p>
-      pollTypeError: |-
+      typeError: |-
         抽奖类型错误，请重新创建！
       joinKey: |-
         <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
@@ -83,6 +101,15 @@ commands:
   roll.delete:
     description: |-
       手动删除一个抽奖
+    messages:
+      empty: |-
+        请输入抽奖编号！
+      notFound: |-
+        没有找到该抽奖！
+      noAuth: |-
+        你没有权限删除该抽奖！
+      success: |-
+        删除了抽奖 {0}
   roll.end:
     description: |-
       手动进行开奖
@@ -138,6 +165,7 @@ commands:
         请输入抽奖编号！
   roll.time:
     description: |-
+      修改时区
     messages:
       inValidFormat: |-
         请输入正确的时区偏移值格式！
@@ -149,16 +177,21 @@ commands:
         使用此时区
       result: |-
         <p>当前时区设置：</p>
-        <p> - 群组时区：{0}</p>
+        <p> - 频道时区：{0}</p>
         <p> - 你的时区：{1}</p>
         <p> - 默认时区：{2}</p>
       success:
         channel: |-
-          修改成功，群组当前的时区为 UTC{0}。
+          修改成功，频道当前的时区为 UTC{0}。
         user: |-
           修改成功，你当前的时区为 UTC{0}。
+        defaultChannel: |-
+          已清除频道时区设置
+        defaultUser: |-
+          已清除你的时区设置
   roll.locale:
     description: |-
+      修改语言偏好
     messages:
       inValidFormat: |-
         请输入正确的语言偏好格式！
@@ -170,15 +203,119 @@ commands:
         使用此语言偏好
       result: |-
         <p>当前语言偏好设置：</p>
-        <p> - 群组语言偏好：{0}</p>
+        <p> - 频道语言偏好：{0}</p>
         <p> - 你的语言偏好：{1}</p>
         <p> - 默认语言偏好：{2}</p>
       success:
         channel: |-
-          修改成功，群组当前的语言偏好为 {0}。
+          修改成功，频道当前的语言偏好为 {0}。
         user: |-
           修改成功，你当前的语言偏好为 {0}。
+        defaultChannel: |-
+          已清除频道语言偏好设置
+        defaultUser: |-
+          已清除你的语言偏好设置
+  roll.remind:
+    description: |-
+      查询抽奖启用的提醒
+    messages:
+      notFound: |-
+        没有找到该抽奖！
 
+  remind:
+    description: |-
+      Roll Bot 提醒功能
+  remind.add:
+    description: |-
+      创建一个提醒器
+    messages:
+      success: |-
+        创建提醒器成功，编号为 {0}
+      exist: |-
+        已有相同的提醒器，编号为 {0}
+      timeError: |-
+        时间格式错误，请重新创建！
+      typeError: |-
+        提醒器类型错误，请重新创建！
+      type: |-
+        <p>请选择提醒器的类型，仅需回复数字：</p>
+        <p>0：在指定时间提醒一次</p>
+        <p>1：抽奖结束前一定时间提醒一次</p>
+        <p>2：每隔一定时间提醒一次</p>
+      specified: |-
+        <p>请输入提醒的具体时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+      before-end: |-
+        <p>请输入提醒距离抽奖结束的时间间隔：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>例如：0-0-0-1-30</p>
+      interval:
+        error: |-
+          无效的选项！
+        select: |-
+          <p>你希望每过多久提醒一次？</p>
+          <p>0：在 每年 的 某月某日某时某分</p>
+          <p>1：在 每月 的 某日某时某分</p>
+          <p>2：在 每天 的 某时某分</p>
+          <p>3：在 每小时 的 某分</p>
+        per-year: |-
+          <p>你希望每年的什么时候提醒？</p>
+          <p>格式：月-日-时-分</p>
+          <p>当前时区：{0}</p>
+        per-month: |-
+          <p>你希望每月的什么时候提醒？</p>
+          <p>格式：日-时-分</p>
+          <p>当前时区：{0}</p>
+        per-day: |-
+          <p>你希望每天的什么时候提醒？</p>
+          <p>格式：时-分</p>
+          <p>当前时区：{0}</p>
+        per-hour: |-
+          <p>你希望每小时的什么时候提醒？</p>
+          <p>格式：分</p>
+          <p>当前时区：{0}</p>
+  remind.delete:
+    description: |-
+      删除一个提醒器
+    messages:
+      success: |-
+        删除提醒器成功！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      notYourReminder: |-
+        你没有权限删除该提醒器！
+  remind.list:
+    description: |-
+      查询提醒器列表
+  remind.enable:
+    description: |-
+      启用一个提醒器
+    messages:
+      emptyRoll: |-
+        未找到抽奖编号，请重新输入！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      rollEnd: |-
+        该抽奖已结束，无法启用提醒器！
+      noAuth: |-
+        你没有权限启用提醒器！
+      success: |-
+        启用提醒器成功！
+  remind.disable:
+    description: |-
+      禁用一个提醒
+    messages:
+      emptyRoll: |-
+        未找到抽奖编号，请重新输入！
+      emptyReminder: |-
+        未找到提醒器编号，请重新输入！
+      rollEnd: |-
+        该抽奖已结束，无需禁用提醒。
+      noAuth: |-
+        你没有权限禁用提醒器！
+      success: |-
+        禁用提醒器成功！
 events:
   roll.add:
     success: |-
@@ -190,6 +327,11 @@ events:
       <quote id={messageId}/> 成功退出编号为 {rollCode} 的抽奖。
     failed: |-
       <quote id={messageId}/> 您未加入编号为 {rollCode} 的抽奖。
+  remind.broadcast:
+    message: |-
+      <p>编号为 {rollCode} 的抽奖正在进行中~</p>
+    messageWithDiff: |-
+      <p>编号为 {rollCode} 的抽奖还有 {diff} 就要结束啦~</p>
 
 messageBuilder:
   marks:
@@ -201,6 +343,12 @@ messageBuilder:
       [启用中]
     disable: |-
       [已禁用]
+    specified: |-
+      [定时提醒]
+    beforeEnd: |-
+      [结束前提醒]
+    interval: |-
+      [间隔提醒]
   roll.list:
     error: |-
       没有找到抽奖！
@@ -209,6 +357,8 @@ messageBuilder:
     listItem: |-
       <p>[{roll_code}] {title}</p>
   roll.detail:
+    noEndTime: |-
+      无
     divider: |-
       <p>---------</p>
     header: |-
@@ -230,16 +380,66 @@ messageBuilder:
     empty: |-
       当前抽奖没有参与成员！
     header: |-
-      <p>抽奖 {0} 的参与成员：</p>
+      <p>共有 {0} 人参与了抽奖 {1}：</p>
     body:
       memberListItem: |-
         <p>{userName} ({userId})</p>
   roll.end:
     header: |-
-      抽奖 {0} 开奖啦！<br />
+      <p>抽奖 {0} 开奖啦！</p>
       <p>恭喜以下用户：</p>
     body:
       winner: |-
         <p>{userName} ({userId}) 获得了：</p>
       winList: |-
         <p> - {name} * {amount}</p>
+  roll.remind:
+    defaultReminder: |-
+      默认
+    empty: |-
+      当前抽奖没有启用的提醒！
+    header: |-
+      <p>启用的提醒：</p>
+    listItem: |-
+      <p>[{reminder_code}] {description}</p>
+    description:
+      specified: |-
+        在 {timeDescription} 提醒一次
+      beforeEnd: |-
+        在抽奖结束前 {timeDescription} 提醒一次
+      interval: |-
+        在每个 {intervalDescription} 提醒一次
+      year: |-
+        {0} 年
+      month: |-
+        {0} 月
+      day: |-
+        {0} 日
+      hour: |-
+        {0} 时
+      minute: |-
+        {0} 分
+  reminder.list:
+    error: |-
+      你还没有创建过提醒器！
+    header: |-
+      <p>你创建的提醒器列表：</p>
+    listItem: |-
+      <p>[{reminder_code}] {description}</p>
+    description:
+      specified: |-
+        在 {timeDescription} 提醒一次
+      beforeEnd: |-
+        在抽奖结束前 {timeDescription} 提醒一次
+      interval: |-
+        在每个 {intervalDescription} 提醒一次
+      year: |-
+        {0} 年
+      month: |-
+        {0} 月
+      day: |-
+        {0} 日
+      hour: |-
+        {0} 时
+      minute: |-
+        {0} 分

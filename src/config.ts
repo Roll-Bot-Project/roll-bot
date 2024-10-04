@@ -1,4 +1,7 @@
 import { Schema } from "koishi"
+import zhCN from './locales/zh-CN.yml'
+import enUS from './locales/en-US.yml'
+import deDE from './locales/de-DE.yml'
 
 // support usage i18n
 namespace Usage {
@@ -77,7 +80,7 @@ export const Config: Schema<Config> = Schema.object({
   permission: permissionConfig,
   remind: remindConfig
 }).i18n({
-  "de-DE": require("./locales/de-DE")._config,
-  "en-US": require("./locales/en-US")._config,
-  "zh-CN": require("./locales/zh-CN")._config,
+  "de-DE": deDE._config,
+  "en-US": enUS._config,
+  "zh-CN": zhCN._config,
 })
