@@ -315,6 +315,8 @@ commands:
       success: |-
         Notifier disabled successfully!
 events:
+  join.error: |-
+    <quote id={messageId}/> 加入遇到错误，请再次发送口令。
   roll.add:
     success: |-
       <quote id={messageId}/> Successfully joined the Roll with code {rollCode}.
