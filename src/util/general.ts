@@ -3,17 +3,17 @@ import {Config} from "../config";
 import {offsetToUTCOffset} from "./time";
 
 export function stringToPrize(s: string) {
-  const lastIndex = s.lastIndexOf('*');
+  const lastIndex = Math.max(s.lastIndexOf('*'), s.lastIndexOf('＊'))
   if (lastIndex === -1) {
-    return { name: s, amount: '1' };
+    return { name: s, amount: '1' }
   } else {
-    let name = s.substring(0, lastIndex);
-    let amount = s.substring(lastIndex + 1);
+    let name = s.substring(0, lastIndex)
+    let amount = s.substring(lastIndex + 1)
     if (isNaN(Number(amount)) || amount === '') {
       name += amount
       amount = '1'
     }
-    return { name: name, amount: amount };
+    return { name: name, amount: amount }
   }
 }
 
