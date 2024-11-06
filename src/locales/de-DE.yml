@@ -73,30 +73,47 @@ commands:
         Gewinnspiel erfolgreich erstellt, Nummer: {0}
       title: |-
         <p>请输入抽奖的标题：</p>
-        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
+        <p>- 回复 n 使用默认内容：{0} 的抽奖</p>
+        <p>- 回复 q 取消本次创建</p>
       description: |-
         <p>请输入抽奖的描述：</p>
-        <p>（回复 n 使用默认内容：{0} 的抽奖）</p>
+        <p>- 回复 n 使用默认内容：{0} 的抽奖</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       prize: |-
         <p>请输入你要抽的奖品：</p>
-        <p>格式为 奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+        <p>格式：奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
+      prizeFast: |-
+        <p>请输入你要抽的奖品：</p>
+        <p>格式：奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+        <p>- 回复 q 取消本次创建</p>
       autoEnd: |-
         <p>请输入自动开奖的时间：</p>
         <p>格式：年-月-日-时-分</p>
         <p>当前时区：{0}</p>
-        <p>（回复 n 则不使用自动开奖）</p>
+        <p>- 回复 n 则不使用自动开奖</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       timeError: |-
         时间格式错误，请重新创建！
       type: |-
-        <p>Wählen Sie den Typ der automatischen Auslosung aus, geben Sie einfach die Nummer an:</p>
-        <p>0: Gewinner können wiederholt werden</p>
-        <p>1: Gewinner können nicht wiederholt werden</p>
-        <p>(Antworten Sie mit n, um den Standardtyp zu verwenden: 1)</p>
+        <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
+        <p>0：中奖人可重复</p>
+        <p>1：中奖人不可重复</p>
+        <p>- 回复 n 使用默认类型：1</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       typeError: |-
         抽奖类型错误，请重新创建！
       joinKey: |-
-        <p>Geben Sie das Passwort ein, das zum Teilnehmen am Gewinnspiel verwendet werden soll. Benutzer können das Passwort direkt senden, um am Gewinnspiel teilzunehmen:</p>
-        <p>(Antworten Sie mit n, um das Teilnahmepasswort nicht zu verwenden)</p>
+        <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
+        <p>- 回复 n 则不使用加入口令</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
+      quit: |-
+        已取消本次创建。
   roll.delete:
     description: |-
       Manuelles Löschen eines Gewinnspiels
