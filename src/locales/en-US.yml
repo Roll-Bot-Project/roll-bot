@@ -72,31 +72,48 @@ commands:
       success: |-
         Pickup successfully created with {0}
       title: |-
-        <p>Please enter the title of the Roll:</p>
-        <p>(Reply n to use the default content: {0} Roll)</p>
+        <p>请输入抽奖的标题：</p>
+        <p>- 回复 n 使用默认内容：{0} 的抽奖</p>
+        <p>- 回复 q 取消本次创建</p>
       description: |-
-        <p>Please enter a drawing description of：</p>
-        <p>(reply to n/use the default drawing of：{0} )</p>
+        <p>请输入抽奖的描述：</p>
+        <p>- 回复 n 使用默认内容：{0} 的抽奖</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       prize: |-
-        <p>Please enter the prize：</p>
-        <p>in the format * number of prizes (empty to 1) and each row as a separate prize.</p>
+        <p>请输入你要抽的奖品：</p>
+        <p>格式：奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
+      prizeFast: |-
+        <p>请输入你要抽的奖品：</p>
+        <p>格式：奖品名称*数量 (留空为1)，每行视为一个独立奖品。</p>
+        <p>- 回复 q 取消本次创建</p>
       autoEnd: |-
-        <p>Please enter：</p>
-        <p>format：years-month-time-hour-minutes</p>
-        <p>current timezone：{0}</p>
-        <p>(reply to n/do not use auto-open prizes)</p>
+        <p>请输入自动开奖的时间：</p>
+        <p>格式：年-月-日-时-分</p>
+        <p>当前时区：{0}</p>
+        <p>- 回复 n 则不使用自动开奖</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       timeError: |-
         Time format error, please recreate!
       type: |-
-        <p>Please select the type of roll for automatic draw, just reply with a number:</p>
-        <p>0: Winners can be repeated</p>
-        <p>1: Winners cannot be repeated</p>
-        <p>(Reply n to use the default type: 1)</p>
+        <p>请选择自动开奖的抽奖类型，仅需回复数字：</p>
+        <p>0：中奖人可重复</p>
+        <p>1：中奖人不可重复</p>
+        <p>- 回复 n 使用默认类型：1</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
       typeError: |-
         Incorrect drawing type, please recreate!
       joinKey: |-
-        <p>Please enter the passphrase to join the lottery. Users can send a password directly to add the premium：Aformat@@1</p>
-        <p>(reply n instead of joining the password)</p>
+        <p>请输入加入抽奖的口令，用户可以直接发送口令来加入抽奖：</p>
+        <p>- 回复 n 则不使用加入口令</p>
+        <p>- 回复 undo 回到上一步</p>
+        <p>- 回复 q 取消本次创建</p>
+      quit: |-
+        已取消本次创建。
   roll.delete:
     description: |-
       Manually delete a drawing prize
